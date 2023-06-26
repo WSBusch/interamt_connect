@@ -1,0 +1,14 @@
+plugin.tx_interamtconnect_connector {
+    view {
+        # cat=plugin.tx_interamtconnect_connector/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:interamt_connect/Resources/Private/Templates/
+        # cat=plugin.tx_interamtconnect_connector/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:interamt_connect/Resources/Private/Partials/
+        # cat=plugin.tx_interamtconnect_connector/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:interamt_connect/Resources/Private/Layouts/
+    }
+    persistence {
+        # cat=plugin.tx_interamtconnect_connector//a; type=string; label=Default storage PID
+        storagePid =
+    }
+}

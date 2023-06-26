@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf" date="2023-06-26T20:45:04Z" product-name="interamt_connect">
+		<header/>
+		<body>
+			<trans-unit id="tx_interamtconnect_domain_model_authority" resname="tx_interamtconnect_domain_model_authority">
+				<source>Authority</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_authority.interamt_uid" resname="tx_interamtconnect_domain_model_authority.interamt_uid">
+				<source>Interamt U Id</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_authority.title" resname="tx_interamtconnect_domain_model_authority.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_authority.storage_uid" resname="tx_interamtconnect_domain_model_authority.storage_uid">
+				<source>Storage Uid</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_authority.description" resname="tx_interamtconnect_domain_model_authority.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_authority.website" resname="tx_interamtconnect_domain_model_authority.website">
+				<source>Website</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy" resname="tx_interamtconnect_domain_model_vacancy">
+				<source>Vacancy</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.interamt_uid" resname="tx_interamtconnect_domain_model_vacancy.interamt_uid">
+				<source>Interamt Uid</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.authority" resname="tx_interamtconnect_domain_model_vacancy.authority">
+				<source>Authority</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.identifier" resname="tx_interamtconnect_domain_model_vacancy.identifier">
+				<source>Identifier</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.title" resname="tx_interamtconnect_domain_model_vacancy.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.localtion_street" resname="tx_interamtconnect_domain_model_vacancy.localtion_street">
+				<source>Localtion Street</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.location_zip" resname="tx_interamtconnect_domain_model_vacancy.location_zip">
+				<source>Location Zip</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.location_city" resname="tx_interamtconnect_domain_model_vacancy.location_city">
+				<source>Location City</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.description" resname="tx_interamtconnect_domain_model_vacancy.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.latitude" resname="tx_interamtconnect_domain_model_vacancy.latitude">
+				<source>Latitude</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.longitude" resname="tx_interamtconnect_domain_model_vacancy.longitude">
+				<source>Longitude</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.number_of_vacancies" resname="tx_interamtconnect_domain_model_vacancy.number_of_vacancies">
+				<source>Number Of Vacancies</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contracts" resname="tx_interamtconnect_domain_model_vacancy.contracts">
+				<source>Contracts</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.careers" resname="tx_interamtconnect_domain_model_vacancy.careers">
+				<source>Careers</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.salary_group_from" resname="tx_interamtconnect_domain_model_vacancy.salary_group_from">
+				<source>Salary Group From</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.salary_group_to" resname="tx_interamtconnect_domain_model_vacancy.salary_group_to">
+				<source>Salary Group To</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.tariff_level_from" resname="tx_interamtconnect_domain_model_vacancy.tariff_level_from">
+				<source>Tariff Level From</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.tariff_level_to" resname="tx_interamtconnect_domain_model_vacancy.tariff_level_to">
+				<source>Tariff Level To</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.qualification" resname="tx_interamtconnect_domain_model_vacancy.qualification">
+				<source>Qualification</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.training" resname="tx_interamtconnect_domain_model_vacancy.training">
+				<source>Training</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.training_duration" resname="tx_interamtconnect_domain_model_vacancy.training_duration">
+				<source>Training Duration</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.responsibilities" resname="tx_interamtconnect_domain_model_vacancy.responsibilities">
+				<source>Responsibilities</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.subject_area" resname="tx_interamtconnect_domain_model_vacancy.subject_area">
+				<source>Subject Area</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.work_time" resname="tx_interamtconnect_domain_model_vacancy.work_time">
+				<source>Work Time</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.weekly_working_time_civil_servant" resname="tx_interamtconnect_domain_model_vacancy.weekly_working_time_civil_servant">
+				<source>Weekly Working Time Civil Servant</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.weekly_working_time_employee" resname="tx_interamtconnect_domain_model_vacancy.weekly_working_time_employee">
+				<source>Weekly Working Time Employee</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.duration_of_employment" resname="tx_interamtconnect_domain_model_vacancy.duration_of_employment">
+				<source>Duration Of Employment</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.limited_to" resname="tx_interamtconnect_domain_model_vacancy.limited_to">
+				<source>Limited To</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.application_deadline" resname="tx_interamtconnect_domain_model_vacancy.application_deadline">
+				<source>Application Deadline</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.occupation_to" resname="tx_interamtconnect_domain_model_vacancy.occupation_to">
+				<source>Occupation To</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.last_changes" resname="tx_interamtconnect_domain_model_vacancy.last_changes">
+				<source>Last Changes</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.tender_date" resname="tx_interamtconnect_domain_model_vacancy.tender_date">
+				<source>Tender Date</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.application_process" resname="tx_interamtconnect_domain_model_vacancy.application_process">
+				<source>Application Process</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.application_url" resname="tx_interamtconnect_domain_model_vacancy.application_url">
+				<source>Application Url</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.required_studies" resname="tx_interamtconnect_domain_model_vacancy.required_studies">
+				<source>Required Studies</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_lastname" resname="tx_interamtconnect_domain_model_vacancy.contact_lastname">
+				<source>Contact Lastname</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_firstname" resname="tx_interamtconnect_domain_model_vacancy.contact_firstname">
+				<source>Contact Firstname</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_salutaion" resname="tx_interamtconnect_domain_model_vacancy.contact_salutaion">
+				<source>Contact Salutaion</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_street" resname="tx_interamtconnect_domain_model_vacancy.contact_street">
+				<source>Contact Street</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_zip" resname="tx_interamtconnect_domain_model_vacancy.contact_zip">
+				<source>Contact Zip</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_city" resname="tx_interamtconnect_domain_model_vacancy.contact_city">
+				<source>Contact City</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_authority" resname="tx_interamtconnect_domain_model_vacancy.contact_authority">
+				<source>Contact Authority</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_phone" resname="tx_interamtconnect_domain_model_vacancy.contact_phone">
+				<source>Contact Phone</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_mobile" resname="tx_interamtconnect_domain_model_vacancy.contact_mobile">
+				<source>Contact Mobile</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_fax" resname="tx_interamtconnect_domain_model_vacancy.contact_fax">
+				<source>Contact Fax</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_email" resname="tx_interamtconnect_domain_model_vacancy.contact_email">
+				<source>Contact Email</source>
+			</trans-unit>
+			<trans-unit id="tx_interamt_connect_connector.name" resname="tx_interamt_connect_connector.name">
+				<source>Interamt Connector</source>
+			</trans-unit>
+			<trans-unit id="tx_interamt_connect_connector.description" resname="tx_interamt_connect_connector.description">
+				<source></source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

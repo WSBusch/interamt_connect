@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="EXT:interamt_connect/Resources/Private/Language/locallang_csh_tx_interamtconnect_domain_model_authority.xlf" date="2023-06-26T20:45:04Z" product-name="interamt_connect">
+		<header/>
+		<body>
+			<trans-unit id="interamt_uid.description" resname="interamt_uid.description">
+				<source>interamtUId</source>
+			</trans-unit>
+			<trans-unit id="title.description" resname="title.description">
+				<source>title</source>
+			</trans-unit>
+			<trans-unit id="storage_uid.description" resname="storage_uid.description">
+				<source>storageUid</source>
+			</trans-unit>
+			<trans-unit id="description.description" resname="description.description">
+				<source>description</source>
+			</trans-unit>
+			<trans-unit id="website.description" resname="website.description">
+				<source>website</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

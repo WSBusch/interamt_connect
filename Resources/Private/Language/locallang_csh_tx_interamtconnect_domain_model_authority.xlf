@@ -4,19 +4,19 @@
 		<header/>
 		<body>
 			<trans-unit id="interamt_uid.description" resname="interamt_uid.description">
-				<source>interamtUId</source>
+				<source>INTERAMT-ID der Behörde</source>
 			</trans-unit>
 			<trans-unit id="title.description" resname="title.description">
-				<source>title</source>
+				<source>Bezeichnung</source>
 			</trans-unit>
 			<trans-unit id="storage_uid.description" resname="storage_uid.description">
-				<source>storageUid</source>
+				<source>Speicherort für Stellenangebote</source>
 			</trans-unit>
 			<trans-unit id="description.description" resname="description.description">
-				<source>description</source>
+				<source>Beschreibung</source>
 			</trans-unit>
 			<trans-unit id="website.description" resname="website.description">
-				<source>website</source>
+				<source>URL der Behörde</source>
 			</trans-unit>
 		</body>
 	</file>

@@ -1,169 +1,172 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf" date="2023-06-26T20:45:04Z" product-name="interamt_connect">
+	<file source-language="de" datatype="plaintext" original="EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf" date="2023-06-26T20:45:04Z" product-name="interamt_connect">
 		<header/>
 		<body>
 			<trans-unit id="tx_interamtconnect_domain_model_authority" resname="tx_interamtconnect_domain_model_authority">
-				<source>Authority</source>
+				<source>Behörden</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_authority.interamt_uid" resname="tx_interamtconnect_domain_model_authority.interamt_uid">
-				<source>Interamt U Id</source>
+				<source>INTERAMT Behörden-ID</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_authority.title" resname="tx_interamtconnect_domain_model_authority.title">
-				<source>Title</source>
+				<source>Bezeichnung</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_authority.storage_uid" resname="tx_interamtconnect_domain_model_authority.storage_uid">
-				<source>Storage Uid</source>
+				<source>Speicherplatz Stellenangebote</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_authority.description" resname="tx_interamtconnect_domain_model_authority.description">
-				<source>Description</source>
+				<source>Beschreibung</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_authority.website" resname="tx_interamtconnect_domain_model_authority.website">
-				<source>Website</source>
+				<source>Webseite</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy" resname="tx_interamtconnect_domain_model_vacancy">
-				<source>Vacancy</source>
+				<source>Stellenangebote</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.interamt_uid" resname="tx_interamtconnect_domain_model_vacancy.interamt_uid">
-				<source>Interamt Uid</source>
+				<source>INTERAMT ID</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.authority" resname="tx_interamtconnect_domain_model_vacancy.authority">
-				<source>Authority</source>
+				<source>Ausschreibende Behörde</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.identifier" resname="tx_interamtconnect_domain_model_vacancy.identifier">
-				<source>Identifier</source>
+				<source>Kennung</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.title" resname="tx_interamtconnect_domain_model_vacancy.title">
-				<source>Title</source>
+				<source>Bezeichnung</source>
 			</trans-unit>
-			<trans-unit id="tx_interamtconnect_domain_model_vacancy.localtion_street" resname="tx_interamtconnect_domain_model_vacancy.localtion_street">
-				<source>Localtion Street</source>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.location_street" resname="tx_interamtconnect_domain_model_vacancy.location_street">
+				<source>Einsatzort - Straße</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.location_zip" resname="tx_interamtconnect_domain_model_vacancy.location_zip">
-				<source>Location Zip</source>
+				<source>Einsatzort - Postleitzahl</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.location_city" resname="tx_interamtconnect_domain_model_vacancy.location_city">
-				<source>Location City</source>
+				<source>Einsatzort - Ort</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.description" resname="tx_interamtconnect_domain_model_vacancy.description">
-				<source>Description</source>
+				<source>Beschreibung</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.latitude" resname="tx_interamtconnect_domain_model_vacancy.latitude">
-				<source>Latitude</source>
+				<source>Geografische Breite</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.longitude" resname="tx_interamtconnect_domain_model_vacancy.longitude">
-				<source>Longitude</source>
+				<source>Geografische Länge</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.number_of_vacancies" resname="tx_interamtconnect_domain_model_vacancy.number_of_vacancies">
-				<source>Number Of Vacancies</source>
+				<source>Anzahl Stellen</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contracts" resname="tx_interamtconnect_domain_model_vacancy.contracts">
-				<source>Contracts</source>
+				<source>Dienstverhältnisse</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.careers" resname="tx_interamtconnect_domain_model_vacancy.careers">
-				<source>Careers</source>
+				<source>Laufbahn</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.salary_group_from" resname="tx_interamtconnect_domain_model_vacancy.salary_group_from">
-				<source>Salary Group From</source>
+				<source>Besoldungsgruppe von</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.salary_group_to" resname="tx_interamtconnect_domain_model_vacancy.salary_group_to">
-				<source>Salary Group To</source>
+				<source>Besoldungsgruppe bis</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.tariff_level_from" resname="tx_interamtconnect_domain_model_vacancy.tariff_level_from">
-				<source>Tariff Level From</source>
+				<source>Tarifebene von</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.tariff_level_to" resname="tx_interamtconnect_domain_model_vacancy.tariff_level_to">
-				<source>Tariff Level To</source>
+				<source>Tarifebene bis</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.qualification" resname="tx_interamtconnect_domain_model_vacancy.qualification">
-				<source>Qualification</source>
+				<source>Qualifikation</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.training" resname="tx_interamtconnect_domain_model_vacancy.training">
-				<source>Training</source>
+				<source>Ausbildung</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.training_duration" resname="tx_interamtconnect_domain_model_vacancy.training_duration">
-				<source>Training Duration</source>
+				<source>Ausbildungsdauer</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.responsibilities" resname="tx_interamtconnect_domain_model_vacancy.responsibilities">
-				<source>Responsibilities</source>
+				<source>Zuständigkeiten</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.subject_area" resname="tx_interamtconnect_domain_model_vacancy.subject_area">
-				<source>Subject Area</source>
+				<source>Fachrichtung</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.work_time" resname="tx_interamtconnect_domain_model_vacancy.work_time">
-				<source>Work Time</source>
+				<source>Arbeitszeit</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.weekly_working_time_civil_servant" resname="tx_interamtconnect_domain_model_vacancy.weekly_working_time_civil_servant">
-				<source>Weekly Working Time Civil Servant</source>
+				<source>Wochenarbeitszeit - Beamte</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.weekly_working_time_employee" resname="tx_interamtconnect_domain_model_vacancy.weekly_working_time_employee">
-				<source>Weekly Working Time Employee</source>
+				<source>Wochenarbeitszeit - Arbeitnehmer</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.duration_of_employment" resname="tx_interamtconnect_domain_model_vacancy.duration_of_employment">
-				<source>Duration Of Employment</source>
+				<source>Beschäftigungsdauer</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.limited_to" resname="tx_interamtconnect_domain_model_vacancy.limited_to">
-				<source>Limited To</source>
+				<source>befristet bis</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.application_deadline" resname="tx_interamtconnect_domain_model_vacancy.application_deadline">
-				<source>Application Deadline</source>
+				<source>Bewerbungsfrist</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.occupation_to" resname="tx_interamtconnect_domain_model_vacancy.occupation_to">
-				<source>Occupation To</source>
+				<source>Zu besetzen ab</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.last_changes" resname="tx_interamtconnect_domain_model_vacancy.last_changes">
-				<source>Last Changes</source>
+				<source>Letzte Änderung</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.tender_date" resname="tx_interamtconnect_domain_model_vacancy.tender_date">
-				<source>Tender Date</source>
+				<source>Ausschreibungsdatum</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.application_process" resname="tx_interamtconnect_domain_model_vacancy.application_process">
-				<source>Application Process</source>
+				<source>Bewerbungsprozess</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.application_url" resname="tx_interamtconnect_domain_model_vacancy.application_url">
-				<source>Application Url</source>
+				<source>Bewerbung-Url</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.required_studies" resname="tx_interamtconnect_domain_model_vacancy.required_studies">
-				<source>Required Studies</source>
+				<source>Studiengänge</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_vacancy.attachments" resname="tx_interamtconnect_domain_model_vacancy.attachments">
+				<source>Pflichtanlagen</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_lastname" resname="tx_interamtconnect_domain_model_vacancy.contact_lastname">
-				<source>Contact Lastname</source>
+				<source>Ansprechpartner - Nachname</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_firstname" resname="tx_interamtconnect_domain_model_vacancy.contact_firstname">
-				<source>Contact Firstname</source>
+				<source>Ansprechpartner - Vorname</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_salutaion" resname="tx_interamtconnect_domain_model_vacancy.contact_salutaion">
-				<source>Contact Salutaion</source>
+				<source>Ansprechpartner - Anrede</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_street" resname="tx_interamtconnect_domain_model_vacancy.contact_street">
-				<source>Contact Street</source>
+				<source>Ansprechpartner - Straße</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_zip" resname="tx_interamtconnect_domain_model_vacancy.contact_zip">
-				<source>Contact Zip</source>
+				<source>Ansprechpartner - Postleitzahl</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_city" resname="tx_interamtconnect_domain_model_vacancy.contact_city">
-				<source>Contact City</source>
+				<source>Ansprechpartner - Ort</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_authority" resname="tx_interamtconnect_domain_model_vacancy.contact_authority">
-				<source>Contact Authority</source>
+				<source>Ansprechpartner - Behörde</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_phone" resname="tx_interamtconnect_domain_model_vacancy.contact_phone">
-				<source>Contact Phone</source>
+				<source>Ansprechpartner - Telefon</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_mobile" resname="tx_interamtconnect_domain_model_vacancy.contact_mobile">
-				<source>Contact Mobile</source>
+				<source>Ansprechpartner - Telefon 2</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_fax" resname="tx_interamtconnect_domain_model_vacancy.contact_fax">
-				<source>Contact Fax</source>
+				<source>Ansprechpartner - Faxnummer</source>
 			</trans-unit>
 			<trans-unit id="tx_interamtconnect_domain_model_vacancy.contact_email" resname="tx_interamtconnect_domain_model_vacancy.contact_email">
-				<source>Contact Email</source>
+				<source>Ansprechpartner - E-Mail Adresse</source>
 			</trans-unit>
 			<trans-unit id="tx_interamt_connect_connector.name" resname="tx_interamt_connect_connector.name">
 				<source>Interamt Connector</source>
 			</trans-unit>
 			<trans-unit id="tx_interamt_connect_connector.description" resname="tx_interamt_connect_connector.description">
-				<source></source>
+				<source>Ruft Stellenausschreibung zu hinterlegten Behörden von der Online-Stellenausschreibungsplattform INTERAMT ab.</source>
 			</trans-unit>
 		</body>
 	</file>

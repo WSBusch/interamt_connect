@@ -4,139 +4,142 @@
 		<header/>
 		<body>
 			<trans-unit id="interamt_uid.description" resname="interamt_uid.description">
-				<source>interamtUid</source>
+				<source>INTERAMT-ID des Stellenangebots</source>
 			</trans-unit>
 			<trans-unit id="authority.description" resname="authority.description">
-				<source>authority</source>
+				<source>Ausschreibende Behörde</source>
 			</trans-unit>
 			<trans-unit id="identifier.description" resname="identifier.description">
-				<source>identifier</source>
+				<source>Stellenangebots-Nr. der Behörde</source>
 			</trans-unit>
 			<trans-unit id="title.description" resname="title.description">
-				<source>title</source>
+				<source>Stellenbezeichnung</source>
 			</trans-unit>
-			<trans-unit id="localtion_street.description" resname="localtion_street.description">
-				<source>localtionStreet</source>
+			<trans-unit id="location_street.description" resname="location_street.description">
+				<source>Straßenanschrift des Einsatzortes</source>
 			</trans-unit>
 			<trans-unit id="location_zip.description" resname="location_zip.description">
-				<source>locationZip</source>
+				<source>Postleitzahl des Einsatzortes</source>
 			</trans-unit>
 			<trans-unit id="location_city.description" resname="location_city.description">
-				<source>locationCity</source>
+				<source>Einsatzort</source>
 			</trans-unit>
 			<trans-unit id="description.description" resname="description.description">
-				<source>description</source>
+				<source>Stellenbeschreibung (XHTML)</source>
 			</trans-unit>
 			<trans-unit id="latitude.description" resname="latitude.description">
-				<source>latitude</source>
+				<source>Geografische Breite (nördlich) in Grad</source>
 			</trans-unit>
 			<trans-unit id="longitude.description" resname="longitude.description">
-				<source>longitude</source>
+				<source>Geografische Länge (östlich) in Grad</source>
 			</trans-unit>
 			<trans-unit id="number_of_vacancies.description" resname="number_of_vacancies.description">
-				<source>numberOfVacancies</source>
+				<source>Anzahl freie Stellen</source>
 			</trans-unit>
 			<trans-unit id="contracts.description" resname="contracts.description">
-				<source>contracts</source>
+				<source>Liste der Dienstverhältnisse</source>
 			</trans-unit>
 			<trans-unit id="careers.description" resname="careers.description">
-				<source>careers</source>
+				<source>Laufbahngruppen bei Stellenangeboten für Beamte</source>
 			</trans-unit>
 			<trans-unit id="salary_group_from.description" resname="salary_group_from.description">
-				<source>salaryGroupFrom</source>
+				<source>nur bei Beamten</source>
 			</trans-unit>
 			<trans-unit id="salary_group_to.description" resname="salary_group_to.description">
-				<source>salaryGroupTo</source>
+				<source>nur bei Beamten</source>
 			</trans-unit>
 			<trans-unit id="tariff_level_from.description" resname="tariff_level_from.description">
-				<source>tariffLevelFrom</source>
+				<source>nur bei Arbeitnehmern</source>
 			</trans-unit>
 			<trans-unit id="tariff_level_to.description" resname="tariff_level_to.description">
-				<source>tariffLevelTo</source>
+				<source>nur bei Arbeitnehmern</source>
 			</trans-unit>
 			<trans-unit id="qualification.description" resname="qualification.description">
-				<source>qualification</source>
+				<source>mindestens vorzuweisender Bildungsabschluss</source>
 			</trans-unit>
 			<trans-unit id="training.description" resname="training.description">
-				<source>training</source>
+				<source>nur bei Ausbildungsplatzangeboten</source>
 			</trans-unit>
 			<trans-unit id="training_duration.description" resname="training_duration.description">
-				<source>trainingDuration</source>
+				<source>Angabe in Monaten</source>
 			</trans-unit>
 			<trans-unit id="responsibilities.description" resname="responsibilities.description">
-				<source>responsibilities</source>
+				<source>Zuständigkeiten</source>
 			</trans-unit>
 			<trans-unit id="subject_area.description" resname="subject_area.description">
-				<source>subjectArea</source>
+				<source>Fachrichtung der ausschreibenden Behörde</source>
 			</trans-unit>
 			<trans-unit id="work_time.description" resname="work_time.description">
-				<source>workTime</source>
+				<source>Arbeitszeit</source>
 			</trans-unit>
 			<trans-unit id="weekly_working_time_civil_servant.description" resname="weekly_working_time_civil_servant.description">
-				<source>weeklyWorkingTimeCivilServant</source>
+				<source>nur bei Beamten</source>
 			</trans-unit>
 			<trans-unit id="weekly_working_time_employee.description" resname="weekly_working_time_employee.description">
-				<source>weeklyWorkingTimeEmployee</source>
+				<source>nur bei Arbeitnehmern</source>
 			</trans-unit>
 			<trans-unit id="duration_of_employment.description" resname="duration_of_employment.description">
-				<source>durationOfEmployment</source>
+				<source>Dauer der Beschäftigung</source>
 			</trans-unit>
 			<trans-unit id="limited_to.description" resname="limited_to.description">
-				<source>limitedTo</source>
+				<source>Datum, bis wann die Stellen befristet ist</source>
 			</trans-unit>
 			<trans-unit id="application_deadline.description" resname="application_deadline.description">
-				<source>applicationDeadline</source>
+				<source>Bewerbungsfrist</source>
 			</trans-unit>
 			<trans-unit id="occupation_to.description" resname="occupation_to.description">
-				<source>occupationTo</source>
+				<source>Ab wann ist die Stelle zu besetzen</source>
 			</trans-unit>
 			<trans-unit id="last_changes.description" resname="last_changes.description">
-				<source>lastChanges</source>
+				<source>Wann erfolgte die letzte Anpassung</source>
 			</trans-unit>
 			<trans-unit id="tender_date.description" resname="tender_date.description">
-				<source>tenderDate</source>
+				<source>Wann erfolgte die öffentliche Ausschreibung der Stelle</source>
 			</trans-unit>
 			<trans-unit id="application_process.description" resname="application_process.description">
-				<source>applicationProcess</source>
+				<source>Wie läuft der Bewerbungsprozess ab</source>
 			</trans-unit>
 			<trans-unit id="application_url.description" resname="application_url.description">
-				<source>applicationUrl</source>
+				<source>bei Bewerbungsprozess Online URL Behörde. URL gemäß RFC 3989 1.1.3</source>
 			</trans-unit>
 			<trans-unit id="required_studies.description" resname="required_studies.description">
-				<source>requiredStudies</source>
+				<source>Welcher Studienabschluss wird mindestens erwartet</source>
+			</trans-unit>
+			<trans-unit id="attachments.description" resname="attachments.description">
+				<source>Welche Unterlagen werden bei einer Bewerbung mindestens erwartet</source>
 			</trans-unit>
 			<trans-unit id="contact_lastname.description" resname="contact_lastname.description">
-				<source>contactLastname</source>
+				<source></source>
 			</trans-unit>
 			<trans-unit id="contact_firstname.description" resname="contact_firstname.description">
-				<source>contactFirstname</source>
+				<source></source>
 			</trans-unit>
 			<trans-unit id="contact_salutaion.description" resname="contact_salutaion.description">
-				<source>contactSalutaion</source>
+				<source></source>
 			</trans-unit>
 			<trans-unit id="contact_street.description" resname="contact_street.description">
-				<source>contactStreet</source>
+				<source></source>
 			</trans-unit>
 			<trans-unit id="contact_zip.description" resname="contact_zip.description">
-				<source>contactZip</source>
+				<source></source>
 			</trans-unit>
 			<trans-unit id="contact_city.description" resname="contact_city.description">
-				<source>contactCity</source>
+				<source></source>
 			</trans-unit>
 			<trans-unit id="contact_authority.description" resname="contact_authority.description">
-				<source>contactAuthority</source>
+				<source></source>
 			</trans-unit>
 			<trans-unit id="contact_phone.description" resname="contact_phone.description">
-				<source>contactPhone</source>
+				<source></source>
 			</trans-unit>
 			<trans-unit id="contact_mobile.description" resname="contact_mobile.description">
-				<source>contactMobile</source>
+				<source></source>
 			</trans-unit>
 			<trans-unit id="contact_fax.description" resname="contact_fax.description">
-				<source>contactFax</source>
+				<source></source>
 			</trans-unit>
 			<trans-unit id="contact_email.description" resname="contact_email.description">
-				<source>contactEmail</source>
+				<source></source>
 			</trans-unit>
 		</body>
 	</file>

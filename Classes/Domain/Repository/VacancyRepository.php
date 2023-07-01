@@ -19,4 +19,10 @@ namespace WSBusch\InteramtConnect\Domain\Repository;
  */
 class VacancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
+    public function findByInteramtUid($interamtUid) {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->equals('interamt_uid', $interamtUid));
+        return $query->execute()->getFirst();
+    }
 }

@@ -1,9 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace WSBusch\InteramtConnect\Controller;
 
+use Psr\Http\Message\ResponseInterface;
+use WSBusch\InteramtConnect\Domain\Model\Vacancy;
+use WSBusch\InteramtConnect\Domain\Repository\VacancyRepository;
 
 /**
  * This file is part of the "Interamt Connector" Extension for TYPO3 CMS.
@@ -23,14 +25,14 @@ class ConnectorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
     /**
      * vacancyRepository
      *
-     * @var \WSBusch\InteramtConnect\Domain\Repository\VacancyRepository
+     * @var VacancyRepository
      */
     protected $vacancyRepository = null;
 
     /**
-     * @param \WSBusch\InteramtConnect\Domain\Repository\VacancyRepository $vacancyRepository
+     * @param VacancyRepository $vacancyRepository
      */
-    public function injectVacancyRepository(\WSBusch\InteramtConnect\Domain\Repository\VacancyRepository $vacancyRepository)
+    public function injectVacancyRepository(VacancyRepository $vacancyRepository)
     {
         $this->vacancyRepository = $vacancyRepository;
     }
@@ -38,9 +40,9 @@ class ConnectorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
     /**
      * action list
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
-    public function listAction(): \Psr\Http\Message\ResponseInterface
+    public function listAction(): ResponseInterface
     {
         $vacancies = $this->vacancyRepository->findAll();
         $this->view->assign('vacancies', $vacancies);
@@ -50,10 +52,10 @@ class ConnectorController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContro
     /**
      * action show
      *
-     * @param \WSBusch\InteramtConnect\Domain\Model\Vacancy $vacancy
-     * @return \Psr\Http\Message\ResponseInterface
+     * @param Vacancy $vacancy
+     * @return ResponseInterface
      */
-    public function showAction(\WSBusch\InteramtConnect\Domain\Model\Vacancy $vacancy): \Psr\Http\Message\ResponseInterface
+    public function showAction(Vacancy $vacancy): ResponseInterface
     {
         $this->view->assign('vacancy', $vacancy);
         return $this->htmlResponse();

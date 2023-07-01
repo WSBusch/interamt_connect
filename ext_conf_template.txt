@@ -1,0 +1,11 @@
+# cat=basic; type=string; label=URL zur REST-API Schnittstelle
+connectorUrl = https://interamt.de/koop/app/
+
+# cat=basic; type=string; label=Webservice
+connectorService = webservice_v2
+
+# cat=basic; type=boolean; label=Daten-Fallback in der Datenbank anlegen?: benötigt Scheduler InteramtFallback
+connectorUseFallback = 1
+
+# cat=basic; type=options[updaten=update,ignorieren=ignore]; label=Verhalten bei vorhandenen Datensätzen
+connectorExistingRecords = update

@@ -24,4 +24,10 @@ class AuthorityRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      * @var array
      */
     protected $defaultOrderings = ['sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING];
+
+    public function findAllForTask() {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        return $query->execute();
+    }
 }

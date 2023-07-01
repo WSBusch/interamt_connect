@@ -16,11 +16,11 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'searchFields' => 'identifier,title,localtion_street,location_zip,location_city,description,latitude,longitude,contracts,careers,salary_group_from,salary_group_to,tariff_level_from,tariff_level_to,qualification,training,responsibilities,subject_area,work_time,weekly_working_time_civil_servant,weekly_working_time_employee,duration_of_employment,limited_to,occupation_to,application_process,application_url,required_studies,contact_lastname,contact_firstname,contact_salutaion,contact_street,contact_zip,contact_city,contact_authority,contact_phone,contact_mobile,contact_fax,contact_email',
+        'searchFields' => 'identifier,title,location_street,location_zip,location_city,description,latitude,longitude,contracts,careers,salary_group_from,salary_group_to,tariff_level_from,tariff_level_to,qualification,training,responsibilities,subject_area,work_time,weekly_working_time_civil_servant,weekly_working_time_employee,duration_of_employment,limited_to,occupation_to,application_process,application_url,required_studies,attachments,contact_lastname,contact_firstname,contact_salutaion,contact_street,contact_zip,contact_city,contact_authority,contact_phone,contact_mobile,contact_fax,contact_email',
         'iconfile' => 'EXT:interamt_connect/Resources/Public/Icons/tx_interamtconnect_domain_model_vacancy.gif'
     ],
     'types' => [
-        '1' => ['showitem' => 'interamt_uid, authority, identifier, title, localtion_street, location_zip, location_city, description, latitude, longitude, number_of_vacancies, contracts, careers, salary_group_from, salary_group_to, tariff_level_from, tariff_level_to, qualification, training, training_duration, responsibilities, subject_area, work_time, weekly_working_time_civil_servant, weekly_working_time_employee, duration_of_employment, limited_to, application_deadline, occupation_to, last_changes, tender_date, application_process, application_url, required_studies, contact_lastname, contact_firstname, contact_salutaion, contact_street, contact_zip, contact_city, contact_authority, contact_phone, contact_mobile, contact_fax, contact_email, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, sys_language_uid, l10n_parent, l10n_diffsource, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, hidden, starttime, endtime'],
+        '1' => ['showitem' => 'interamt_uid, authority, identifier, title, description, number_of_vacancies, contracts, careers, salary_group_from, salary_group_to, tariff_level_from, tariff_level_to, qualification, training, training_duration, responsibilities, subject_area, work_time, weekly_working_time_civil_servant, weekly_working_time_employee, duration_of_employment, limited_to, application_deadline, occupation_to, last_changes, tender_date, application_process, application_url, required_studies, attachments, --div--;Einsatzort,location_street, location_zip, location_city,latitude, longitude,--div--;Ansprechpartner, contact_lastname, contact_firstname, contact_salutaion, contact_street, contact_zip, contact_city, contact_authority, contact_phone, contact_mobile, contact_fax, contact_email, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, sys_language_uid, l10n_parent, l10n_diffsource, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, hidden, starttime, endtime'],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -108,10 +108,11 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.authority',
             'config' => [
-                'type' => 'input',
-                'size' => 4,
-                'eval' => 'int,required',
-                'default' => 0
+                'type' => 'group',
+                'allowed' => 'tx_interamtconnect_domain_model_authority',
+                'maxitems' => 1,
+                'minitems' => 1,
+                'size' => 1,
             ]
         ],
         'identifier' => [
@@ -119,7 +120,7 @@ return [
             'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.identifier',
             'config' => [
                 'type' => 'input',
-                'size' => 30,
+                'size' => 15,
                 'eval' => 'trim',
                 'default' => ''
             ],
@@ -134,9 +135,9 @@ return [
                 'default' => ''
             ],
         ],
-        'localtion_street' => [
+        'location_street' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.localtion_street',
+            'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.location_street',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -149,7 +150,7 @@ return [
             'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.location_zip',
             'config' => [
                 'type' => 'input',
-                'size' => 30,
+                'size' => 8,
                 'eval' => 'trim',
                 'default' => ''
             ],
@@ -172,8 +173,9 @@ return [
                 'cols' => 40,
                 'rows' => 15,
                 'eval' => 'trim',
-                'default' => ''
-            ]
+                'default' => '',
+                'enableRichtext' => true
+            ],
         ],
         'latitude' => [
             'exclude' => true,
@@ -200,9 +202,9 @@ return [
             'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.number_of_vacancies',
             'config' => [
                 'type' => 'input',
-                'size' => 4,
+                'size' => 3,
                 'eval' => 'int,required',
-                'default' => 0
+                'default' => 1
             ]
         ],
         'contracts' => [
@@ -290,7 +292,7 @@ return [
             'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.training_duration',
             'config' => [
                 'type' => 'input',
-                'size' => 4,
+                'size' => 3,
                 'eval' => 'int',
                 'default' => 0
             ]
@@ -320,7 +322,7 @@ return [
             'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.work_time',
             'config' => [
                 'type' => 'input',
-                'size' => 30,
+                'size' => 15,
                 'eval' => 'trim',
                 'default' => ''
             ],
@@ -330,7 +332,7 @@ return [
             'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.weekly_working_time_civil_servant',
             'config' => [
                 'type' => 'input',
-                'size' => 30,
+                'size' => 15,
                 'eval' => 'trim',
                 'default' => ''
             ],
@@ -340,7 +342,7 @@ return [
             'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.weekly_working_time_employee',
             'config' => [
                 'type' => 'input',
-                'size' => 30,
+                'size' => 15,
                 'eval' => 'trim',
                 'default' => ''
             ],
@@ -373,7 +375,7 @@ return [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'size' => 12,
-                'eval' => 'datetime,required',
+                'eval' => 'datetime,null',
                 'default' => null,
             ],
         ],
@@ -437,7 +439,18 @@ return [
             'config' => [
                 'type' => 'text',
                 'cols' => 40,
-                'rows' => 15,
+                'rows' => 10,
+                'eval' => 'trim',
+                'default' => ''
+            ]
+        ],
+        'attachments' => [
+            'exclude' => false,
+            'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.attachments',
+            'config' => [
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 10,
                 'eval' => 'trim',
                 'default' => ''
             ]
@@ -487,7 +500,7 @@ return [
             'label' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy.contact_zip',
             'config' => [
                 'type' => 'input',
-                'size' => 30,
+                'size' => 8,
                 'eval' => 'trim',
                 'default' => ''
             ],

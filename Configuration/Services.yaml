@@ -1,0 +1,16 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  WSBusch\InteramtConnect\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/*'
+
+  WSBusch\InteramtConnect\Command\FallbackCommand:
+    tags:
+      - name: console.command
+        command: interamt_connect:fallback
+        identifier: 'interamt_connect:fallback'
+        schedulable: true

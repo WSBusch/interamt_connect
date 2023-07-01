@@ -52,11 +52,11 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $title = null;
 
     /**
-     * localtionStreet
+     * locationStreet
      *
      * @var string
      */
-    protected $localtionStreet = null;
+    protected $locationStreet = null;
 
     /**
      * locationZip
@@ -161,7 +161,7 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * trainingDuration
      *
-     * @var int
+     * @var float
      */
     protected $trainingDuration = null;
 
@@ -218,7 +218,6 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * applicationDeadline
      *
      * @var \DateTime
-     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $applicationDeadline = null;
 
@@ -264,6 +263,11 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $requiredStudies = null;
+
+    /**
+     * @var string
+     */
+    protected $attachments = null;
 
     /**
      * contactLastname
@@ -427,24 +431,24 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * Returns the localtionStreet
+     * Returns the locationStreet
      *
      * @return string
      */
-    public function getLocaltionStreet()
+    public function getLocationStreet()
     {
-        return $this->localtionStreet;
+        return $this->locationStreet;
     }
 
     /**
-     * Sets the localtionStreet
+     * Sets the locationStreet
      *
-     * @param string $localtionStreet
+     * @param string $locationStreet
      * @return void
      */
-    public function setLocaltionStreet(string $localtionStreet)
+    public function setLocationStreet(string $locationStreet)
     {
-        $this->localtionStreet = $localtionStreet;
+        $this->locationStreet = $locationStreet;
     }
 
     /**
@@ -744,7 +748,7 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the trainingDuration
      *
-     * @return int
+     * @return float
      */
     public function getTrainingDuration()
     {
@@ -754,10 +758,10 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the trainingDuration
      *
-     * @param int $trainingDuration
+     * @param float|int $trainingDuration
      * @return void
      */
-    public function setTrainingDuration(int $trainingDuration)
+    public function setTrainingDuration($trainingDuration)
     {
         $this->trainingDuration = $trainingDuration;
     }
@@ -912,7 +916,7 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the applicationDeadline
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getApplicationDeadline()
     {
@@ -922,10 +926,10 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the applicationDeadline
      *
-     * @param \DateTime $applicationDeadline
+     * @param \DateTime|null $applicationDeadline
      * @return void
      */
-    public function setApplicationDeadline(\DateTime $applicationDeadline)
+    public function setApplicationDeadline(?\DateTime $applicationDeadline)
     {
         $this->applicationDeadline = $applicationDeadline;
     }
@@ -954,7 +958,7 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the lastChanges
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getLastChanges()
     {
@@ -964,10 +968,10 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the lastChanges
      *
-     * @param \DateTime $lastChanges
+     * @param \DateTime|null $lastChanges
      * @return void
      */
-    public function setLastChanges(\DateTime $lastChanges)
+    public function setLastChanges(?\DateTime $lastChanges)
     {
         $this->lastChanges = $lastChanges;
     }
@@ -975,7 +979,7 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the tenderDate
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getTenderDate()
     {
@@ -985,10 +989,10 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the tenderDate
      *
-     * @param \DateTime $tenderDate
+     * @param \DateTime|null $tenderDate
      * @return void
      */
-    public function setTenderDate(\DateTime $tenderDate)
+    public function setTenderDate(?\DateTime $tenderDate)
     {
         $this->tenderDate = $tenderDate;
     }
@@ -1054,6 +1058,23 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setRequiredStudies(string $requiredStudies)
     {
         $this->requiredStudies = $requiredStudies;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * @param string $attachments
+     * @return void
+     */
+    public function setAttachments(string $attachments)
+    {
+        $this->attachments = $attachments;
     }
 
     /**

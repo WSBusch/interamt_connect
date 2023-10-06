@@ -6,23 +6,19 @@
         {
             "name": "Oliver Busch",
             "role": "Developer"
+        },
+        {
+            "name": "Sonja Buchheit",
+            "role": "Integrator"
         }
     ],
     "license": "GPL-2.0-or-later",
     "require": {
-        "typo3/cms-core": "^11.5"
-    },
-    "require-dev": {
-        "typo3/testing-framework": "^6.9.0"
+        "typo3/cms-core": "^12.4"
     },
     "autoload": {
         "psr-4": {
             "WSBusch\\InteramtConnect\\": "Classes"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "WSBusch\\InteramtConnect\\Tests\\": "Tests"
         }
     },
     "replace": {
@@ -31,11 +27,6 @@
     "config": {
         "vendor-dir": ".Build/vendor",
         "bin-dir": ".Build/bin"
-    },
-    "scripts": {
-        "post-autoload-dump": [
-            "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
-        ]
     },
     "extra": {
         "typo3/cms": {

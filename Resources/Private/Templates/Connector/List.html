@@ -1,126 +1,27 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:layout name="Default" />
-
-This template is responsible for creating a table of domain objects.
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        Vacancy:
-          List.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="content">
-    <h1>Listing for Vacancy</h1>
 
     <f:flashMessages />
+    <f:if condition="{vacancies}">
+        <f:then>
+            <f:for each="{vacancies}" as="vacancy">
+                <div class="card card-body">
+                    <h4>{vacancy.title}</h4>
+                    <p>{vacancy.interamtUid}</p>
+                    <f:if condition="{settings.detailPageLink}">
+                        <f:then><f:link.action action="show" pageUid="{settings.detailPage}" arguments="{vacancy:vacancy.interamtUid}">Details</f:link.action></f:then>
+                        <f:else>
+                            <a href="https://interamt.de/koop/app/stelle?id={vacancy.interamtUid}" target="_blank">Details</a>
+                        </f:else>
+                    </f:if>
+                </div>
+            </f:for>
+        </f:then>
+        <f:else>
+            <div class="alert alert-info">Es wurden keine Stellenausschreibungen gefunden!</div>
+        </f:else>
+    </f:if>
 
-    <table class="tx_interamtconnect">
-        <tr>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.interamt_uid" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.authority" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.identifier" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.title" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.location_street" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.location_zip" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.location_city" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.description" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.latitude" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.longitude" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.number_of_vacancies" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contracts" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.careers" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.salary_group_from" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.salary_group_to" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.tariff_level_from" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.tariff_level_to" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.qualification" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.training" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.training_duration" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.responsibilities" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.subject_area" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.work_time" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.weekly_working_time_civil_servant" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.weekly_working_time_employee" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.duration_of_employment" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.limited_to" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.application_deadline" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.occupation_to" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.last_changes" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.tender_date" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.application_process" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.application_url" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.required_studies" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contact_lastname" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contact_firstname" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contact_salutaion" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contact_street" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contact_zip" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contact_city" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contact_authority" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contact_phone" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contact_mobile" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contact_fax" /></th>
-            <th><f:translate key="tx_interamtconnect_domain_model_vacancy.contact_email" /></th>
-            <th></th>
-            <th></th>
-        </tr>
-        <f:for each="{vacancies}" as="vacancy">
-            <tr>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.interamtUid}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.authority}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.identifier}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.title}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.locationStreet}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.locationZip}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.locationCity}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.description}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.latitude}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.longitude}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.numberOfVacancies}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contracts}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.careers}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.salaryGroupFrom}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.salaryGroupTo}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.tariffLevelFrom}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.tariffLevelTo}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.qualification}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.training}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.trainingDuration}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.responsibilities}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.subjectArea}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.workTime}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.weeklyWorkingTimeCivilServant}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.weeklyWorkingTimeEmployee}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.durationOfEmployment}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.limitedTo}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.applicationDeadline -> f:format.date()}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.occupationTo}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.lastChanges -> f:format.date()}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.tenderDate -> f:format.date()}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.applicationProcess}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.applicationUrl}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.requiredStudies}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contactLastname}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contactFirstname}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contactSalutaion}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contactStreet}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contactZip}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contactCity}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contactAuthority}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contactPhone}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contactMobile}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contactFax}</f:link.action></td>
-                <td><f:link.action action="show" arguments="{vacancy : vacancy}">{vacancy.contactEmail}</f:link.action></td>
-                <td><f:link.action action="edit" arguments="{vacancy : vacancy}">Edit</f:link.action></td>
-                <td><f:link.action action="delete" arguments="{vacancy : vacancy}">Delete</f:link.action></td>
-            </tr>
-        </f:for>
-    </table>
-
-    <f:link.action action="new">New Vacancy</f:link.action>
 </f:section>
 </html>

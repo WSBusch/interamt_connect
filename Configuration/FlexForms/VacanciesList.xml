@@ -1,0 +1,260 @@
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<sheetTitle>Allgemein</sheetTitle>
+				<type>array</type>
+				<el>
+					<settings.mode>
+						<label>Anzeige-Modus</label>
+						<config>
+							<type>select</type>
+							<renderType>selectSingle</renderType>
+							<items>
+								<numIndex index="0">
+									<numIndex index="label">Listenansicht</numIndex>
+									<numIndex index="value">list</numIndex>
+								</numIndex>
+								<numIndex index="1">
+									<numIndex index="label">Detailansicht</numIndex>
+									<numIndex index="value">show</numIndex>
+								</numIndex>
+							</items>
+						</config>
+					</settings.mode>
+					<settings.behaviour>
+						<label>Datensätze zur Ausgabe</label>
+						<description>Woher stammen die Stellenausschreibungen? Ist die API nicht verfügbar, wird auf den Fallback zurückgegriffen.</description>
+						<config>
+							<type>select</type>
+							<renderType>selectSingle</renderType>
+							<items>
+								<numIndex index="0">
+									<numIndex index="label">Live-Daten (API) verwenden</numIndex>
+									<numIndex index="value">on-fly</numIndex>
+								</numIndex>
+								<numIndex index="1">
+									<numIndex index="label">Aus Fallback verwenden</numIndex>
+									<numIndex index="value">fallback</numIndex>
+								</numIndex>
+							</items>
+						</config>
+					</settings.behaviour>
+				</el>
+			</ROOT>
+		</sDEF>
+
+		<s_ListView>
+			<ROOT>
+				<sheetTitle>Listenansicht</sheetTitle>
+				<type>array</type>
+				<el>
+					<settings.authorities>
+						<label>Anzuzeigende Behörden</label>
+						<config>
+							<type>select</type>
+							<renderType>selectMultipleSideBySide</renderType>
+							<foreign_table>tx_interamtconnect_domain_model_authority</foreign_table>
+							<minitems>0</minitems>
+							<maxitems>99</maxitems>
+						</config>
+					</settings.authorities>
+					<settings.sortField>
+						<label>Sortieren nach</label>
+						<config>
+							<type>select</type>
+							<renderType>selectSingle</renderType>
+							<items>
+								<numIndex index="0">
+									<numIndex index="label">Ausschreibungsdatum</numIndex>
+									<numIndex index="value">tender_date</numIndex>
+								</numIndex>
+								<numIndex index="1">
+									<numIndex index="label">Stellenbezeichnung</numIndex>
+									<numIndex index="value">title</numIndex>
+								</numIndex>
+							</items>
+							<default>tender_date</default>
+						</config>
+					</settings.sortField>
+					<settings.sortDirection>
+						<label>Sortierreihenfolge</label>
+						<config>
+							<type>select</type>
+							<renderType>selectSingle</renderType>
+							<items>
+								<numIndex index="0">
+									<numIndex index="label">aufsteigend</numIndex>
+									<numIndex index="value">ASC</numIndex>
+								</numIndex>
+								<numIndex index="1">
+									<numIndex index="label">absteigend</numIndex>
+									<numIndex index="value">DESC</numIndex>
+								</numIndex>
+							</items>
+							<default>DESC</default>
+						</config>
+					</settings.sortDirection>
+					<settings.detailPageLink>
+						<TCEforms>
+							<label>Link zur Detailseite</label>
+							<description>Ist dieser Haken nicht gesetzt, wird zur INTERAMT Detailseite verlinkt.</description>
+							<config>
+								<type>check</type>
+								<default>1</default>
+							</config>
+						</TCEforms>
+					</settings.detailPageLink>
+					<settings.detailPage>
+						<TCEforms>
+							<label>Detailseite</label>
+							<config>
+								<type>group</type>
+								<internal_type>db</internal_type>
+								<allowed>pages</allowed>
+								<size>1</size>
+								<maxitems>1</maxitems>
+								<minitems>0</minitems>
+								<show_thumbs>1</show_thumbs>
+								<wizards>
+									<suggest>
+										<type>suggest</type>
+									</suggest>
+								</wizards>
+							</config>
+						</TCEforms>
+					</settings.detailPage>
+					<settings.paginate.itemsPerPage>
+						<TCEforms>
+							<label>Einträge pro Seite</label>
+							<description>0 = keine Paginierung</description>
+							<config>
+								<type>input</type>
+								<eval>trim,int</eval>
+								<default>20</default>
+								<size>5</size>
+							</config>
+						</TCEforms>
+					</settings.paginate.itemsPerPage>
+					<settings.paginate.maximumNumberOfLinks>
+						<TCEforms>
+							<label>Maximale Links zum Blättern</label>
+							<config>
+								<type>input</type>
+								<eval>trim,int</eval>
+								<default>10</default>
+								<size>5</size>
+							</config>
+						</TCEforms>
+					</settings.paginate.maximumNumberOfLinks>
+					<settings.paginate.insertAbove>
+						<TCEforms>
+							<label>Seitenregister oben anzeigen</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</settings.paginate.insertAbove>
+					<settings.paginate.insertBelow>
+						<TCEforms>
+							<label>Seitenregister unten anzeigen</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</settings.paginate.insertBelow>
+				</el>
+			</ROOT>
+		</s_ListView>
+
+		<s_Filter>
+			<ROOT>
+				<sheetTitle>Listenansicht - Filter</sheetTitle>
+				<type>array</type>
+				<el>
+					<settings.filter.enabled>
+						<TCEforms>
+							<label>Filter aktivieren</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</settings.filter.enabled>
+					<settings.filter.free_text>
+						<TCEforms>
+							<label>Freitext-Suche</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</settings.filter.free_text>
+					<settings.filter.area>
+						<TCEforms>
+							<label>Bereich-Suche</label>
+							<description>Checkbox-Liste mit allen zur Verfügung stehenden Einsatzbereichen</description>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</settings.filter.area>
+					<settings.filter.contracts>
+						<TCEforms>
+							<label>Dienstverhältnis-Suche</label>
+							<description>Checkbox-Liste mit allen zur Verfügung stehenden Dienstverhältnissen</description>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</settings.filter.contracts>
+					<settings.filter.employment_duration>
+						<TCEforms>
+							<label>Beschäftigungsdauer</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</settings.filter.employment_duration>
+					<settings.filter.work_time>
+						<TCEforms>
+							<label>Arbeitszeiten</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</settings.filter.work_time>
+				</el>
+			</ROOT>
+		</s_Filter>
+
+		<s_DetailView>
+			<ROOT>
+				<sheetTitle>Detailansicht</sheetTitle>
+				<type>array</type>
+				<el>
+					<settings.listPage>
+						<TCEforms>
+							<label>Übersichtsseite</label>
+							<config>
+								<type>group</type>
+								<internal_type>db</internal_type>
+								<allowed>pages</allowed>
+								<size>1</size>
+								<maxitems>1</maxitems>
+								<minitems>0</minitems>
+								<show_thumbs>1</show_thumbs>
+								<wizards>
+									<suggest>
+										<type>suggest</type>
+									</suggest>
+								</wizards>
+							</config>
+						</TCEforms>
+					</settings.listPage>
+				</el>
+			</ROOT>
+		</s_DetailView>
+	</sheets>
+</T3DataStructure>

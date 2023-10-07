@@ -6,18 +6,209 @@
     <f:if condition="{no_data}">
         <f:then><div class="alert alert-danger">Unter der angegebenen Kennnummer wurde keine Stellenausschreibung gefunden.</div> </f:then>
         <f:else>
-            <p>
-                <f:link.action action="list" pageUid="{settings.listPage}">zurück zur Übersicht</f:link.action>
-            </p>
             <div class="row">
-                <div class="col-md-8">
-                    Beschreibung
+                <div class="col-md-8 pe-5">
+                    <p><strong>Stellenbeschreibung</strong></p>
+                    <hr />
+                    <div style="hyphens: auto"><f:format.raw>{vacancy.description}</f:format.raw></div>
+
+                    <hr />
+                    <f:switch expression="{vacancy.applicationProcess}">
+                        <f:case value="Online URL Behörde">
+                            Auf dieses Angebot können Sie sich nur über die <a href="{vacancy.applicationUrl}" target="_blank">Bewerbungsseite</a> der ausschreibenden Behörde bewerben.
+                        </f:case>
+                        <f:case value="Online">
+                            Auf dieses Angebot können Sie sich <a href="https://www.interamt.de/koop/app/stelle?id={vacancy.interamtUid}" target="_blank">Online bewerben</a>, wenn Sie in INTERAMT angemeldet sind.
+                        </f:case>
+                        <f:case value="Per Post, keine E-Mail">Auf dieses Angebot können Sie sich nur per Brief bewerben. Die Behörde wünscht keine E-Mail Bewerbung.</f:case>
+                        <f:defaultCase>Auf dieses Stellenangebot können Sie sich nicht online über INTERAMT bewerben. Bitte verwenden Sie den im Stellenangebot angegebenen Bewerbungsweg.</f:defaultCase>
+                    </f:switch>
+                    <hr />
+                    <p class="text-end">
+                        <f:link.action action="list" pageUid="{settings.listPage}" class="btn btn-secondary" arguments="{sh:sh}">zurück zur Übersicht</f:link.action>
+                    </p>
                 </div>
                 <div class="col-md-4">
-                    Details
+                    <p><strong>Details</strong></p>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6 text-muted">INTERAMT Angebots-ID:</div>
+                        <div class="col-md-6">{vacancy.interamtUid}</div>
+                    </div>
+                    <f:if condition="{vacancy.identifier}">
+                        <div class="row">
+                            <div class="col-md-6 text-muted">Kennung für Bewerbung:</div>
+                            <div class="col-md-6">{vacancy.identifier}</div>
+                        </div>
+                    </f:if>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6 text-muted">Anzahl Stellen:</div>
+                        <div class="col-md-6">{vacancy.numberOfVacancies}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-muted">Stellenbezeichnung:</div>
+                        <div class="col-md-6" style="hyphens: auto">{vacancy.title}</div>
+                    </div>
+                    <f:if condition="{authority}">
+                        <div class="row">
+                            <div class="col-md-6 text-muted">Behörde:</div>
+                            <div class="col-md-6">{authority.title}</div>
+                        </div>
+                        <f:if condition="{authority.website}">
+                            <div class="row">
+                                <div class="col-md-6 text-muted">Homepage:</div>
+                                <div class="col-md-6"><f:link.typolink parameter="{authority.website}">externer Aufruf</f:link.typolink></div>
+                            </div>
+                        </f:if>
+                    </f:if>
+                    <f:if condition="{vacancy.locationStreet}">
+                        <div class="row">
+                            <div class="col-md-6 text-muted">Einsatzort Straße:</div>
+                            <div class="col-md-6">{vacancy.locationStreet}</div>
+                        </div>
+                    </f:if>
+                    <f:if condition="{vacancy.locationCity}">
+                        <div class="row">
+                            <div class="col-md-6 text-muted">Einsatzort:</div>
+                            <div class="col-md-6">
+                                <f:if condition="{vacancy.locationZip}">{vacancy.locationZip} </f:if>
+                                {vacancy.locationCity}
+                            </div>
+                        </div>
+                    </f:if>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6 text-muted">Dienstverhältnis:</div>
+                        <div class="col-md-6">{vacancy.contracts}</div>
+                    </div>
+                    <f:if condition="{vacancy.besoldung}">
+                        <div class="row">
+                            <div class="col-md-6 text-muted">Besoldung / Entgelt:</div>
+                            <div class="col-md-6">{vacancy.besoldung}</div>
+                        </div>
+                    </f:if>
+                    <f:if condition="{vacancy.limitedTo}">
+                        <div class="row">
+                            <div class="col-md-6 text-muted">Befristung (Monate):</div>
+                            <div class="col-md-6">{vacancy.limitedTo}</div>
+                        </div>
+                    </f:if>
+                    <f:if condition="{vacancy.workTime}">
+                        <div class="row">
+                            <div class="col-md-6 text-muted">Teilzeit / Vollzeit:</div>
+                            <div class="col-md-6">{vacancy.workTime}</div>
+                        </div>
+                    </f:if>
+                    <f:if condition="{vacancy.weeklyWorkingTimeCivilServant} || {vacancy.weeklyWorkingTimeEmployee}">
+                        <div class="row">
+                            <div class="col-md-6 text-muted">Wochenarbeitszeit:</div>
+                            <div class="col-md-6">
+                                <f:if condition="{vacancy.weeklyWorkingTimeCivilServant}">
+                                    <f:format.number decimals="1" decimalSeparator=",">{vacancy.weeklyWorkingTimeCivilServant}</f:format.number> h für Beamte
+                                    <f:if condition="{vacancy.weeklyWorkingTimeEmployee}"><br /></f:if>
+                                </f:if>
+                                <f:if condition="{vacancy.weeklyWorkingTimeEmployee}">
+                                    <f:format.number decimals="1" decimalSeparator=",">{vacancy.weeklyWorkingTimeEmployee}</f:format.number> h für Arbeitnehmer
+                                </f:if>
+                            </div>
+                        </div>
+                    </f:if>
+                    <hr />
+                    <f:if condition="{vacancy.subjectArea} || {vacancy.training}">
+                        <f:if condition="{vacancy.subjectArea}">
+                            <div class="row">
+                                <div class="col-md-6 text-muted">Beamten-Fachrichtung:</div>
+                                <div class="col-md-6">{vacancy.subjectArea}</div>
+                            </div>
+                        </f:if>
+                        <f:if condition="{vacancy.training}">
+                            <div class="row">
+                                <div class="col-md-6 text-muted">Ausbildung:</div>
+                                <div class="col-md-6">{vacancy.training}</div>
+                            </div>
+                            <f:if condition="{vacancy.limitedTo}">
+                                <div class="row">
+                                    <div class="col-md-6 text-muted">Ausbildungsdauer:</div>
+                                    <div class="col-md-6">{vacancy.limitedTo} Monate</div>
+                                </div>
+                            </f:if>
+                        </f:if>
+                        <f:if condition="{vacancy.qualification}">
+                            <div class="row">
+                                <div class="col-md-6 text-muted">Ausbildungsvoraussetzung:</div>
+                                <div class="col-md-6">{vacancy.qualification}</div>
+                            </div>
+                        </f:if>
+                        <hr />
+                    </f:if>
+                    <f:if condition="{vacancy.applicationDeadline}">
+                        <f:then>
+                            <div class="row">
+                                <div class="col-md-6 text-muted">Bewerbungsfrist:</div>
+                                <div class="col-md-6"><f:format.date format="d.m.Y">{vacancy.applicationDeadline}</f:format.date></div>
+                            </div>
+                        </f:then>
+                        <f:else>
+                            <div class="row">
+                                <div class="col-md-6 text-muted">Bewerbungsfrist:</div>
+                                <div class="col-md-6">baldmöglichst</div>
+                            </div>
+                        </f:else>
+
+                    </f:if>
+                    <f:if condition="{vacancy.occupationTo}">
+                        <div class="row">
+                            <div class="col-md-6 text-muted">Besetzung zum:</div>
+                            <div class="col-md-6">{vacancy.occupationTo}</div>
+                        </div>
+                    </f:if>
+                    <hr />
+                    <f:if condition="{contact}">
+                        <div class="row">
+                            <div class="col-md-6 text-muted">Ansprechpartner:</div>
+                            <div class="col-md-6">
+                                {contact.name}
+                                <f:if condition="{contact.company}">
+                                    <br />{contact.company}
+                                </f:if>
+                            </div>
+                        </div>
+                        <f:if condition="{contact.email}">
+                            <div class="row">
+                                <div class="col-md-6 text-muted">E-Mail:</div>
+                                <div class="col-md-6">
+                                    <a href="mailto:{contact.email}">{contact.email}</a>
+                                </div>
+                            </div>
+                        </f:if>
+                        <f:if condition="{contact.phone}">
+                            <div class="row">
+                                <div class="col-md-6 text-muted">Telefonnummer:</div>
+                                <div class="col-md-6">
+                                    <a href="tel:{contact.phone}">{contact.phone}</a>
+                                </div>
+                            </div>
+                        </f:if>
+                        <f:if condition="{contact.fax}">
+                            <div class="row">
+                                <div class="col-md-6 text-muted">Faxnummer:</div>
+                                <div class="col-md-6">{contact.fax}</div>
+                            </div>
+                        </f:if>
+                    </f:if>
+                    <hr />
+
+                    <p><strong>Aktionen</strong></p>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="https://www.interamt.de/koop/app/stelle?id={vacancy.interamtUid}" target="_blank">Anzeigen bei INTERAMT</a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <f:debug inline="true">{vacancy}</f:debug>
         </f:else>
     </f:if>
 

@@ -11,11 +11,11 @@ defined('TYPO3') || die();
         'InteramtConnect',
         'Connector',
         [
-            ConnectorController::class => 'list, show'
+            ConnectorController::class => 'list, show, search'
         ],
         // non-cacheable actions
         [
-            ConnectorController::class => 'list, show'
+            ConnectorController::class => 'list, show, search'
         ]
     );
 })();

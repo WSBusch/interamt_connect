@@ -5,23 +5,82 @@
     <f:flashMessages />
     <f:if condition="{vacancies}">
         <f:then>
-            <f:for each="{vacancies}" as="vacancy">
-                <div class="card card-body">
-                    <h4>{vacancy.title}</h4>
-                    <p>{vacancy.interamtUid}</p>
-                    <f:if condition="{settings.detailPageLink}">
-                        <f:then><f:link.action action="show" pageUid="{settings.detailPage}" arguments="{vacancy:vacancy.interamtUid}">Details</f:link.action></f:then>
-                        <f:else>
-                            <a href="https://interamt.de/koop/app/stelle?id={vacancy.interamtUid}" target="_blank">Details</a>
-                        </f:else>
-                    </f:if>
+            <f:asset.script identifier="TableSorter" src="EXT:interamt_connect/Resources/Public/JavaScript/tableSorter.js" />
+
+            <f:if condition="{settings.filter.enabled}">
+                <div class="row mb-4">
+                    <div class="col-md-9">
+                        <p class="text-muted">Aktive Filter:</p>
+                        <f:if condition="{activeFilters.free_text}">
+                            <div>Suchtext: {activeFilters.free_text}</div>
+                        </f:if>
+                        <f:if condition="{activeFilters.duration}">
+                            <div>Beschäftigungsdauer: {activeFilters.duration}</div>
+                        </f:if>
+                        <f:if condition="{activeFilters.workTime}">
+                            <div>Teilzeit/Vollzeit: {activeFilters.workTime}</div>
+                        </f:if>
+                        <f:if condition="{activeFilters.areas}">
+                            <div>Bereich: {activeFilters.areas}</div>
+                        </f:if>
+                        <f:if condition="{activeFilters.contracts}">
+                            <div>Dienstverhältnis: {activeFilters.contracts}</div>
+                        </f:if>
+                    </div>
+                    <div class="col-md-3 text-end">
+                        <f:link.action action="search" arguments="{sh:sh}">Suchkriterien ändern</f:link.action>
+                    </div>
                 </div>
-            </f:for>
+                <hr />
+            </f:if>
+
+            <p><strong>{vacancies -> f:count()} Angebote gefunden</strong></p>
+
+            <table class="table table-hover table-bordered sortable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Behörde</th>
+                    <th>Bezeichnung</th>
+                    <th>PLZ</th>
+                    <th>Ort</th>
+                    <th>Eingestellt</th>
+                    <th>Frist</th>
+                </tr>
+                </thead>
+                <tbody>
+                <f:for each="{vacancies}" as="vacancy">
+                    <tr>
+                        <td>
+                            <f:if condition="{settings.detailPageLink}">
+                                <f:then><f:link.action action="show" pageUid="{settings.detailPage}" arguments="{vacancy:vacancy.interamtUid,sh:sh}">{vacancy.interamtUid}</f:link.action></f:then>
+                                <f:else>
+                                    <a href="https://interamt.de/koop/app/stelle?id={vacancy.interamtUid}" target="_blank">{vacancy.interamtUid}</a>
+                                </f:else>
+                            </f:if>
+                        </td>
+                        <td>{vacancy.authorityObject.title}</td>
+                        <td>{vacancy.title}</td>
+                        <td>{vacancy.locationZip}</td>
+                        <td>{vacancy.locationCity}</td>
+                        <td><f:format.date format="d.m.Y">{vacancy.tenderDate}</f:format.date></td>
+                        <td>
+                            <f:if condition="{vacancy.applicationDeadline}">
+                                <f:then><f:format.date format="d.m.Y">{vacancy.applicationDeadline}</f:format.date></f:then>
+                                <f:else>baldmöglichst</f:else>
+                            </f:if>
+                        </td>
+                    </tr>
+                </f:for>
+                </tbody>
+            </table>
         </f:then>
         <f:else>
             <div class="alert alert-info">Es wurden keine Stellenausschreibungen gefunden!</div>
         </f:else>
     </f:if>
+
+    <f:debug>{_all}</f:debug>
 
 </f:section>
 </html>

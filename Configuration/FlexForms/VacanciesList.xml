@@ -127,45 +127,6 @@
 							</config>
 						</TCEforms>
 					</settings.detailPage>
-					<settings.paginate.itemsPerPage>
-						<TCEforms>
-							<label>Einträge pro Seite</label>
-							<description>0 = keine Paginierung</description>
-							<config>
-								<type>input</type>
-								<eval>trim,int</eval>
-								<default>20</default>
-								<size>5</size>
-							</config>
-						</TCEforms>
-					</settings.paginate.itemsPerPage>
-					<settings.paginate.maximumNumberOfLinks>
-						<TCEforms>
-							<label>Maximale Links zum Blättern</label>
-							<config>
-								<type>input</type>
-								<eval>trim,int</eval>
-								<default>10</default>
-								<size>5</size>
-							</config>
-						</TCEforms>
-					</settings.paginate.maximumNumberOfLinks>
-					<settings.paginate.insertAbove>
-						<TCEforms>
-							<label>Seitenregister oben anzeigen</label>
-							<config>
-								<type>check</type>
-							</config>
-						</TCEforms>
-					</settings.paginate.insertAbove>
-					<settings.paginate.insertBelow>
-						<TCEforms>
-							<label>Seitenregister unten anzeigen</label>
-							<config>
-								<type>check</type>
-							</config>
-						</TCEforms>
-					</settings.paginate.insertBelow>
 				</el>
 			</ROOT>
 		</s_ListView>

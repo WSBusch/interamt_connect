@@ -20,3 +20,12 @@ plugin.tx_interamtconnect_connector {
         #callDefaultActionIfActionCantBeResolved = 1
     }
 }
+
+config {
+    pageTitleProviders {
+        interamt {
+            provider = WSBusch\InteramtConnect\Provider\PageTitleProvider
+            before = record
+        }
+    }
+}

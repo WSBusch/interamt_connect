@@ -73,4 +73,51 @@ class VacancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         return $query->execute();
     }
+
+    public function expandVacancies($vacancies, array $authorities) {
+        $authList = $this->authoritiesToKeyArray($authorities);
+        foreach($vacancies as $vacancy) {
+            /** @var Vacancy $vacancy */
+            $authorityObject = $authList[$vacancy->getAuthority()];
+            $vacancy->setAuthorityObject($authorityObject);
+        }
+        return $vacancies;
+    }
+
+    public function buildContactPerson(Vacancy $vacancy): array {
+        $contact = [];
+        $name = '';
+        if($vacancy->getContactSalutaion() !== '') {
+            $name .= $vacancy->getContactSalutaion().' ';
+        }
+        if($vacancy->getContactFirstname() !== '') {
+            $name .= $vacancy->getContactFirstname().' ';
+        }
+        if($vacancy->getContactLastname() !== '') {
+            $name .= $vacancy->getContactLastname();
+        }
+        $contact['name'] = $name;
+        $contact['company'] = $vacancy->getContactAuthority();
+        $contact['email'] = $vacancy->getContactEmail();
+        $contact['phone'] = $vacancy->getContactPhone();
+        $contact['fax'] = $vacancy->getContactFax();
+        $contact['street'] = $vacancy->getContactStreet();
+        $contact['zip'] = $vacancy->getContactZip();
+        $contact['city'] = $vacancy->getContactCity();
+
+        return $contact;
+    }
+
+    /**
+     * @param array $authorities
+     * @return array
+     */
+    private function authoritiesToKeyArray(array $authorities): array {
+        $list = [];
+        foreach($authorities as $authority) {
+            $uid = $authority->getUid();
+            $list[$uid] = $authority;
+        }
+        return $list;
+    }
 }

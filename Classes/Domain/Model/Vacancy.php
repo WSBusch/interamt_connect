@@ -37,6 +37,11 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $authority = null;
 
     /**
+     * @var Authority|null
+     */
+    protected $authorityObject = null;
+
+    /**
      * identifier
      *
      * @var string
@@ -345,6 +350,11 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $contactEmail = null;
+
+    /**
+     * @var string
+     */
+    protected $besoldung = '';
 
     /**
      * Returns the interamtUid
@@ -1306,5 +1316,60 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setContactEmail(string $contactEmail)
     {
         $this->contactEmail = $contactEmail;
+    }
+
+    /**
+     * @return void
+     */
+    public function setBesoldung(): void
+    {
+        $besoldung = '';
+        $groupFrom = $this->getSalaryGroupFrom();
+        $groupTo = $this->getSalaryGroupTo();
+        $levelFrom = $this->getTariffLevelFrom();
+        $levelTo = $this->getTariffLevelTo();
+
+        if($groupFrom !== '') {
+            $besoldung .= $groupFrom;
+            if($groupTo !== '' && $groupTo !== $groupFrom) {
+                $besoldung .= ' - '.$groupTo;
+            }
+        }
+
+        if($levelFrom !== '') {
+            if($besoldung !== '') {
+                $besoldung .= ' / ';
+            }
+            $besoldung .= $levelFrom;
+            if($levelTo !== '' && $levelTo !== $levelFrom) {
+                $besoldung .= ' - '.$levelTo;
+            }
+        }
+
+        $this->besoldung = $besoldung;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBesoldung(): string
+    {
+        return $this->besoldung;
+    }
+
+    /**
+     * @return Authority|null
+     */
+    public function getAuthorityObject(): ?Authority
+    {
+        return $this->authorityObject;
+    }
+
+    /**
+     * @param Authority|null $authorityObject
+     * @return void
+     */
+    public function setAuthorityObject(?Authority $authorityObject): void {
+        $this->authorityObject = $authorityObject;
     }
 }

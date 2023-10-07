@@ -1,0 +1,80 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:layout name="Default" />
+<f:section name="content">
+
+    <f:flashMessages />
+    <h3>Detailsuche</h3>
+    <hr />
+    <div>
+        <f:form action="search">
+            <div class="col-md-8">
+                <f:if condition="{settings.filter.free_text}">
+                    <div class="row mb-3">
+                        <label for="free_text" class="col-md-3 col-form-label">Suchtext:</label>
+                        <div class="col-md-9">
+                            <f:form.textfield name="free_text" id="free_text" class="form-control" value="{sh.t}" />
+                        </div>
+                    </div>
+                </f:if>
+                <f:if condition="{settings.filter.contracts}">
+                    <div class="row mb-3">
+                        <label for="free_text" class="col-md-3 col-form-label">Dienstverhältnis:</label>
+                        <div class="col-md-9 mt-1">
+                            <f:for each="{searchContracts}" as="contract">
+                                <div class="form-check form-check-inline">
+                                    <f:form.checkbox class="form-check-input" name="contracts[]" id="c{contract.uid}" value="{contract.uid}" checked="{contract.selected}" />
+                                    <label class="form-check-label" for="c{contract.uid}">{contract.title}</label>
+                                </div>
+                            </f:for>
+                        </div>
+                    </div>
+                </f:if>
+                <f:if condition="{settings.filter.area}">
+                    <div class="row mb-3">
+                        <label for="free_text" class="col-md-3 col-form-label">Bereich:</label>
+                        <div class="col-md-9 mt-1 row">
+                            <f:for each="{searchArea}" as="area">
+                                <div class="col-md-6">
+                                    <div class="form-check form-check-inline">
+                                        <f:form.checkbox class="form-check-input" name="areas[]" id="a{area.uid}" value="{area.uid}" checked="{area.selected}" />
+                                        <label class="form-check-label" for="a{area.uid}">{area.title}</label>
+                                    </div>
+                                </div>
+                            </f:for>
+                        </div>
+                    </div>
+                </f:if>
+                <f:if condition="{settings.filter.employment_duration}">
+                    <div class="row mb-3">
+                        <label for="free_text" class="col-md-3 col-form-label">Beschäftigungsdauer:</label>
+                        <div class="col-md-9 mt-1">
+                            <f:for each="{searchDuration}" as="duration">
+                                <div class="form-check form-check-inline">
+                                    <f:form.radio class="form-check-input" name="duration" id="d{duration.uid}" value="{duration.uid}" checked="{duration.selected}" />
+                                    <label class="form-check-label" for="d{duration.uid}">{duration.title}</label>
+                                </div>
+                            </f:for>
+                        </div>
+                    </div>
+                </f:if>
+                <f:if condition="{settings.filter.work_time}">
+                    <div class="row mb-3">
+                        <label for="free_text" class="col-md-3 col-form-label">Teilzeit/Vollzeit:</label>
+                        <div class="col-md-9 mt-1">
+                            <f:for each="{searchWorkTime}" as="workTime">
+                                <div class="form-check form-check-inline">
+                                    <f:form.radio class="form-check-input" name="workTime" id="w{workTime.uid}" value="{workTime.uid}" checked="{workTime.selected}" />
+                                    <label class="form-check-label" for="w{workTime.uid}">{workTime.title}</label>
+                                </div>
+                            </f:for>
+                        </div>
+                    </div>
+                </f:if>
+
+                <p class="text-end"><f:form.button name="start" value="true" class="btn btn-primary">Suche starten</f:form.button></p>
+            </div>
+        </f:form>
+    </div>
+
+</f:section>
+</html>

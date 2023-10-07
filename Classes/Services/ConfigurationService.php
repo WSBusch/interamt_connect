@@ -27,10 +27,16 @@ class ConfigurationService
             $newSettings['authorities'] = null;
         }
 
-        $newSettings['paginate']['itemsPerPage'] = (int) $settings['paginate']['itemsPerPage'];
-        $newSettings['paginate']['maximumNumberOfLinks'] = (int) $settings['paginate']['maximumNumberOfLinks'];
-        $newSettings['paginate']['insertAbove'] = (bool) (int) $settings['paginate']['insertAbove'];
-        $newSettings['paginate']['insertBelow'] = (bool) (int) $settings['paginate']['insertBelow'];
+        if(array_key_exists('filter', $settings)) {
+            $newSettings['filter'] = [
+                'enabled' => (bool) (int) $settings['filter']['enabled'],
+                'free_text' => (bool) (int) $settings['filter']['free_text'],
+                'area' => (bool) (int) $settings['filter']['area'],
+                'contracts' => (bool) (int) $settings['filter']['contracts'],
+                'employment_duration' => (bool) (int) $settings['filter']['employment_duration'],
+                'work_time' => (bool) (int) $settings['filter']['work_time']
+            ];
+        }
 
         $extConf = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['interamt_connect'];
         $newSettings['extension'] = [

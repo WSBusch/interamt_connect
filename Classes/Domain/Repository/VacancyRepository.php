@@ -32,7 +32,6 @@ class VacancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     public function findAllByDemand(array $demand=[]) {
-        DebuggerUtility::var_dump($demand, 'demand');
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
 
@@ -67,7 +66,70 @@ class VacancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
 
         if($demand['filter']) {
-            /** @todo Filter muss noch gebaut werden */
+            $filter = $demand['filter'];
+            if($filter['free_text']) {
+                if(is_array($filter['free_text']) && \count($filter['free_text']) > 0) {
+                    $searchConstraints = [];
+                    $searchFields = ['title','location_street','description','tariff_level_from','tariff_level_to'];
+                    foreach($filter['free_text'] as $searchString) {
+                        $stringConstraints = [];
+                        foreach($searchFields as $searchField) {
+                            $stringConstraints[] = $query->like($searchField, '%'.$searchString.'%');
+                        }
+                        $searchConstraints[] = $query->logicalOr(...$stringConstraints);
+                    }
+                    $constraints[] = $query->logicalAnd(...$searchConstraints);
+                }
+            }
+
+            if($filter['contracts']) {
+                if(is_array($filter['contracts']) && \count($filter['contracts']) > 0) {
+                    $contractsConstraints = [];
+                    foreach($filter['contracts'] as $contract) {
+                        $contractValue = $contract[0];
+                        $contractsConstraints[] = $query->like('contracts', '%'.$contractValue.'%');
+                    }
+                    if(\count($contractsConstraints) === 1) {
+                        $constraints[] = reset($contractsConstraints);
+                    } else {
+                        $constraints[] = $query->logicalOr(...$contractsConstraints);
+                    }
+                }
+            }
+
+            if($filter['areas']) {
+                if(is_array($filter['areas']) && \count($filter['areas']) > 0) {
+                    $areaConstraints = [];
+                    foreach($filter['areas'] as $area) {
+                        $areaValue = $area[0];
+                        $areaConstraints[] = $query->like('responsibilities', '%'.$areaValue.'%');
+                    }
+                    if(\count($areaConstraints) === 1) {
+                        $constraints[] = reset($areaConstraints);
+                    } else {
+                        $constraints[] = $query->logicalOr(...$areaConstraints);
+                    }
+                }
+            }
+
+            if($filter['duration']) {
+                $durationValue = $filter['duration'][0];
+                if($durationValue !== '') {
+                    $constraints[] = $query->equals('duration_of_employment', $durationValue);
+                }
+            }
+
+            if($filter['workTime']) {
+                $workTimeValue = $filter['workTime'][0];
+                if($workTimeValue !== '') {
+                    if($filter['workTime'][1] !== 3) {
+                        $wtConstraints = [];
+                        $wtConstraints[] = $query->equals('work_time', $workTimeValue);
+                        $wtConstraints[] = $query->equals('work_time', 'beides möglich');
+                        $constraints[] = $query->logicalOr(...$wtConstraints);
+                    }
+                }
+            }
         }
         $query->matching($query->logicalAnd(...$constraints));
 

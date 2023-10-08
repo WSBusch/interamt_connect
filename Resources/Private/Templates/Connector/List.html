@@ -3,39 +3,12 @@
 <f:section name="content">
 
     <f:flashMessages />
+    <f:render section="activeFilters" arguments="{_all}" />
+
     <f:if condition="{vacancies}">
         <f:then>
             <f:asset.script identifier="TableSorter" src="EXT:interamt_connect/Resources/Public/JavaScript/tableSorter.js" />
-
-            <f:if condition="{settings.filter.enabled}">
-                <div class="row mb-4">
-                    <div class="col-md-9">
-                        <p class="text-muted">Aktive Filter:</p>
-                        <f:if condition="{activeFilters.free_text}">
-                            <div>Suchtext: {activeFilters.free_text}</div>
-                        </f:if>
-                        <f:if condition="{activeFilters.duration}">
-                            <div>Beschäftigungsdauer: {activeFilters.duration}</div>
-                        </f:if>
-                        <f:if condition="{activeFilters.workTime}">
-                            <div>Teilzeit/Vollzeit: {activeFilters.workTime}</div>
-                        </f:if>
-                        <f:if condition="{activeFilters.areas}">
-                            <div>Bereich: {activeFilters.areas}</div>
-                        </f:if>
-                        <f:if condition="{activeFilters.contracts}">
-                            <div>Dienstverhältnis: {activeFilters.contracts}</div>
-                        </f:if>
-                    </div>
-                    <div class="col-md-3 text-end">
-                        <f:link.action action="search" arguments="{sh:sh}">Suchkriterien ändern</f:link.action>
-                    </div>
-                </div>
-                <hr />
-            </f:if>
-
             <p><strong>{vacancies -> f:count()} Angebote gefunden</strong></p>
-
             <table class="table table-hover table-bordered sortable">
                 <thead>
                 <tr>
@@ -44,6 +17,7 @@
                     <th>Bezeichnung</th>
                     <th>PLZ</th>
                     <th>Ort</th>
+                    <th>Teil-/Vollzeit</th>
                     <th>Eingestellt</th>
                     <th>Frist</th>
                 </tr>
@@ -60,9 +34,10 @@
                             </f:if>
                         </td>
                         <td>{vacancy.authorityObject.title}</td>
-                        <td>{vacancy.title}</td>
+                        <td style="hyphens: auto;">{vacancy.title}</td>
                         <td>{vacancy.locationZip}</td>
                         <td>{vacancy.locationCity}</td>
+                        <td>{vacancy.workTime}</td>
                         <td><f:format.date format="d.m.Y">{vacancy.tenderDate}</f:format.date></td>
                         <td>
                             <f:if condition="{vacancy.applicationDeadline}">
@@ -80,7 +55,34 @@
         </f:else>
     </f:if>
 
-    <f:debug>{_all}</f:debug>
+</f:section>
 
+<f:section name="activeFilters">
+    <f:if condition="{settings.filter.enabled}">
+        <div class="row mb-4">
+            <div class="col-md-9">
+                <p class="text-muted">Aktive Filter:</p>
+                <f:if condition="{activeFilters.free_text}">
+                    <div>Suchtext: {activeFilters.free_text}</div>
+                </f:if>
+                <f:if condition="{activeFilters.duration}">
+                    <div>Beschäftigungsdauer: {activeFilters.duration}</div>
+                </f:if>
+                <f:if condition="{activeFilters.workTime}">
+                    <div>Teilzeit/Vollzeit: {activeFilters.workTime}</div>
+                </f:if>
+                <f:if condition="{activeFilters.areas}">
+                    <div>Bereich: {activeFilters.areas}</div>
+                </f:if>
+                <f:if condition="{activeFilters.contracts}">
+                    <div>Dienstverhältnis: {activeFilters.contracts}</div>
+                </f:if>
+            </div>
+            <div class="col-md-3 text-end">
+                <f:link.action action="search" arguments="{sh:sh}">Suchkriterien ändern</f:link.action>
+            </div>
+        </div>
+        <hr />
+    </f:if>
 </f:section>
 </html>

@@ -6,6 +6,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -69,6 +71,9 @@ class FallbackCommand extends Command
                         $demand['authority'] = $authorityInteramtUid;
                         $demand['usePagination'] = false;
                         $vacancies = $connectorService->collectVacanciesListByDemand($this->settings, $demand);
+
+                        $this->removeDeleted($authorityUid);
+
                         if(\count($vacancies) > 0) {
                             foreach($vacancies as $vacancyInput) {
                                 $existingRecord = $this->vacancyRepository->findByInteramtUid((int) $vacancyInput['Id']);
@@ -210,5 +215,26 @@ class FallbackCommand extends Command
             ];
         }
         return $items;
+    }
+
+    private function removeDeleted($authority=0) {
+        $table = 'tx_interamtconnect_domain_model_vacancy';
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $queryBuilder = $connectionPool->getQueryBuilderForTable($table);
+        if($authority > 0) {
+            $queryBuilder
+                ->delete($table)
+                ->where(
+                    $queryBuilder->expr()->eq('deleted',1),
+                    $queryBuilder->expr()->eq('authority', $authority)
+                );
+        } else {
+            $queryBuilder
+                ->delete($table)
+                ->where(
+                    $queryBuilder->expr()->eq('deleted',1)
+                );
+        }
+        $queryBuilder->execute();
     }
 }

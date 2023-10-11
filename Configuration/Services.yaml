@@ -4,6 +4,9 @@ services:
     autoconfigure: true
     public: false
 
+  WSBusch\InteramtConnect\Provider\PageTitleProvider:
+    public: true
+
   WSBusch\InteramtConnect\:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'

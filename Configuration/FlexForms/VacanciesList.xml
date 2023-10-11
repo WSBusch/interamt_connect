@@ -34,7 +34,7 @@
 							<items>
 								<numIndex index="0">
 									<numIndex index="label">Live-Daten (API) verwenden</numIndex>
-									<numIndex index="value">on-fly</numIndex>
+									<numIndex index="value">onFly</numIndex>
 								</numIndex>
 								<numIndex index="1">
 									<numIndex index="label">Aus Fallback verwenden</numIndex>

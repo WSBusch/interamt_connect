@@ -17,7 +17,6 @@
                     <th>Bezeichnung</th>
                     <th>PLZ</th>
                     <th>Ort</th>
-                    <th>Teil-/Vollzeit</th>
                     <th>Eingestellt</th>
                     <th>Frist</th>
                 </tr>
@@ -27,7 +26,7 @@
                     <tr>
                         <td>
                             <f:if condition="{settings.detailPageLink}">
-                                <f:then><f:link.action action="show" pageUid="{settings.detailPage}" arguments="{vacancy:vacancy.interamtUid,sh:sh}">{vacancy.interamtUid}</f:link.action></f:then>
+                                <f:then><f:link.action action="show" pageUid="{settings.detailPage}" arguments="{vacancy:vacancy.detailLinkParam,sh:sh}">{vacancy.interamtUid}</f:link.action></f:then>
                                 <f:else>
                                     <a href="https://interamt.de/koop/app/stelle?id={vacancy.interamtUid}" target="_blank">{vacancy.interamtUid}</a>
                                 </f:else>
@@ -37,7 +36,6 @@
                         <td style="hyphens: auto;">{vacancy.title}</td>
                         <td>{vacancy.locationZip}</td>
                         <td>{vacancy.locationCity}</td>
-                        <td>{vacancy.workTime}</td>
                         <td><f:format.date format="d.m.Y">{vacancy.tenderDate}</f:format.date></td>
                         <td>
                             <f:if condition="{vacancy.applicationDeadline}">

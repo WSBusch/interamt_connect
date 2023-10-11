@@ -47,18 +47,22 @@ class ConnectorService
         return true;
     }
 
-    public function collectVacanciesListByDemand(array $connector=[], array $demand=[]): array {
+    public function collectVacanciesListByDemand(array $connector=[], array $demand=[], bool $all=false, string
+$subPage=''): array {
         $jobs = [];
         $parameters = [];
         $parameters['partner'] = $demand['authority'];
         if($demand['usePagination']) {
             /** @todo Pagination */
         }
-        $response = $this->callService($connector, $parameters);
-        if(array_key_exists('Stellenangebote', $response)) {
-            $jobs = $response['Stellenangebote'];
+        $response = $this->callService($connector, $parameters, $subPage);
+        if(!$all) {
+            if(array_key_exists('Stellenangebote', $response)) {
+                $jobs = $response['Stellenangebote'];
+            }
+            return $jobs;
         }
-        return $jobs;
+        return $response;
     }
 
     public function collectVacancyByUid(array $connector=[], int $vacancyUid=0): array {
@@ -72,8 +76,11 @@ class ConnectorService
         return $data;
     }
 
-    private function callService(array $connector, array $parameters=[]): array {
+    private function callService(array $connector, array $parameters=[], string $subPage=''): array {
         $url = $connector['connectorUrl'].$connector['connectorService'];
+        if($subPage) {
+            $url .= '/'.$subPage;
+        }
         $param = [];
         foreach($parameters as $key => $value) {
             $param[] = $key.'='.urlencode($value);
@@ -89,6 +96,7 @@ class ConnectorService
             CURLOPT_AUTOREFERER    => true,       // set referer on redirect
             CURLOPT_SSL_VERIFYPEER => false,     // SSL verification not required
             CURLOPT_SSL_VERIFYHOST => false,     // SSL verification not required
+            CURLOPT_TIMEOUT_MS     => 5000       // Timeout after 5 seconds
         ];
         $ch = curl_init($url);
         curl_setopt_array($ch, $options);

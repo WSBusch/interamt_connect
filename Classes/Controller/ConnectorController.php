@@ -8,6 +8,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use WSBusch\InteramtConnect\Domain\Model\Authority;
 use WSBusch\InteramtConnect\Domain\Model\Vacancy;
 use WSBusch\InteramtConnect\Domain\Repository\AuthorityRepository;
 use WSBusch\InteramtConnect\Domain\Repository\VacancyRepository;
@@ -137,8 +138,43 @@ class ConnectorController extends ActionController
         $vacancies = [];
         if(\count($this->settings['authorities']) > 0) {
             $connectorService = GeneralUtility::makeInstance(ConnectorService::class);
-            if($this->settings['behaviour'] === 'on-fly' && $connectorService->serviceIsOnline($this->settings['extension'])) {
+            if($this->settings['behaviour'] === 'onFly' && $connectorService->serviceIsOnline($this->settings['extension'])) {
                 /* get dataset live from api */
+                foreach($this->settings['authorities'] as $odAuthority) {
+                    /** @var Authority $odAuthority */
+                    $onDemand = [];
+                    $onDemand['authority'] = $odAuthority->getinteramtUid();
+                    $onDemand['usePagination'] = false;
+                    $odVacancies = $connectorService->collectVacanciesListByDemand($this->settings['extension'],
+                        $onDemand);
+                    if($odVacancies) {
+                        foreach($odVacancies as $odVacancy) {
+                            /** @var Vacancy $newVacancy */
+                            $newVacancy = GeneralUtility::makeInstance(Vacancy::class);
+                            $newVacancy->setInteramtUid($odVacancy['Id']);
+                            $newVacancy->setTitle($odVacancy['StellenBezeichnung']);
+                            $newVacancy->setAuthority($odAuthority->getUid());
+                            $newVacancy->setAuthorityObject($odAuthority);
+                            $newVacancy->setLocationZip($odVacancy['Plz']);
+                            $newVacancy->setLocationCity($odVacancy['Ort']);
+                            $newVacancy->setDetailLinkParam($odVacancy['Id'].'-'.$odAuthority->getUid());
+
+                            if($odVacancy['Daten']['Eingestellt'] !== '') {
+                                $tenderDate = new \DateTime('now', new \DateTimeZone('Europe/Berlin'));
+                                $tenderDate->setTimestamp(strtotime($odVacancy['Daten']['Eingestellt']));
+                                $newVacancy->setTenderDate($tenderDate);
+                            }
+                            if($odVacancy['Daten']['Bewerbungsfrist'] !== '') {
+                                if((int) $odVacancy['Daten']['Bewerbungsfrist'] >= 1) {
+                                    $deadline = new \DateTime('now', new \DateTimeZone('Europe/Berlin'));
+                                    $deadline->setTimestamp(strtotime($odVacancy['Daten']['Bewerbungsfrist']));
+                                    $newVacancy->setApplicationDeadline($deadline);
+                                }
+                            }
+                            $vacancies[] = $newVacancy;
+                        }
+                    }
+                }
             } else {
                 /* get dataset from fallback */
                 $vacancies = $this->vacancyRepository->findAllByDemand($demand);
@@ -163,11 +199,14 @@ class ConnectorController extends ActionController
             $this->view->assign('no_data', true);
         } else {
             $connectorService = GeneralUtility::makeInstance(ConnectorService::class);
-            if($this->settings['behaviour'] === 'on-fly' && $connectorService->serviceIsOnline($this->settings['extension'])) {
+            if($this->settings['behaviour'] === 'onFly' && $connectorService->serviceIsOnline($this->settings['extension'])) {
                 /* get dataset live from api */
-                $vacancy = null;
-                $authority = null;
-                $contact = null;
+                $detailParam = GeneralUtility::intExplode('-', $vacancyUid, true);
+                $authority = $this->authorityRepository->findByUid($detailParam[1]);
+                $vacancyInput = $connectorService->collectVacancyByUid($this->settings['extension'],$detailParam[0]);
+                $vacancy = $this->vacancyRepository->buildVacancyModelFromConnector($vacancyInput, $authority,
+                    $this->settings);
+                $contact = $this->vacancyRepository->buildContactPerson($vacancy);
             } else {
                 /* get dataset from fallback */
                 $vacancy = $this->vacancyRepository->findByInteramtUid($vacancyUid);

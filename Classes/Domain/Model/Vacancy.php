@@ -357,6 +357,11 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $besoldung = '';
 
     /**
+     * @var string
+     */
+    protected $detailLinkParam = '';
+
+    /**
      * Returns the interamtUid
      *
      * @return int
@@ -1371,5 +1376,20 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setAuthorityObject(?Authority $authorityObject): void {
         $this->authorityObject = $authorityObject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDetailLinkParam(): string {
+        return $this->detailLinkParam;
+    }
+
+    /**
+     * @param string $detailLinkParam
+     * @return void
+     */
+    public function setDetailLinkParam(string $detailLinkParam): void {
+        $this->detailLinkParam = $detailLinkParam;
     }
 }

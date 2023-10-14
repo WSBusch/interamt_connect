@@ -55,6 +55,10 @@ $subPage=''): array {
         if($demand['usePagination']) {
             /** @todo Pagination */
         }
+
+        DebuggerUtility::var_dump($demand);
+        DebuggerUtility::var_dump($parameters);
+
         $response = $this->callService($connector, $parameters, $subPage);
         if(!$all) {
             if(array_key_exists('Stellenangebote', $response)) {

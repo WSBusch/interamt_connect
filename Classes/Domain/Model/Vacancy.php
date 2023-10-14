@@ -360,6 +360,10 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $detailLinkParam = '';
+    /**
+     * @var string
+     */
+    protected $importHash = '';
 
     /**
      * Returns the interamtUid
@@ -1391,5 +1395,20 @@ class Vacancy extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     public function setDetailLinkParam(string $detailLinkParam): void {
         $this->detailLinkParam = $detailLinkParam;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImportHash(): string {
+        return $this->importHash;
+    }
+
+    /**
+     * @param string $importHash
+     * @return void
+     */
+    public function setImportHash(string $importHash): void {
+        $this->importHash = $importHash;
     }
 }

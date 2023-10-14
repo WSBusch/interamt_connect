@@ -16,7 +16,7 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'searchFields' => 'identifier,title,location_street,location_zip,location_city,description,latitude,longitude,contracts,careers,salary_group_from,salary_group_to,tariff_level_from,tariff_level_to,qualification,training,responsibilities,subject_area,work_time,weekly_working_time_civil_servant,weekly_working_time_employee,duration_of_employment,limited_to,occupation_to,application_process,application_url,required_studies,attachments,contact_lastname,contact_firstname,contact_salutaion,contact_street,contact_zip,contact_city,contact_authority,contact_phone,contact_mobile,contact_fax,contact_email',
+        'searchFields' => 'identifier,title,location_street,location_zip,location_city,description,latitude,longitude,contracts,careers,salary_group_from,salary_group_to,tariff_level_from,tariff_level_to,qualification,training,responsibilities,subject_area,work_time,weekly_working_time_civil_servant,weekly_working_time_employee,duration_of_employment,limited_to,occupation_to,application_process,application_url,required_studies,attachments,contact_lastname,contact_firstname,contact_salutaion,contact_street,contact_zip,contact_city,contact_authority,contact_phone,contact_mobile,contact_fax,contact_email,import_hash',
         'iconfile' => 'EXT:interamt_connect/Resources/Public/Icons/tx_interamtconnect_domain_model_vacancy.gif'
     ],
     'types' => [
@@ -565,6 +565,15 @@ return [
                 'default' => ''
             ]
         ],
-    
+        'import_hash' => [
+            'exclude' => true,
+            'label' => 'Import-Hash',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'default' => '',
+                'readOnly' => true
+            ]
+        ],
     ],
 ];

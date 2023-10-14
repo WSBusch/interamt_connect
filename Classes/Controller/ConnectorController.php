@@ -145,6 +145,7 @@ class ConnectorController extends ActionController
                     $onDemand = [];
                     $onDemand['authority'] = $odAuthority->getinteramtUid();
                     $onDemand['usePagination'] = false;
+                    $onDemand['filter'] = $demand['filter'];
                     $odVacancies = $connectorService->collectVacanciesListByDemand($this->settings['extension'],
                         $onDemand);
                     if($odVacancies) {

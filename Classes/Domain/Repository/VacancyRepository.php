@@ -29,6 +29,13 @@ class VacancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         return $query->execute()->getFirst();
     }
 
+    public function findAllWithDifferentImportHash($importHash) {
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
+        $query->matching($query->logicalNot($query->equals('import_hash', $importHash)));
+        return $query->execute();
+    }
+
     public function findAllByDemand(array $demand=[]) {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);

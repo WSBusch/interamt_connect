@@ -11,9 +11,13 @@ $pluginPi1Signature = ExtensionUtility::registerPlugin(
     'Interamt Connector'
 );
 
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginPi1Signature] = 'pi_flexform';
+$contentTypeName = 'list';
+$GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['subtypes_addlist'][$pluginPi1Signature] = 'pi_flexform';
 ExtensionManagementUtility::addPiFlexFormValue(
     $pluginPi1Signature,
-    'FILE:EXT:interamt_connect/Configuration/FlexForms/VacanciesList.xml'
+    'FILE:EXT:interamt_connect/Configuration/FlexForms/VacanciesList.xml',
+    $contentTypeName
 );
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginPi1Signature] = 'recursive,select_key,pages';
+$GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['subtypes_excludelist'][$pluginPi1Signature] = 'recursive,select_key,pages';
+
+$GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['previewRenderer'] = \WSBusch\InteramtConnect\Hooks\PluginPreviewRenderer::class;

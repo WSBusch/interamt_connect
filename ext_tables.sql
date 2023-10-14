@@ -52,5 +52,6 @@ CREATE TABLE tx_interamtconnect_domain_model_vacancy (
 	contact_phone varchar(255) NOT NULL DEFAULT '',
 	contact_mobile varchar(255) NOT NULL DEFAULT '',
 	contact_fax varchar(255) NOT NULL DEFAULT '',
-	contact_email varchar(255) NOT NULL DEFAULT ''
+	contact_email varchar(255) NOT NULL DEFAULT '',
+	import_hash varchar(50) NOT NULL DEFAULT ''
 );

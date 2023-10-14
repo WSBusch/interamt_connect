@@ -18,8 +18,4 @@ defined('TYPO3') || die();
             ConnectorController::class => 'list, show, search'
         ]
     );
-
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['interamtconnect'] = \WSBusch\InteramtConnect\Hooks\PageLayoutViewDrawItem::class;
-
-
 })();

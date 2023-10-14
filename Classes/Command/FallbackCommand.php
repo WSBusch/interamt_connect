@@ -63,6 +63,7 @@ class FallbackCommand extends Command
                 $connectorService = GeneralUtility::makeInstance(ConnectorService::class);
                 $persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
                 if($connectorService->serviceIsOnline($this->settings)) {
+                    $todaysImportHash = bin2hex(random_bytes(15));
                     foreach($authorities as $authority) {
                         $authorityUid = $authority['uid'];
                         $authorityInteramtUid = $authority['interamt_uid'];
@@ -180,11 +181,21 @@ class FallbackCommand extends Command
                                     }
                                     $vacancy->setRequiredStudies($studies);
                                     $vacancy->setAttachments($attachments);
+                                    $vacancy->setImportHash($todaysImportHash);
                                     $this->vacancyRepository->add($vacancy);
                                 }
                             }
                             $persistenceManager->persistAll();
                         }
+                    }
+
+                    // remove all vacancies with different import-hash
+                    $vacanciesToRemove = $this->vacancyRepository->findAllWithDifferentImportHash($todaysImportHash);
+                    if($vacanciesToRemove) {
+                        foreach($vacanciesToRemove as $vacancyToRemove) {
+                            $this->vacancyRepository->remove($vacancyToRemove);
+                        }
+                        $persistenceManager->persistAll();
                     }
                 }
             }

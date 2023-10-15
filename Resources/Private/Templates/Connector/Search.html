@@ -22,7 +22,7 @@
                         <div class="col-md-9 mt-1">
                             <f:for each="{searchContracts}" as="contract">
                                 <div class="form-check form-check-inline">
-                                    <f:form.checkbox class="form-check-input" name="contracts[]" id="c{contract.uid}" value="{contract.uid}" checked="{contract.selected}" />
+                                    <f:form.radio class="form-check-input" name="contracts" id="c{contract.uid}" value="{contract.uid}" checked="{contract.selected}" />
                                     <label class="form-check-label" for="c{contract.uid}">{contract.title}</label>
                                 </div>
                             </f:for>

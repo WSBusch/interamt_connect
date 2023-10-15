@@ -55,3 +55,9 @@ CREATE TABLE tx_interamtconnect_domain_model_vacancy (
 	contact_email varchar(255) NOT NULL DEFAULT '',
 	import_hash varchar(50) NOT NULL DEFAULT ''
 );
+
+CREATE TABLE tx_interamtconnect_domain_model_searches (
+    search_text text NOT NULL DEFAULT '',
+    search_identifier varchar(50) NOT NULL DEFAULT '',
+    search_date datetime DEFAULT NULL
+);

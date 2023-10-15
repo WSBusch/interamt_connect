@@ -47,8 +47,7 @@ class ConnectorService
         return true;
     }
 
-    public function collectVacanciesListByDemand(array $connector=[], array $demand=[], bool $all=false, string
-$subPage=''): array {
+    public function collectVacanciesListByDemand(array $connector=[], array $demand=[], bool $all=false, string $subPage=''): array {
         $jobs = [];
         $parameters = [];
         $parameters['partner'] = $demand['authority'];
@@ -56,8 +55,31 @@ $subPage=''): array {
             /** @todo Pagination */
         }
 
-        DebuggerUtility::var_dump($demand);
-        DebuggerUtility::var_dump($parameters);
+        if(isset($demand['filter']) && \count($demand['filter']) > 0) {
+            if(isset($demand['filter']['free_text']) && trim($demand['filter']['free_text'][0]) !== '') {
+                $parameters['suchtext'] = urlencode(implode(' ',$demand['filter']['free_text']));
+            }
+
+            if(isset($demand['filter']['workTime']) && \count($demand['filter']['workTime']) === 2) {
+                $parameters['teilzeit'] = (int) $demand['filter']['workTime'][1];
+            }
+
+            if(isset($demand['filter']['duration']) && \count($demand['filter']['duration']) === 2) {
+                $parameters['beschaeftigungsdauer'] = (int) $demand['filter']['duration'][1];
+            }
+
+            if(isset($demand['filter']['contracts']) && \count($demand['filter']['contracts']) === 2) {
+                $parameters['dienstverhaeltnisse'] = (int) $demand['filter']['contracts'][1];
+            }
+
+            if(isset($demand['filter']['areas']) && \count($demand['filter']['areas']) > 0) {
+                $areaList = [];
+                foreach($demand['filter']['areas'] as $area) {
+                    $areaList[] = (int) $area[1];
+                }
+                $parameters['fachrichtungcluster'] = implode(',', $areaList);
+            }
+        }
 
         $response = $this->callService($connector, $parameters, $subPage);
         if(!$all) {

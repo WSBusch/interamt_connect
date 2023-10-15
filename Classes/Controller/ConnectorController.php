@@ -11,6 +11,7 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use WSBusch\InteramtConnect\Domain\Model\Authority;
 use WSBusch\InteramtConnect\Domain\Model\Vacancy;
 use WSBusch\InteramtConnect\Domain\Repository\AuthorityRepository;
+use WSBusch\InteramtConnect\Domain\Repository\SearchesRepository;
 use WSBusch\InteramtConnect\Domain\Repository\VacancyRepository;
 use WSBusch\InteramtConnect\Helper\SearchHelper;
 use WSBusch\InteramtConnect\Provider\PageTitleProvider;
@@ -45,6 +46,11 @@ class ConnectorController extends ActionController
     protected $authorityRepository = null;
 
     /**
+     * @var SearchesRepository
+     */
+    protected $searchesRepository = null;
+
+    /**
      * @var array
      */
     protected $settings = [];
@@ -71,6 +77,8 @@ class ConnectorController extends ActionController
      */
     protected array $searchHash = [];
 
+    protected int $searchIdentifier = 0;
+
     public function __construct(
         private readonly PageTitleProvider $titleProvider
     ) {}
@@ -87,6 +95,10 @@ class ConnectorController extends ActionController
         $this->authorityRepository = $authorityRepository;
     }
 
+    public function injectSearchesRepository(SearchesRepository $searchesRepository) {
+        $this->searchesRepository = $searchesRepository;
+    }
+
     public function initializeAction()
     {
         $this->settings = ConfigurationService::parseSettings($this->settings);
@@ -94,10 +106,20 @@ class ConnectorController extends ActionController
         if($this->settings['filter']['enabled']) {
             $filter = $this->settings['filter'];
             if($this->request->hasArgument('sh')) {
-                $this->searchHash = json_decode(hex2bin($this->request->getArgument('sh')), true);
+                $this->searchIdentifier = (int) $this->request->getArgument('sh');
+                $this->searchHash = [];
+                if($this->searchIdentifier > 0) {
+                    $currentSearch = $this->searchesRepository->findBySearchIdentifier($this->searchIdentifier);
+                    DebuggerUtility::var_dump($currentSearch);
+                    if (!empty($currentSearch)) {
+                        $this->searchHash = json_decode($currentSearch[0]->getSearchText());
+                    } else {
+                        $this->searchHash = [];
+                    }
+                }
             }
             if($filter['contracts']) {
-                $this->searchContracts = SearchHelper::collectContracts($this->searchHash['c'] ?? [], $this->settings);
+                $this->searchContracts = SearchHelper::collectContracts($this->searchHash['c'] ?? 0, $this->settings);
             }
             if($filter['employment_duration']) {
                 $this->searchDuration = SearchHelper::collectEmploymentDuration($this->searchHash['d'] ?? 0,
@@ -184,7 +206,7 @@ class ConnectorController extends ActionController
         }
 
         $this->view->assign('vacancies', $vacancies);
-        $this->view->assign('sh', bin2hex(json_encode($this->searchHash)));
+        $this->view->assign('sh', $this->searchIdentifier);
         $this->view->assign('sHash', $this->searchHash);
         $this->view->assign('activeFilters', $activeFilters);
         return $this->htmlResponse();
@@ -266,13 +288,24 @@ class ConnectorController extends ActionController
             }
 
             if(array_key_exists('contracts', $params)) {
-                $searchHash['c'] = (!is_array($params['contracts']) ? [] : $params['contracts']);
-                $this->setCheckboxFieldValue('contract', $searchHash['c']);
+                $contractUid = (int) $params['contracts'];
+                $searchHash['c'] = $contractUid;
+                $this->setRadioFieldValue('contracts', $contractUid);
             } else {
-                $searchHash['c'] = [];
+                $searchHash['c'] = 0;
             }
 
-            $listUri = $this->uriBuilder->uriFor('list', ['sh' => bin2hex(json_encode($searchHash))]);
+            // Write search to database and get identifier
+            $lastEntry = $this->searchesRepository->findLastFromToday();
+            if($lastEntry) {
+                $searchIdentifier = (int) $lastEntry['search_identifier'];
+                $doUpdate = true;
+            } else {
+                $searchIdentifier = 1;
+                $doUpdate = false;
+            }
+            $this->searchesRepository->writeNewSearch(json_encode($searchHash), $searchIdentifier, $doUpdate);
+            $listUri = $this->uriBuilder->uriFor('list', ['sh' => $searchIdentifier]);
             return $this->responseFactory->createResponse()->withHeader('Location', $listUri);
         } else {
             $searchHash = $this->searchHash;
@@ -387,20 +420,12 @@ class ConnectorController extends ActionController
 
         if(array_key_exists('c', $this->searchHash)) {
             $contracts = $this->searchHash['c'];
-            if(\count($contracts) > 0) {
-                $fC = [];
-                $aC = [];
-                foreach($contracts as $contract) {
-                    $contractElement = $this->searchContracts[(int) $contract];
-                    $fC[] = [$contractElement['title'], (int) $contract];
-                    $aC[] = $contractElement['title'];
-                }
-                sort($aC);
-                $activeFilters['contracts'] = implode(', ', $aC);
-                $filters['contracts'] = $fC;
+            if($contracts > 0) {
+                $activeFilters['contracts'] = $this->searchContracts[$contracts]['title'];
+                $filters['contracts'] = [$this->searchContracts[$contracts]['title'], $contracts];
             } else {
                 $activeFilters['contracts'] = null;
-                $filters['contracts'] = null;
+                $filters['contracts'] = 0;
             }
         }
 

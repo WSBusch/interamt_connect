@@ -4,11 +4,11 @@ namespace WSBusch\InteramtConnect\Helper;
 
 class SearchHelper
 {
-    public static function collectContracts(array $selected=[], array $settings=[]): array {
+    public static function collectContracts(int $selected=0, array $settings=[]): array {
         $contracts = [];
-        $contracts[1] = ['uid' => 1, 'title' => 'Beamter', 'selected' => in_array(1, $selected)];
-        $contracts[2] = ['uid' => 2, 'title' => 'Arbeitnehmer', 'selected' => in_array(2, $selected)];
-        $contracts[3] = ['uid' => 3, 'title' => 'Ausbildung/Praktikum/Duales Studium', 'selected' => in_array(3, $selected)];
+        $contracts[1] = ['uid' => 1, 'title' => 'Beamter', 'selected' => $selected===1];
+        $contracts[2] = ['uid' => 2, 'title' => 'Arbeitnehmer', 'selected' => $selected===2];
+        $contracts[3] = ['uid' => 3, 'title' => 'Ausbildung/Praktikum/Duales Studium', 'selected' => $selected===3];
         return $contracts;
     }
 

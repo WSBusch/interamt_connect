@@ -88,17 +88,9 @@ class VacancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             }
 
             if($filter['contracts']) {
-                if(is_array($filter['contracts']) && \count($filter['contracts']) > 0) {
-                    $contractsConstraints = [];
-                    foreach($filter['contracts'] as $contract) {
-                        $contractValue = $contract[0];
-                        $contractsConstraints[] = $query->like('contracts', '%'.$contractValue.'%');
-                    }
-                    if(\count($contractsConstraints) === 1) {
-                        $constraints[] = reset($contractsConstraints);
-                    } else {
-                        $constraints[] = $query->logicalOr(...$contractsConstraints);
-                    }
+                $contractValue = $filter['contracts'][0];
+                if($contractValue !== '') {
+                    $constraints[] = $query->like('contracts', '%'.$contractValue.'%');
                 }
             }
 

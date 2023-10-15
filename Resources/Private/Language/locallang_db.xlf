@@ -168,6 +168,18 @@
 			<trans-unit id="tx_interamt_connect_connector.description" resname="tx_interamt_connect_connector.description">
 				<source>Ruft Stellenausschreibung zu hinterlegten Behörden von der Online-Stellenausschreibungsplattform INTERAMT ab.</source>
 			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_searches" resname="tx_interamtconnect_domain_model_searches">
+				<source>Such-Queries</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_searches.search_text" resname="tx_interamtconnect_domain_model_searches.search_text">
+				<source>Suchtext</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_searches.search_identifier" resname="tx_interamtconnect_domain_model_searches.search_identifier">
+				<source>Such-Identifikator</source>
+			</trans-unit>
+			<trans-unit id="tx_interamtconnect_domain_model_searches.search_date" resname="tx_interamtconnect_domain_model_searches.search_date">
+				<source>Datum der Suche</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -7,8 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use WSBusch\InteramtConnect\Domain\Model\Authority;
+use WSBusch\InteramtConnect\Domain\Model\Searches;
 use WSBusch\InteramtConnect\Domain\Model\Vacancy;
 use WSBusch\InteramtConnect\Domain\Repository\AuthorityRepository;
 use WSBusch\InteramtConnect\Domain\Repository\SearchesRepository;
@@ -110,9 +110,9 @@ class ConnectorController extends ActionController
                 $this->searchHash = [];
                 if($this->searchIdentifier > 0) {
                     $currentSearch = $this->searchesRepository->findBySearchIdentifier($this->searchIdentifier);
-                    DebuggerUtility::var_dump($currentSearch);
                     if (!empty($currentSearch)) {
-                        $this->searchHash = json_decode($currentSearch[0]->getSearchText());
+                        $searchObject = json_decode($currentSearch->getSearchText());
+                        $this->searchHash = (array) $searchObject;
                     } else {
                         $this->searchHash = [];
                     }
@@ -298,12 +298,14 @@ class ConnectorController extends ActionController
             // Write search to database and get identifier
             $lastEntry = $this->searchesRepository->findLastFromToday();
             if($lastEntry) {
-                $searchIdentifier = (int) $lastEntry['search_identifier'];
-                $doUpdate = true;
+                /** @var Searches $lastEntry */
+                $searchIdentifier = $lastEntry->getSearchIdentifier()+1;
+                $doUpdate = false;
             } else {
                 $searchIdentifier = 1;
                 $doUpdate = false;
             }
+
             $this->searchesRepository->writeNewSearch(json_encode($searchHash), $searchIdentifier, $doUpdate);
             $listUri = $this->uriBuilder->uriFor('list', ['sh' => $searchIdentifier]);
             return $this->responseFactory->createResponse()->withHeader('Location', $listUri);

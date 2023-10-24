@@ -30,7 +30,7 @@ class SearchesRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $today = new \DateTime('now', new \DateTimeZone('Europe/Berlin'));
         $today->setTime(0,0);
         $query->setOrderings(['uid' => QueryInterface::ORDER_DESCENDING]);
-        $query->matching($query->equals('search_date', $today));
+        $query->matching($query->equals('search_date', $today->format('Y-m-d H:i:s')));
         return $query->execute()->getFirst();
     }
 
@@ -38,7 +38,7 @@ class SearchesRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->matching($query->equals('search_identifier', (string) $searchIdentifier));
-        return $query->execute();
+        return $query->execute()->getFirst();
     }
 
     public function writeNewSearch($sh, $identifier, $update=false) {
@@ -53,7 +53,7 @@ class SearchesRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $search = new Searches();
             $search->setSearchIdentifier($identifier);
             $search->setSearchText($sh);
-            $search->setSearchDate($today);
+            $search->setSearchDate($today->format('Y-m-d H:i:s'));
             $this->add($search);
         }
     }

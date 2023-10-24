@@ -60,7 +60,7 @@ class ConnectorService
                 $parameters['suchtext'] = urlencode(implode(' ',$demand['filter']['free_text']));
             }
 
-            if(isset($demand['filter']['workTime']) && \count($demand['filter']['workTime']) === 2) {
+            if(isset($demand['filter']['workTime']) && is_array($demand['filter']['workTime']) && \count($demand['filter']['workTime']) === 2) {
                 $parameters['teilzeit'] = (int) $demand['filter']['workTime'][1];
             }
 
@@ -68,7 +68,9 @@ class ConnectorService
                 $parameters['beschaeftigungsdauer'] = (int) $demand['filter']['duration'][1];
             }
 
-            if(isset($demand['filter']['contracts']) && \count($demand['filter']['contracts']) === 2) {
+            if(isset($demand['filter']['contracts']) && is_array($demand['filter']['contracts']) && \count
+                ($demand['filter']['contracts'])
+                    === 2) {
                 $parameters['dienstverhaeltnisse'] = (int) $demand['filter']['contracts'][1];
             }
 

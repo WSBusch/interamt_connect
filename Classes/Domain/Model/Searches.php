@@ -21,9 +21,9 @@ class Searches extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**
-     * @var string
+     * @var int
      */
-    protected string $searchIdentifier = '';
+    protected int $searchIdentifier = 0;
 
     /**
      * @var string
@@ -31,22 +31,22 @@ class Searches extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected string $searchText = '';
 
     /**
-     * @var \Datetime|null
+     * @var string|null
      */
-    protected ?\Datetime $searchDate = null;
+    protected ?string $searchDate = null;
 
     /**
-     * @return string
+     * @return int
      */
-    public function getSearchIdentifier(): string {
+    public function getSearchIdentifier(): int {
         return $this->searchIdentifier;
     }
 
     /**
-     * @param string $searchIdentifier
+     * @param int $searchIdentifier
      * @return void
      */
-    public function setSearchIdentifier(string $searchIdentifier): void {
+    public function setSearchIdentifier(int $searchIdentifier): void {
         $this->searchIdentifier = $searchIdentifier;
     }
 
@@ -66,17 +66,17 @@ class Searches extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return \DateTime|null
+     * @return string|null
      */
-    public function getSearchDate(): ?\DateTime {
+    public function getSearchDate(): ?string {
         return $this->searchDate;
     }
 
     /**
-     * @param \DateTime $searchDate
+     * @param string $searchDate
      * @return void
      */
-    public function setSearchDate(\DateTime $searchDate): void {
+    public function setSearchDate(string $searchDate): void {
         $this->searchDate = $searchDate;
     }
 }

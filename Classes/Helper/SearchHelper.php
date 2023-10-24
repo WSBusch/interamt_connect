@@ -6,6 +6,7 @@ class SearchHelper
 {
     public static function collectContracts(int $selected=0, array $settings=[]): array {
         $contracts = [];
+        $contracts[0] = ['uid' => 0, 'title' => 'offen', 'selected' => $selected===0];
         $contracts[1] = ['uid' => 1, 'title' => 'Beamter', 'selected' => $selected===1];
         $contracts[2] = ['uid' => 2, 'title' => 'Arbeitnehmer', 'selected' => $selected===2];
         $contracts[3] = ['uid' => 3, 'title' => 'Ausbildung/Praktikum/Duales Studium', 'selected' => $selected===3];

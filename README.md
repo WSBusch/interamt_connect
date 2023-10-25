@@ -4,7 +4,6 @@
 ![TYPO3 extension](https://typo3-badges.dev/badge/interamt_connect/extension/shields.svg)
 ![Stability](https://typo3-badges.dev/badge/interamt_connect/stability/shields.svg)
 ![TYPO3 versions](https://typo3-badges.dev/badge/interamt_connect/typo3/shields.svg)
-![Verified state](https://typo3-badges.dev/badge/interamt_connect/verified/shields.svg)
 ![Latest version](https://typo3-badges.dev/badge/interamt_connect/version/shields.svg)
 <!-- Generated with 🧡 at typo3-badges.dev -->
 

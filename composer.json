@@ -13,10 +13,6 @@
             "name": "Oliver Busch",
             "role": "Developer",
             "email": "oliver@busch-oliver.de"
-        },
-        {
-            "name": "Sonja Buchheit",
-            "role": "Integrator"
         }
     ],
     "license": "GPL-2.0-or-later",

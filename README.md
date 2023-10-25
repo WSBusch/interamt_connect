@@ -1,8 +1,6 @@
 # TYPO3 extension ``interamt_connect``
 
-[![Latest Stable Version](https://poser.pugx.org/wsbusch/interamt_connect/v/stable)](https://packagist.org/packages/t3sbs/t3sbootstrap)
-[![License](https://poser.pugx.org/wsbusch/interamt_connect/license)](https://packagist.org/packages/wsbusch/interamt_connect)
-[![TYPO3 12](https://img.shields.io/badge/TYPO3-12-orange.svg?style=flat-square)](https://get.typo3.org/version/12)
+
 
 ## What does it do?
 

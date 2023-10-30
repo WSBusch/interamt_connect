@@ -5,11 +5,13 @@ use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 defined('TYPO3') || die();
 
-$pluginPi1Signature = ExtensionUtility::registerPlugin(
+ExtensionUtility::registerPlugin(
     'InteramtConnect',
     'Connector',
     'Interamt Connector'
 );
+
+$pluginPi1Signature = 'interamtconnect_connector';
 
 $contentTypeName = 'list';
 $GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['subtypes_addlist'][$pluginPi1Signature] = 'pi_flexform';

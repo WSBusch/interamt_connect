@@ -15,12 +15,12 @@
 							<renderType>selectSingle</renderType>
 							<items>
 								<numIndex index="0">
-									<numIndex index="label">Listenansicht</numIndex>
-									<numIndex index="value">list</numIndex>
+									<numIndex index="0">Listenansicht</numIndex>
+									<numIndex index="1">list</numIndex>
 								</numIndex>
 								<numIndex index="1">
-									<numIndex index="label">Detailansicht</numIndex>
-									<numIndex index="value">show</numIndex>
+									<numIndex index="0">Detailansicht</numIndex>
+									<numIndex index="1">show</numIndex>
 								</numIndex>
 							</items>
 						</config>
@@ -33,12 +33,12 @@
 							<renderType>selectSingle</renderType>
 							<items>
 								<numIndex index="0">
-									<numIndex index="label">Live-Daten (API) verwenden</numIndex>
-									<numIndex index="value">onFly</numIndex>
+									<numIndex index="0">Live-Daten (API) verwenden</numIndex>
+									<numIndex index="1">onFly</numIndex>
 								</numIndex>
 								<numIndex index="1">
-									<numIndex index="label">Aus Fallback verwenden</numIndex>
-									<numIndex index="value">fallback</numIndex>
+									<numIndex index="0">Aus Fallback verwenden</numIndex>
+									<numIndex index="1">fallback</numIndex>
 								</numIndex>
 							</items>
 						</config>
@@ -69,12 +69,12 @@
 							<renderType>selectSingle</renderType>
 							<items>
 								<numIndex index="0">
-									<numIndex index="label">Ausschreibungsdatum</numIndex>
-									<numIndex index="value">tender_date</numIndex>
+									<numIndex index="0">Ausschreibungsdatum</numIndex>
+									<numIndex index="1">tender_date</numIndex>
 								</numIndex>
 								<numIndex index="1">
-									<numIndex index="label">Stellenbezeichnung</numIndex>
-									<numIndex index="value">title</numIndex>
+									<numIndex index="0">Stellenbezeichnung</numIndex>
+									<numIndex index="1">title</numIndex>
 								</numIndex>
 							</items>
 							<default>tender_date</default>
@@ -87,12 +87,12 @@
 							<renderType>selectSingle</renderType>
 							<items>
 								<numIndex index="0">
-									<numIndex index="label">aufsteigend</numIndex>
-									<numIndex index="value">ASC</numIndex>
+									<numIndex index="0">aufsteigend</numIndex>
+									<numIndex index="1">ASC</numIndex>
 								</numIndex>
 								<numIndex index="1">
-									<numIndex index="label">absteigend</numIndex>
-									<numIndex index="value">DESC</numIndex>
+									<numIndex index="0">absteigend</numIndex>
+									<numIndex index="1">DESC</numIndex>
 								</numIndex>
 							</items>
 							<default>DESC</default>

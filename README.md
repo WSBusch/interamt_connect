@@ -162,6 +162,30 @@ The task `interamt_connect:fallback` can be triggered via a console command.
 
 This task loads all current job advertisements of the defined authorities via the INTERAMT API and stores them in the database.
 
+
+## Route Enhancer example
+
+```
+routeEnhancers:
+  InteramtConnectList:
+    type: Extbase
+    limitToPages: [123]
+    extension: InteramtConnect
+    plugin: Connector
+    routes:
+      - routePath: '/{sh}'
+        _controller: 'Connector::list'
+    defaultController: 'Connector::list'
+  InteramtConnectDetails:
+    type: Extbase
+    limitToPages: [124]
+    extension: InteramtConnect
+    plugin: Connector
+    routes:
+      - routePath: '/{vacancy}/{sh}'
+        _controller: 'Connector::show'
+    defaultController: 'Connector::show'
+```
 ____
 
 |                  | URL                                                     |

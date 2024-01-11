@@ -9,3 +9,15 @@ connectorUseFallback = 1
 
 # cat=basic; type=options[updaten=update,ignorieren=ignore]; label=Verhalten bei vorhandenen Datensätzen
 connectorExistingRecords = update
+
+# cat=proxy; type=boolean; label=Installation ist hinter einem Proxy
+proxyEnable = 0
+
+# cat=proxy; type=string; label=Proxy Schema
+proxySchema = https://
+
+# cat=proxy; type=string; label=Proxy Server
+proxyServer =
+
+# cat=proxy; type=int; label=Proxy Port
+proxyPort =

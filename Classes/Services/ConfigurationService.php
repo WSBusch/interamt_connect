@@ -43,7 +43,11 @@ class ConfigurationService
             'useConnectorFallback' => (int) $extConf['connectorUseFallback'],
             'connectorUrl' => trim($extConf['connectorUrl']),
             'connectorService' => trim($extConf['connectorService']),
-            'connectorExistingRecords' => trim($extConf['connectorExistingRecords'])
+            'connectorExistingRecords' => trim($extConf['connectorExistingRecords']),
+            'proxyEnable' => (int) $extConf['proxyEnable'],
+            'proxySchema' => trim($extConf['proxySchema']),
+            'proxyServer' => trim($extConf['proxyServer']),
+            'proxyPort' => (int) $extConf['proxyPort']
         ];
 
         return $newSettings;

@@ -80,7 +80,7 @@ class ConnectorController extends ActionController
     protected int $searchIdentifier = 0;
 
     public function __construct(
-        private readonly PageTitleProvider $titleProvider
+        private PageTitleProvider $titleProvider
     ) {}
 
     /**

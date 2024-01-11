@@ -36,6 +36,9 @@ class ConnectorService
             CURLOPT_SSL_VERIFYPEER => false,     // SSL verification not required
             CURLOPT_SSL_VERIFYHOST => false,     // SSL verification not required
         ];
+        if($connector['proxyEnable'] === 1 && !empty($connector['proxyServer']) && !empty($connector['proxyPort'])) {
+            $options[CURLOPT_PROXY] = $connector['proxySchema'].$connector['proxyServer'].':'.$connector['proxyPort'];
+        }
         $ch = curl_init($url);
         curl_setopt_array($ch, $options);
         curl_exec($ch);
@@ -126,6 +129,9 @@ class ConnectorService
             CURLOPT_SSL_VERIFYHOST => false,     // SSL verification not required
             CURLOPT_TIMEOUT_MS     => 5000       // Timeout after 5 seconds
         ];
+        if($connector['proxyEnable'] === 1 && !empty($connector['proxyServer']) && !empty($connector['proxyPort'])) {
+            $options[CURLOPT_PROXY] = $connector['proxySchema'].$connector['proxyServer'].':'.$connector['proxyPort'];
+        }
         $ch = curl_init($url);
         curl_setopt_array($ch, $options);
         $responseJson = curl_exec($ch);

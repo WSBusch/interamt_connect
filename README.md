@@ -38,12 +38,26 @@ URL to the INTERAMT interface
 
 ### `connectorService`
 Name of the current valid web service
-
+‚
 ### `connectorUseFallback`
 Specifies whether the job offers are to be loaded via the interface and stored in the database.
 
 ### `connectorExistingRecords`
 How should the fallback task behave if an already existing job is found in the database. Identifier is the INTERAMT UID.
+
+If your setup is behind a proxy, you can set up the proxy parameter, which will be used in the cUrl request.
+
+### `proxyEnable`
+If enabled and server and port are filled, the proxy settings will be used.
+
+### `proxyScheme`
+Default will bei https://
+
+### `proxyServer`
+URL of the proxy server
+
+### `proxyPort`
+Port of the proxy server
 
 ## Manage authorities
 

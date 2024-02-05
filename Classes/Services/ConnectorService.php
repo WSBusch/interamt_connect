@@ -24,7 +24,7 @@ class ConnectorService
             empty($connector['connectorUrl']) || empty($connector['connectorService'])) {
             return false;
         }
-        $url = $connector['connectorUrl'].$connector['connectorService'].'?id=1';
+        $url = $connector['connectorUrl'].$connector['connectorService'].'?partner=1';
         $options = [
             CURLOPT_RETURNTRANSFER => true,      // return web page
             CURLOPT_HEADER         => false,     // do not return headers

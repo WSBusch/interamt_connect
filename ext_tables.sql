@@ -14,7 +14,7 @@ CREATE TABLE tx_interamtconnect_domain_model_vacancy (
 	location_street varchar(255) NOT NULL DEFAULT '',
 	location_zip varchar(255) NOT NULL DEFAULT '',
 	location_city varchar(255) NOT NULL DEFAULT '',
-	description text NOT NULL DEFAULT '',
+	description longtext NOT NULL DEFAULT '',
 	latitude varchar(255) NOT NULL DEFAULT '',
 	longitude varchar(255) NOT NULL DEFAULT '',
 	number_of_vacancies int(11) NOT NULL DEFAULT '0',

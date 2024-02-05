@@ -209,7 +209,11 @@ class FallbackCommand extends Command
             'useConnectorFallback' => (int) $settings['connectorUseFallback'],
             'connectorUrl' => trim($settings['connectorUrl']),
             'connectorService' => trim($settings['connectorService']),
-            'connectorExistingRecords' => trim($settings['connectorExistingRecords'])
+            'connectorExistingRecords' => trim($settings['connectorExistingRecords']),
+            'proxyEnable' => (int) $settings['proxyEnable'],
+            'proxySchema' => trim($settings['proxySchema']),
+            'proxyServer' => trim($settings['proxyServer']),
+            'proxyPort' => (int) $settings['proxyPort']
         ];
     }
 

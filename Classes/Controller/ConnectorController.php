@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace WSBusch\InteramtConnect\Controller;
 
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use WSBusch\InteramtConnect\Domain\Model\Authority;
 use WSBusch\InteramtConnect\Domain\Model\Searches;
 use WSBusch\InteramtConnect\Domain\Model\Vacancy;
@@ -50,9 +52,6 @@ class ConnectorController extends ActionController
      */
     protected $searchesRepository = null;
 
-    /**
-     * @var array
-     */
     protected $settings = [];
 
     /**
@@ -79,6 +78,8 @@ class ConnectorController extends ActionController
 
     protected int $searchIdentifier = 0;
 
+    protected string $listCacheTag = 'tx_interamt_listview';
+
     public function __construct(
         private PageTitleProvider $titleProvider
     ) {}
@@ -99,7 +100,7 @@ class ConnectorController extends ActionController
         $this->searchesRepository = $searchesRepository;
     }
 
-    public function initializeAction()
+    public function initializeAction(): void
     {
         $this->settings = ConfigurationService::parseSettings($this->settings);
 
@@ -134,6 +135,11 @@ class ConnectorController extends ActionController
         }
     }
 
+    public function initializeListAction(): void {
+        $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
+        $cacheManager->flushCachesByTag($this->listCacheTag);
+    }
+
     /**
      * action list
      *
@@ -141,6 +147,11 @@ class ConnectorController extends ActionController
      */
     public function listAction(): ResponseInterface
     {
+        $tsfeController = $GLOBALS['TSFE'];
+        if($tsfeController !== null) {
+            $tsfeController->addCacheTags([$this->listCacheTag]);
+        }
+
         if($this->settings['mode'] === 'show') {
             $vacancy = (int) $this->request->getArgument('vacancy');
             return (new ForwardResponse('show'))
@@ -158,7 +169,7 @@ class ConnectorController extends ActionController
         $activeFilters = $buildFilerSettings['activeFilters'];
 
         $vacancies = [];
-        if(\count($this->settings['authorities']) > 0) {
+        if(is_countable($this->settings['authorities']) && \count($this->settings['authorities']) > 0) {
             $connectorService = GeneralUtility::makeInstance(ConnectorService::class);
             if($this->settings['behaviour'] === 'onFly' && $connectorService->serviceIsOnline($this->settings['extension'])) {
                 /* get dataset live from api */

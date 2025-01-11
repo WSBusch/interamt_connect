@@ -125,7 +125,7 @@ class PluginPreviewRenderer extends StandardContentPreviewRenderer
                 $table,
                 $record['uid'],
                 true,
-                '',
+                $record,
                 '+info,edit,history'
             );
             $linkTitle = htmlspecialchars(BackendUtility::getRecordTitle($table, $record));

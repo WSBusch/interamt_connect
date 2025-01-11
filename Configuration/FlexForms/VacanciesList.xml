@@ -60,6 +60,11 @@
 							<foreign_table>tx_interamtconnect_domain_model_authority</foreign_table>
 							<minitems>0</minitems>
 							<maxitems>99</maxitems>
+							<fieldControl>
+								<addRecord>
+									<disabled type="boolean">0</disabled>
+								</addRecord>
+							</fieldControl>
 						</config>
 					</settings.authorities>
 					<settings.sortField>

@@ -25,8 +25,6 @@ The recommended way to install the extension is by using Composer. In your Compo
 
 Download and install the extension with the extension manager module.
 
-> After installation, do not forget to include the static template "Interamt Connector".
-
 ## Extension Configuration
 
 ![Extension configuration](Resources/Public/Documentation/extension_configuration.png)
@@ -109,7 +107,8 @@ Where do the data records that are to be output come from?
 
 ### `Anzuzeigende Behörden`
 Which authorities should be output in the plugin?
-*Multiple entries possible*
+*Multiple entries possible*  
+Authorities can be added directly via the select box.
 
 > See: Manage authorities
 

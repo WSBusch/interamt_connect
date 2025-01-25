@@ -8,21 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="562aaa27-26e5-4672-9dcc-d1feeb6656ee" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/easycode.ignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Classes/Controller/ConnectorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Controller/ConnectorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Classes/Hooks/PluginPreviewRenderer.php" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Hooks/PluginPreviewRenderer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration/FlexForms/VacanciesList.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/FlexForms/VacanciesList.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration/TCA/Overrides/sys_template.php" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/TCA/Overrides/sys_template.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration/TCA/tx_interamtconnect_domain_model_authority.php" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/TCA/tx_interamtconnect_domain_model_authority.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration/TCA/tx_interamtconnect_domain_model_searches.php" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/TCA/tx_interamtconnect_domain_model_searches.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration/TCA/tx_interamtconnect_domain_model_vacancy.php" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration/TCA/tx_interamtconnect_domain_model_vacancy.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ext_emconf.php" beforeDir="false" afterPath="$PROJECT_DIR$/ext_emconf.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ext_localconf.php" beforeDir="false" afterPath="$PROJECT_DIR$/ext_localconf.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,23 +35,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.codeium.enabled": "true",
-    "git-widget-placeholder": "4-plugin-interamt-connector-prevents-page-from-caching",
-    "last_opened_file_path": "/Users/oliverbusch/Documents/Oliver/GEWERBE/12_Repository/interamt_connect/Configuration/Sets/InteramtConnect",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "project.propVCSSupport.Issue.Navigation",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/oliverbusch/Documents/Oliver/GEWERBE/12_Repository/interamt_connect/Configuration/Sets/InteramtConnect&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Issue.Navigation&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Configuration/Sets/InteramtConnect" />
@@ -91,7 +77,7 @@
       <workItem from="1732463359050" duration="400000" />
       <workItem from="1732517359472" duration="14395000" />
       <workItem from="1736321027746" duration="812000" />
-      <workItem from="1736592227515" duration="4896000" />
+      <workItem from="1736592227515" duration="5528000" />
     </task>
     <servers />
   </component>

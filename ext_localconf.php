@@ -14,7 +14,7 @@ defined('TYPO3') || die();
         ],
         // non-cacheable actions
         [
-            ConnectorController::class => 'list, search'
+            ConnectorController::class => 'search'
         ]
     );
 

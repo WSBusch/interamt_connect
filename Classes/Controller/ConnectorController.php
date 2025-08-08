@@ -52,7 +52,7 @@ class ConnectorController extends ActionController
      */
     protected $searchesRepository = null;
 
-    protected $settings = [];
+    protected array $settings = [];
 
     /**
      * @var array

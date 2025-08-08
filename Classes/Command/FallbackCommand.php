@@ -8,7 +8,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
@@ -233,6 +235,7 @@ class FallbackCommand extends Command
     }
 
     private function removeDeleted($authority=0) {
+        $versionInformation = GeneralUtility::makeInstance(Typo3Version::class);
         $table = 'tx_interamtconnect_domain_model_vacancy';
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $queryBuilder = $connectionPool->getQueryBuilderForTable($table);
@@ -250,6 +253,11 @@ class FallbackCommand extends Command
                     $queryBuilder->expr()->eq('deleted',1)
                 );
         }
-        $queryBuilder->execute();
+        if($versionInformation->getMajorVersion() < 13) {
+            $queryBuilder->execute();
+        } else {
+            $queryBuilder->executeQuery();
+        }
+
     }
 }

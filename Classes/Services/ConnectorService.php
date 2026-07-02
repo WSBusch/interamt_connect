@@ -2,7 +2,6 @@
 
 namespace WSBusch\InteramtConnect\Services;
 
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use WSBusch\InteramtConnect\Domain\Repository\AuthorityRepository;
 use WSBusch\InteramtConnect\Domain\Repository\VacancyRepository;
 

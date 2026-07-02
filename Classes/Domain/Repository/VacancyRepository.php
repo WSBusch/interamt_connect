@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace WSBusch\InteramtConnect\Domain\Repository;
 
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 use WSBusch\InteramtConnect\Domain\Model\Authority;
 use WSBusch\InteramtConnect\Domain\Model\Vacancy;
 
@@ -20,7 +21,7 @@ use WSBusch\InteramtConnect\Domain\Model\Vacancy;
 /**
  * The repository for Vacancies
  */
-class VacancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class VacancyRepository extends Repository
 {
     public function findByInteramtUid($interamtUid) {
         $query = $this->createQuery();
@@ -170,24 +171,24 @@ class VacancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     }
 
     public function buildVacancyModelFromConnector(array $job, Authority $authority, array $settings) {
-        $dienstverhaeltnisse = implode(', ', $job['Dienstverhaeltnisse']);
+        $dienstverhaeltnisse = implode(', ', ($job['Dienstverhaeltnisse'] ?? []));
 
         $lastChange = null;
-        if ($job['DatumLetzteAenderung']) {
+        if (array_key_exists('DatumLetzteAenderung', $job)) {
             $lastChange = new \DateTime();
             $lastChange->setTimezone(new \DateTimeZone('Europe/Berlin'));
             $lastChange->setTimestamp(strtotime($job['DatumLetzteAenderung']));
         }
 
         $publication = null;
-        if ($job['DatumOeffentlichAusschreiben']) {
+        if (array_key_exists('DatumOeffentlichAusschreiben', $job)) {
             $publication = new \DateTime();
             $publication->setTimezone(new \DateTimeZone('Europe/Berlin'));
             $publication->setTimestamp(strtotime($job['DatumOeffentlichAusschreiben']));
         }
 
         $deadline = null;
-        if ($job['DatumBewerbungsfrist']) {
+        if (array_key_exists('DatumBewerbungsfrist', $job)) {
             $deadline = new \DateTime();
             $deadline->setTimezone(new \DateTimeZone('Europe/Berlin'));
             $deadlineTimestamp = (int) strtotime($job['DatumBewerbungsfrist']);
@@ -199,12 +200,12 @@ class VacancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
 
         $studies = '';
-        if ($job['Studiengaenge'] && \count($job['Studiengaenge']) > 0) {
+        if(array_key_exists('Studiengaenge', $job) && \count($job['Studiengaenge']) > 0) {
             $studies = serialize($job['Studiengaenge']);
         }
 
         $attachments = '';
-        if ($job['Pflichtanlagen'] && \count($job['Pflichtanlagen']) > 0) {
+        if (array_key_exists('Pflichtanlagen', $job) && \count($job['Pflichtanlagen']) > 0) {
             $attachments = serialize($job['Pflichtanlagen']);
         }
 
@@ -215,48 +216,52 @@ class VacancyRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $vacancy->setIdentifier($job['Kennung']);
         $vacancy->setDescription($job['Beschreibung']);
         $vacancy->setTitle($job['Stellenbezeichnung']);
-        if (is_array($job['Einsatzort'])) {
+        if (array_key_exists('Einsatzort', $job) && is_array($job['Einsatzort'])) {
             $vacancy->setLocationStreet($job['Einsatzort']['EinsatzortStrasse'] ?? '');
             $vacancy->setLocationZip($job['Einsatzort']['EinsatzortPLZ'] ?? '');
             $vacancy->setLocationCity($job['Einsatzort']['EinsatzortOrt'] ?? '');
+        } else {
+            $vacancy->setLocationStreet($job['StellenangebotOrt'][0]['Strasse'] ?? '');
+            $vacancy->setLocationZip($job['StellenangebotOrt'][0]['PLZ'] ?? '');
+            $vacancy->setLocationCity($job['StellenangebotOrt'][0]['Ort'] ?? '');
         }
-        $vacancy->setLatitude((string)$job['Breite']);
-        $vacancy->setLongitude((string)$job['Laenge']);
+        $vacancy->setLatitude((string) ($job['StellenangebotOrt'][0]['Breite'] ?? ''));
+        $vacancy->setLongitude((string) ($job['StellenangebotOrt'][0]['Laenge'] ?? ''));
         $vacancy->setContracts($dienstverhaeltnisse);
-        $vacancy->setNumberOfVacancies((int)$job['AnzahlStellen']);
-        $vacancy->setCareers($job['LaufbahnGruppe']);
-        $vacancy->setSalaryGroupFrom($job['BesoldungGruppeVon']);
-        $vacancy->setSalaryGroupTo($job['BesoldungGruppeBis']);
-        $vacancy->setTariffLevelFrom($job['TarifEbeneVon']);
-        $vacancy->setTariffLevelTo($job['TarifEbeneBis']);
-        $vacancy->setQualification($job['Qualifikation']);
-        $vacancy->setTraining($job['Ausbildung']);
-        $vacancy->setTrainingDuration($job['Ausbildungsdauer']);
-        $vacancy->setResponsibilities($job['Aufgabenbereiche']);
-        $vacancy->setSubjectArea($job['Fachrichtung']);
-        $vacancy->setWorkTime($job['Teilzeit']);
-        $vacancy->setWeeklyWorkingTimeCivilServant($job['WochenarbeitszeitBeamter']);
-        $vacancy->setWeeklyWorkingTimeEmployee($job['WochenarbeitszeitArbeitnehmer']);
-        $vacancy->setDurationOfEmployment($job['BeschaeftigungDauer']);
-        $vacancy->setLimitedTo($job['BefristetFuer']);
-        $vacancy->setOccupationTo($job['DatumBesetzungZum']);
-        $vacancy->setApplicationProcess($job['ProzessBewerbung']);
-        $vacancy->setApplicationUrl($job['BewerbungUrl']);
+        $vacancy->setNumberOfVacancies((int)$job['AnzahlStellen'] ?? 1);
+        $vacancy->setCareers($job['LaufbahnGruppe'] ?? '');
+        $vacancy->setSalaryGroupFrom($job['BesoldungGruppeVon'] ?? '');
+        $vacancy->setSalaryGroupTo($job['BesoldungGruppeBis'] ?? '');
+        $vacancy->setTariffLevelFrom($job['TarifEbeneVon'] ?? '');
+        $vacancy->setTariffLevelTo($job['TarifEbeneBis'] ?? '');
+        $vacancy->setQualification($job['Qualifikation'] ?? '');
+        $vacancy->setTraining($job['Ausbildung'] ?? '');
+        $vacancy->setTrainingDuration($job['Ausbildungsdauer'] ?? 0);
+        $vacancy->setResponsibilities($job['Aufgabenbereiche'] ?? '');
+        $vacancy->setSubjectArea($job['Fachrichtung'] ?? '');
+        $vacancy->setWorkTime($job['Teilzeit'] ?? '');
+        $vacancy->setWeeklyWorkingTimeCivilServant($job['WochenarbeitszeitBeamter'] ?? '');
+        $vacancy->setWeeklyWorkingTimeEmployee($job['WochenarbeitszeitArbeitnehmer'] ?? '');
+        $vacancy->setDurationOfEmployment($job['BeschaeftigungDauer'] ?? '');
+        $vacancy->setLimitedTo($job['BefristetFuer'] ?? '');
+        $vacancy->setOccupationTo($job['DatumBesetzungZum'] ?? '');
+        $vacancy->setApplicationProcess($job['ProzessBewerbung'] ?? '');
+        $vacancy->setApplicationUrl($job['BewerbungUrl'] ?? '');
         $vacancy->setLastChanges($lastChange);
         $vacancy->setTenderDate($publication);
         $vacancy->setApplicationDeadline($deadline);
-        if (is_array($job['ExtAnsprechpartner'])) {
-            $vacancy->setContactLastname($job['ExtAnsprechpartner']['ExtAnsprechpartnerNachname']);
-            $vacancy->setContactFirstname($job['ExtAnsprechpartner']['ExtAnsprechpartnerVorname']);
-            $vacancy->setContactPhone($job['ExtAnsprechpartner']['ExtAnsprechpartnerTelefon']);
-            $vacancy->setContactMobile($job['ExtAnsprechpartner']['ExtAnsprechpartnerMobil']);
-            $vacancy->setContactFax($job['ExtAnsprechpartner']['ExtAnsprechpartnerTelefax']);
-            $vacancy->setContactEmail($job['ExtAnsprechpartner']['ExtAnsprechpartnerEMail']);
-            $vacancy->setContactSalutaion($job['ExtAnsprechpartner']['ExtAnsprechpartnerAnrede']);
-            $vacancy->setContactStreet($job['ExtAnsprechpartner']['ExtAnsprechpartnerStrasse']);
-            $vacancy->setContactZip($job['ExtAnsprechpartner']['ExtAnsprechpartnerPLZ']);
-            $vacancy->setContactCity($job['ExtAnsprechpartner']['ExtAnsprechpartnerOrt']);
-            $vacancy->setContactAuthority($job['ExtAnsprechpartner']['ExtAnsprechpartnerBehoerde']);
+        if (array_key_exists('ExtAnsprechpartner', $job) && is_array($job['ExtAnsprechpartner'])) {
+            $vacancy->setContactLastname($job['ExtAnsprechpartner']['ExtAnsprechpartnerNachname'] ?? '');
+            $vacancy->setContactFirstname($job['ExtAnsprechpartner']['ExtAnsprechpartnerVorname'] ?? '');
+            $vacancy->setContactPhone($job['ExtAnsprechpartner']['ExtAnsprechpartnerTelefon'] ?? '');
+            $vacancy->setContactMobile($job['ExtAnsprechpartner']['ExtAnsprechpartnerMobil'] ?? '');
+            $vacancy->setContactFax($job['ExtAnsprechpartner']['ExtAnsprechpartnerTelefax'] ?? '');
+            $vacancy->setContactEmail($job['ExtAnsprechpartner']['ExtAnsprechpartnerEMail'] ?? '');
+            $vacancy->setContactSalutaion($job['ExtAnsprechpartner']['ExtAnsprechpartnerAnrede'] ?? '');
+            $vacancy->setContactStreet($job['ExtAnsprechpartner']['ExtAnsprechpartnerStrasse'] ?? '');
+            $vacancy->setContactZip($job['ExtAnsprechpartner']['ExtAnsprechpartnerPLZ'] ?? '');
+            $vacancy->setContactCity($job['ExtAnsprechpartner']['ExtAnsprechpartnerOrt'] ?? '');
+            $vacancy->setContactAuthority($job['ExtAnsprechpartner']['ExtAnsprechpartnerBehoerde'] ?? '');
         }
         $vacancy->setRequiredStudies($studies);
         $vacancy->setAttachments($attachments);

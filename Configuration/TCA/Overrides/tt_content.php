@@ -2,6 +2,7 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use WSBusch\InteramtConnect\Hooks\PluginPreviewRenderer;
 
 defined('TYPO3') || die();
 
@@ -22,4 +23,4 @@ ExtensionManagementUtility::addPiFlexFormValue(
 );
 $GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['subtypes_excludelist'][$pluginPi1Signature] = 'recursive,select_key,pages';
 
-$GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['previewRenderer'][$pluginPi1Signature]  = \WSBusch\InteramtConnect\Hooks\PluginPreviewRenderer::class;
+$GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['previewRenderer'][$pluginPi1Signature]  = PluginPreviewRenderer::class;

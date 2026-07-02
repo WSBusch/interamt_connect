@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace WSBusch\InteramtConnect\Domain\Repository;
 
 
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\Repository;
+
 /**
  * This file is part of the "Interamt Connector" Extension for TYPO3 CMS.
  *
@@ -17,13 +20,13 @@ namespace WSBusch\InteramtConnect\Domain\Repository;
 /**
  * The repository for Authorities
  */
-class AuthorityRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class AuthorityRepository extends Repository
 {
 
     /**
      * @var array
      */
-    protected $defaultOrderings = ['sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING];
+    protected $defaultOrderings = ['sorting' => QueryInterface::ORDER_ASCENDING];
 
     public function findAllForTask() {
         $query = $this->createQuery();

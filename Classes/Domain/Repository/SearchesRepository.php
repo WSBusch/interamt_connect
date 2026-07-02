@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace WSBusch\InteramtConnect\Domain\Repository;
 
-
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 use WSBusch\InteramtConnect\Domain\Model\Searches;
 
 /**
@@ -22,7 +20,7 @@ use WSBusch\InteramtConnect\Domain\Model\Searches;
 /**
  * The repository for Authorities
  */
-class SearchesRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class SearchesRepository extends Repository
 {
     public function findLastFromToday() {
         $query = $this->createQuery();

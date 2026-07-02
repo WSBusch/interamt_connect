@@ -8,10 +8,8 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumnItem;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class PluginPreviewRenderer extends StandardContentPreviewRenderer
 {
@@ -69,7 +67,11 @@ class PluginPreviewRenderer extends StandardContentPreviewRenderer
                     if($detailLink === 1) {
                         $this->table[] = ['Link zur Detailseite', 'Ja'];
                         $detailPage = (int) $this->getFieldFromFlexform('settings.detailPage', 's_ListView');
-                        $this->table[] = ['Detailseite', $this->getRecordData($detailPage)];
+                        if($detailPage > 0) {
+                            $this->table[] = ['Detailseite', $this->getRecordData($detailPage)];
+                        } else {
+                            $this->table[] = ['Detailseite', 'Gleiche Seite wie die Übersicht'];
+                        }
                     } else {
                         $this->table[] = ['Link zur Detailseite', 'Nein (Verlinkung zur INTERAMT Detailseite)'];
                     }

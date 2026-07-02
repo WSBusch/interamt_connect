@@ -8,7 +8,6 @@ use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use WSBusch\InteramtConnect\Domain\Model\Authority;
 use WSBusch\InteramtConnect\Domain\Model\Searches;
 use WSBusch\InteramtConnect\Domain\Model\Vacancy;
@@ -29,9 +28,6 @@ use WSBusch\InteramtConnect\Services\ConnectorService;
  * (c) 2023 Oliver Busch <oliver@busch-oliver.de>, Webservice Busch
  */
 
-/**
- * VacancyController
- */
 class ConnectorController extends ActionController
 {
 
@@ -186,19 +182,19 @@ class ConnectorController extends ActionController
                             /** @var Vacancy $newVacancy */
                             $newVacancy = GeneralUtility::makeInstance(Vacancy::class);
                             $newVacancy->setInteramtUid($odVacancy['Id']);
-                            $newVacancy->setTitle($odVacancy['StellenBezeichnung']);
+                            $newVacancy->setTitle($odVacancy['StellenBezeichnung'] ?? '');
                             $newVacancy->setAuthority($odAuthority->getUid());
                             $newVacancy->setAuthorityObject($odAuthority);
-                            $newVacancy->setLocationZip($odVacancy['Plz']);
-                            $newVacancy->setLocationCity($odVacancy['Ort']);
+                            $newVacancy->setLocationZip($odVacancy['StellenangebotOrt'][0]['PLZ'] ?? '');
+                            $newVacancy->setLocationCity($odVacancy['StellenangebotOrt'][0]['Ort'] ?? '');
                             $newVacancy->setDetailLinkParam($odVacancy['Id'].'-'.$odAuthority->getUid());
 
-                            if($odVacancy['Daten']['Eingestellt'] !== '') {
+                            if(($odVacancy['Daten']['Eingestellt'] ?? '') !== '') {
                                 $tenderDate = new \DateTime('now', new \DateTimeZone('Europe/Berlin'));
                                 $tenderDate->setTimestamp(strtotime($odVacancy['Daten']['Eingestellt']));
                                 $newVacancy->setTenderDate($tenderDate);
                             }
-                            if($odVacancy['Daten']['Bewerbungsfrist'] !== '') {
+                            if(($odVacancy['Daten']['Bewerbungsfrist'] ?? '') !== '') {
                                 if((int) $odVacancy['Daten']['Bewerbungsfrist'] >= 1) {
                                     $deadline = new \DateTime('now', new \DateTimeZone('Europe/Berlin'));
                                     $deadline->setTimestamp(strtotime($odVacancy['Daten']['Bewerbungsfrist']));
@@ -236,6 +232,7 @@ class ConnectorController extends ActionController
             if($this->settings['behaviour'] === 'onFly' && $connectorService->serviceIsOnline($this->settings['extension'])) {
                 /* get dataset live from api */
                 $detailParam = GeneralUtility::intExplode('-', $vacancyUid, true);
+                /** @var Authority $authority */
                 $authority = $this->authorityRepository->findByUid($detailParam[1]);
                 $vacancyInput = $connectorService->collectVacancyByUid($this->settings['extension'],$detailParam[0]);
                 $vacancy = $this->vacancyRepository->buildVacancyModelFromConnector($vacancyInput, $authority,
@@ -243,6 +240,7 @@ class ConnectorController extends ActionController
                 $contact = $this->vacancyRepository->buildContactPerson($vacancy);
             } else {
                 /* get dataset from fallback */
+                /** @var Vacancy $vacancy */
                 $vacancy = $this->vacancyRepository->findByInteramtUid($vacancyUid);
                 $authority = $this->authorityRepository->findByUid($vacancy->getAuthority());
                 $contact = $this->vacancyRepository->buildContactPerson($vacancy);
@@ -251,7 +249,6 @@ class ConnectorController extends ActionController
             if(!$vacancy) {
                 $this->view->assign('no_data', true);
             } else {
-                /** @var Vacancy $vacancy */
                 $vacancy->setBesoldung();
                 $this->view->assign('vacancy', $vacancy);
                 $this->view->assign('authority', $authority);

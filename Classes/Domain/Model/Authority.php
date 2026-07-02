@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace WSBusch\InteramtConnect\Domain\Model;
 
 
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /**
  * This file is part of the "Interamt Connector" Extension for TYPO3 CMS.
  *
@@ -17,7 +19,7 @@ namespace WSBusch\InteramtConnect\Domain\Model;
 /**
  * Authority
  */
-class Authority extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Authority extends AbstractEntity
 {
 
     /**
@@ -62,7 +64,7 @@ class Authority extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return int
      */
-    public function getinteramtUid()
+    public function getInteramtUid(): int
     {
         return $this->interamtUid;
     }
@@ -70,10 +72,10 @@ class Authority extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the interamtUid
      *
-     * @param string $interamtUid
+     * @param int $interamtUid
      * @return void
      */
-    public function setinteramtUid(int $interamtUid)
+    public function setInteramtUid(int $interamtUid): void
     {
         $this->interamtUid = $interamtUid;
     }
@@ -83,7 +85,7 @@ class Authority extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -94,7 +96,7 @@ class Authority extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $title
      * @return void
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -104,7 +106,7 @@ class Authority extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return int
      */
-    public function getStorageUid()
+    public function getStorageUid(): int
     {
         return $this->storageUid;
     }
@@ -115,7 +117,7 @@ class Authority extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param int $storageUid
      * @return void
      */
-    public function setStorageUid(int $storageUid)
+    public function setStorageUid(int $storageUid): void
     {
         $this->storageUid = $storageUid;
     }
@@ -125,7 +127,7 @@ class Authority extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -136,7 +138,7 @@ class Authority extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $description
      * @return void
      */
-    public function setDescription(string $description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
@@ -146,7 +148,7 @@ class Authority extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string
      */
-    public function getWebsite()
+    public function getWebsite(): string
     {
         return $this->website;
     }
@@ -157,7 +159,7 @@ class Authority extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $website
      * @return void
      */
-    public function setWebsite(string $website)
+    public function setWebsite(string $website): void
     {
         $this->website = $website;
     }

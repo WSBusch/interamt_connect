@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace WSBusch\InteramtConnect\Domain\Model;
 
 
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /**
  * This file is part of the "Interamt Connector" Extension for TYPO3 CMS.
  *
@@ -14,10 +16,8 @@ namespace WSBusch\InteramtConnect\Domain\Model;
  * (c) 2023 Oliver Busch <oliver@busch-oliver.de>, Webservice Busch
  */
 
-/**
- * Authority
- */
-class Searches extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+
+class Searches extends AbstractEntity
 {
 
     /**

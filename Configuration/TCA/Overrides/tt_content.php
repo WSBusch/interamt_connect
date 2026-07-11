@@ -2,25 +2,28 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
-use WSBusch\InteramtConnect\Hooks\PluginPreviewRenderer;
+use WSBusch\InteramtConnect\FormEngine\InteramtConnectPreviewRenderer;
 
-defined('TYPO3') || die();
+defined('TYPO3') or die;
 
-ExtensionUtility::registerPlugin(
-    'InteramtConnect',
+$pluginSignature = ExtensionUtility::registerPlugin(
+    'interamt_connect',
     'Connector',
-    'Interamt Connector'
+    'LLL:EXT:interamt_connect/Resources/Private/Language/locallang.xlf:interamt_plugin.title',
+    'interamt_connect-plugin-connector',
+    'plugins',
+    'LLL:EXT:interamt_connect/Resources/Private/Language/locallang.xlf:interamt_plugin.description',
+    'FILE:EXT:interamt_connect/Configuration/FlexForms/VacanciesList.xml'
 );
 
-$pluginPi1Signature = 'interamtconnect_connector';
-
-$contentTypeName = 'list';
-$GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['subtypes_addlist'][$pluginPi1Signature] = 'pi_flexform';
-ExtensionManagementUtility::addPiFlexFormValue(
-    $pluginPi1Signature,
-    'FILE:EXT:interamt_connect/Configuration/FlexForms/VacanciesList.xml',
-    $contentTypeName
+ExtensionManagementUtility::addToAllTCAtypes(
+    'tt_content',
+    '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.plugin,pi_flexform,',
+    $pluginSignature,
+    'after:subheader',
 );
-$GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['subtypes_excludelist'][$pluginPi1Signature] = 'recursive,select_key,pages';
 
-$GLOBALS['TCA']['tt_content']['types'][$contentTypeName]['previewRenderer'][$pluginPi1Signature]  = PluginPreviewRenderer::class;
+
+$GLOBALS['TCA']['tt_content']['types'][$pluginSignature]['previewRenderer'] = InteramtConnectPreviewRenderer::class;
+
+ExtensionManagementUtility::addToInsertRecords('tt_address');

@@ -74,7 +74,7 @@ class VacancyRepository extends Repository
         if($demand['filter']) {
             $filter = $demand['filter'];
             if($filter['free_text']) {
-                if(is_array($filter['free_text']) && \count($filter['free_text']) > 0) {
+                if(is_array($filter['free_text'])) {
                     $searchConstraints = [];
                     $searchFields = ['title','location_street','description','tariff_level_from','tariff_level_to'];
                     foreach($filter['free_text'] as $searchString) {
@@ -96,7 +96,7 @@ class VacancyRepository extends Repository
             }
 
             if($filter['areas']) {
-                if(is_array($filter['areas']) && \count($filter['areas']) > 0) {
+                if(is_array($filter['areas'])) {
                     $areaConstraints = [];
                     foreach($filter['areas'] as $area) {
                         $areaValue = $area[0];
@@ -228,7 +228,7 @@ class VacancyRepository extends Repository
         $vacancy->setLatitude((string) ($job['StellenangebotOrt'][0]['Breite'] ?? ''));
         $vacancy->setLongitude((string) ($job['StellenangebotOrt'][0]['Laenge'] ?? ''));
         $vacancy->setContracts($dienstverhaeltnisse);
-        $vacancy->setNumberOfVacancies((int)$job['AnzahlStellen'] ?? 1);
+        $vacancy->setNumberOfVacancies((int)$job['AnzahlStellen']);
         $vacancy->setCareers($job['LaufbahnGruppe'] ?? '');
         $vacancy->setSalaryGroupFrom($job['BesoldungGruppeVon'] ?? '');
         $vacancy->setSalaryGroupTo($job['BesoldungGruppeBis'] ?? '');

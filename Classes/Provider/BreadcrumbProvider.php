@@ -23,7 +23,7 @@ class BreadcrumbProvider implements DataProcessorInterface
         if (!ExtensionManagementUtility::isLoaded('interamt_connect')) {
             return $processedData;
         }
-        $record = $this->getRecord();
+        $record = $this->getRecord($cObj);
         if ($record) {
             $menus = ['menuBreadcrumb', 'breadcrumb'];
             foreach ($menus as $menu) {
@@ -50,8 +50,10 @@ class BreadcrumbProvider implements DataProcessorInterface
         ];
     }
 
-    public function getRecord() {
-        $vars = GeneralUtility::_GET('tx_interamtconnect_connector');
+    public function getRecord($cObj) {
+        $request = $cObj->getRequest();
+        $queryParams = $request->getQueryParams();
+        $vars = $queryParams['tx_interamtconnect_connector'] ?? null;
         if(!isset($vars['vacancy'])) {
             return null;
         }

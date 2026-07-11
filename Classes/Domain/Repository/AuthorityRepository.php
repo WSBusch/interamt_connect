@@ -22,10 +22,6 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  */
 class AuthorityRepository extends Repository
 {
-
-    /**
-     * @var array
-     */
     protected $defaultOrderings = ['sorting' => QueryInterface::ORDER_ASCENDING];
 
     public function findAllForTask() {

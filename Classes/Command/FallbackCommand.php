@@ -6,7 +6,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
@@ -18,38 +17,19 @@ use WSBusch\InteramtConnect\Services\ConnectorService;
 
 class FallbackCommand extends Command
 {
-    /**
-     * @var ConfigurationManagerInterface
-     */
     protected ConfigurationManagerInterface $configurationManager;
-
-    /**
-     * @var VacancyRepository
-     */
     protected VacancyRepository $vacancyRepository;
-
-    /**
-     * TS settings
-     * @var array
-     */
     protected array $settings=[];
 
     /**
      * Configure the command by defining the name, options and arguments
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Loads all current job offers to defined authorities via an INTERAMT interface and stores the jobs as fallback in the database.');
         $this->setHelp('Loads INTERAMT job offers.');
     }
 
-    /**
-     * Executes the command for showing sys_log entries
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->loadSettings();
@@ -145,7 +125,7 @@ class FallbackCommand extends Command
                                     $vacancy->setLatitude($job['StellenangebotOrt'][0]['Breite'] ?? '');
                                     $vacancy->setLongitude($job['StellenangebotOrt'][0]['Laenge'] ?? '');
                                     $vacancy->setContracts($dienstverhaeltnisse);
-                                    $vacancy->setNumberOfVacancies((int)$job['AnzahlStellen'] ?? 1);
+                                    $vacancy->setNumberOfVacancies((int)$job['AnzahlStellen']);
                                     $vacancy->setCareers($job['LaufbahnGruppe'] ?? '');
                                     $vacancy->setSalaryGroupFrom($job['BesoldungGruppeVon'] ?? '');
                                     $vacancy->setSalaryGroupTo($job['BesoldungGruppeBis'] ?? '');
@@ -234,7 +214,6 @@ class FallbackCommand extends Command
     }
 
     private function removeDeleted($authority=0) {
-        $versionInformation = GeneralUtility::makeInstance(Typo3Version::class);
         $table = 'tx_interamtconnect_domain_model_vacancy';
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $queryBuilder = $connectionPool->getQueryBuilderForTable($table);
@@ -252,11 +231,6 @@ class FallbackCommand extends Command
                     $queryBuilder->expr()->eq('deleted',1)
                 );
         }
-        if($versionInformation->getMajorVersion() < 13) {
-            $queryBuilder->execute();
-        } else {
-            $queryBuilder->executeQuery();
-        }
-
+        $queryBuilder->executeQuery();
     }
 }

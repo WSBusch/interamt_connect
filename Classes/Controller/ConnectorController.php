@@ -5,6 +5,7 @@ namespace WSBusch\InteramtConnect\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\CacheTag;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -25,76 +26,26 @@ use WSBusch\InteramtConnect\Services\ConnectorService;
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * (c) 2023 Oliver Busch <oliver@busch-oliver.de>, Webservice Busch
+ * (c) 2026 Oliver Busch <oliver@busch-oliver.de>, Webservice Busch
  */
 
 class ConnectorController extends ActionController
 {
-
-    /**
-     * vacancyRepository
-     *
-     * @var VacancyRepository
-     */
-    protected $vacancyRepository = null;
-
-    /**
-     * @var AuthorityRepository
-     */
-    protected $authorityRepository = null;
-
-    /**
-     * @var SearchesRepository
-     */
-    protected $searchesRepository = null;
-
     protected array $settings = [];
-
-    /**
-     * @var array
-     */
     protected array $searchContracts = [];
-    /**
-     * @var array
-     */
     protected array $searchArea = [];
-    /**
-     * @var array
-     */
     protected array $searchDuration = [];
-    /**
-     * @var array
-     */
     protected array $searchWorkTime = [];
-
-    /**
-     * @var array
-     */
     protected array $searchHash = [];
-
     protected int $searchIdentifier = 0;
-
     protected string $listCacheTag = 'tx_interamt_listview';
 
     public function __construct(
-        private PageTitleProvider $titleProvider
+        private readonly PageTitleProvider $titleProvider,
+        private readonly SearchesRepository $searchesRepository,
+        private readonly VacancyRepository $vacancyRepository,
+        private readonly AuthorityRepository $authorityRepository
     ) {}
-
-    /**
-     * @param VacancyRepository $vacancyRepository
-     */
-    public function injectVacancyRepository(VacancyRepository $vacancyRepository)
-    {
-        $this->vacancyRepository = $vacancyRepository;
-    }
-
-    public function injectAuthorityRepository(AuthorityRepository $authorityRepository) {
-        $this->authorityRepository = $authorityRepository;
-    }
-
-    public function injectSearchesRepository(SearchesRepository $searchesRepository) {
-        $this->searchesRepository = $searchesRepository;
-    }
 
     public function initializeAction(): void
     {
@@ -136,16 +87,13 @@ class ConnectorController extends ActionController
         $cacheManager->flushCachesByTag($this->listCacheTag);
     }
 
-    /**
-     * action list
-     *
-     * @return ResponseInterface
-     */
     public function listAction(): ResponseInterface
     {
-        $tsfeController = $GLOBALS['TSFE'];
-        if($tsfeController !== null) {
-            $tsfeController->addCacheTags([$this->listCacheTag]);
+        $cacheDataController = $this->request->getAttribute('frontend.cache.collector');
+        if($cacheDataController !== null) {
+            $cacheDataController->addCacheTags(
+                new CacheTag($this->listCacheTag)
+            );
         }
 
         if($this->settings['mode'] === 'show') {

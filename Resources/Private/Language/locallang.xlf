@@ -3,6 +3,13 @@
 	<file source-language="de" datatype="plaintext" original="EXT:interamt_connect/Resources/Private/Language/locallang.xlf" date="2023-06-26T20:45:04Z" product-name="interamt_connect">
 		<header/>
 		<body>
+			<trans-unit id="interamt_plugin.title" resname="interamt_plugin.title">
+				<source>Interamt Connector</source>
+			</trans-unit>
+			<trans-unit id="interamt_plugin.description" resname="interamt_plugin.description">
+				<source></source>
+			</trans-unit>
+
 			<trans-unit id="tx_interamtconnect_domain_model_authority" resname="tx_interamtconnect_domain_model_authority">
 				<source>Behörden</source>
 			</trans-unit>

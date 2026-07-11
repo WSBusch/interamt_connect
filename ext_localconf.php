@@ -1,5 +1,6 @@
 <?php
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 use WSBusch\InteramtConnect\Controller\ConnectorController;
 
@@ -15,7 +16,8 @@ defined('TYPO3') || die();
         // non-cacheable actions
         [
             ConnectorController::class => 'search'
-        ]
+        ],
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
     );
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(

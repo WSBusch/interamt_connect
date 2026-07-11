@@ -1,53 +1,51 @@
 <?php
-
-namespace WSBusch\InteramtConnect\Hooks;
+namespace WSBusch\InteramtConnect\FormEngine;
 
 use TYPO3\CMS\Backend\Preview\StandardContentPreviewRenderer;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumnItem;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
+use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 
-class PluginPreviewRenderer extends StandardContentPreviewRenderer
+class InteramtConnectPreviewRenderer extends StandardContentPreviewRenderer
 {
     protected const LLPATH = 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:';
-
     public array $table = [];
-
     public array $flexformData = [];
-
-    /** @var IconFactory */
-    protected $iconFactory;
-
-    public function __construct()
-    {
-        $this->iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-    }
+    protected IconFactory $iconFactory;
 
     public function renderPageModulePreviewContent(GridColumnItem $item): string
     {
-        $row = $item->getRecord();
-        $result = '';
-        $header = '<strong>'.$this->getLanguageService()->sL(self::LLPATH.'tx_interamt_connect_connector.name').'</strong>';
-        $this->table = [];
-        $flexforms = GeneralUtility::xml2array($row['pi_flexform']);
-        if(is_string($flexforms)) {
-            return 'ERROR: '.htmlspecialchars($flexforms);
+        $viewFactoryData = new ViewFactoryData(
+            templatePathAndFilename: 'EXT:interamt_connect/Resources/Private/Templates/Preview/Backend.html'
+        );
+        $view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create($viewFactoryData);
+
+        $this->iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+        $rowObject = $item->getRecord()->getRawRecord();
+        $row = [];
+        if($rowObject) {
+            $row = $rowObject->getRawRecord();
         }
+        $this->table = [];
+        $flexforms = GeneralUtility::makeInstance(FlexFormService::class)->convertFlexFormContentToSheetsArray($row['pi_flexform']);
         $this->flexformData = (array)$flexforms;
         if (!empty($this->flexformData)) {
-            if($row['list_type'] === 'interamtconnect_connector') {
-                $viewMode = $this->getFieldFromFlexform('settings.mode');
-                $viewBehaviour = $this->getFieldFromFlexform('settings.behaviour');
+            if($row['CType'] === 'interamtconnect_connector') {
+                $viewMode = $this->getFieldFromFlexform('mode');
+                $viewBehaviour = $this->getFieldFromFlexform('behaviour');
 
                 $this->table[] = ['Anzeige-Modus', ($viewMode === 'list' ? 'Listenansicht' : 'Detailansicht')];
                 $this->table[] = ['Datensätze', ($viewBehaviour === 'fallback' ? 'aus Fallback' : 'Live-Daten')];
 
                 if($viewMode === 'list') {
-                    $authorities = GeneralUtility::intExplode(',',$this->getFieldFromFlexform('settings.authorities', 's_ListView'), true);
+                    $authorities = GeneralUtility::intExplode(',',$this->getFieldFromFlexform('authorities', 's_ListView'), true);
                     if(\count($authorities) > 0) {
                         $authoritiesOut = [];
                         foreach($authorities as $authority) {
@@ -57,16 +55,16 @@ class PluginPreviewRenderer extends StandardContentPreviewRenderer
                             'Behörden', implode(', ', $authoritiesOut)
                         ];
                     }
-                    $sortField = (string) $this->getFieldFromFlexform('settings.sortField', 's_ListView');
-                    $sortDir = (string) $this->getFieldFromFlexform('settings.sortDirection', 's_ListView');
+                    $sortField = (string) $this->getFieldFromFlexform('sortField', 's_ListView');
+                    $sortDir = (string) $this->getFieldFromFlexform('sortDirection', 's_ListView');
 
                     $this->table[] = ['sortieren nach', $this->getLanguageService()->sL(self::LLPATH.'tx_interamtconnect_domain_model_vacancy.'.$sortField)];
                     $this->table[] = ['Sortierreihenfolge', ($sortDir === 'DESC' ? 'absteigend' : 'aufsteigend')];
 
-                    $detailLink = (int) $this->getFieldFromFlexform('settings.detailPageLink', 's_ListView');
+                    $detailLink = (int) $this->getFieldFromFlexform('detailPageLink', 's_ListView');
                     if($detailLink === 1) {
                         $this->table[] = ['Link zur Detailseite', 'Ja'];
-                        $detailPage = (int) $this->getFieldFromFlexform('settings.detailPage', 's_ListView');
+                        $detailPage = (int) $this->getFieldFromFlexform('detailPage', 's_ListView');
                         if($detailPage > 0) {
                             $this->table[] = ['Detailseite', $this->getRecordData($detailPage)];
                         } else {
@@ -76,13 +74,13 @@ class PluginPreviewRenderer extends StandardContentPreviewRenderer
                         $this->table[] = ['Link zur Detailseite', 'Nein (Verlinkung zur INTERAMT Detailseite)'];
                     }
 
-                    $filterEnabled = (bool) (int) $this->getFieldFromFlexform('settings.filter.enabled', 's_Filter');
+                    $filterEnabled = (bool) (int) $this->getFieldFromFlexform('filter.enabled', 's_Filter');
                     if($filterEnabled) {
-                        $filterFreeText = (bool) (int) $this->getFieldFromFlexform('settings.filter.free_text', 's_Filter');
-                        $filterArea = (bool) (int) $this->getFieldFromFlexform('settings.filter.area', 's_Filter');
-                        $filterContracts = (bool) (int) $this->getFieldFromFlexform('settings.filter.contracts', 's_Filter');
-                        $filterEmploymentDuration = (bool) (int) $this->getFieldFromFlexform('settings.filter.employment_duration', 's_Filter');
-                        $filterWorkTime = (bool) (int) $this->getFieldFromFlexform('settings.filter.work_time', 's_Filter');
+                        $filterFreeText = (bool) (int) $this->getFieldFromFlexform('filter.free_text', 's_Filter');
+                        $filterArea = (bool) (int) $this->getFieldFromFlexform('filter.area', 's_Filter');
+                        $filterContracts = (bool) (int) $this->getFieldFromFlexform('filter.contracts', 's_Filter');
+                        $filterEmploymentDuration = (bool) (int) $this->getFieldFromFlexform('filter.employment_duration', 's_Filter');
+                        $filterWorkTime = (bool) (int) $this->getFieldFromFlexform('filter.work_time', 's_Filter');
                         $filterOut = [];
                         if($filterFreeText) { $filterOut[] = 'Freitext-Suche'; }
                         if($filterArea) { $filterOut[] = 'Bereich-Suche'; }
@@ -95,48 +93,52 @@ class PluginPreviewRenderer extends StandardContentPreviewRenderer
                     }
 
                 } else {
-                    $listPage = (int) $this->getFieldFromFlexform('settings.listPage', 's_DetailView');
+                    $listPage = (int) $this->getFieldFromFlexform('listPage', 's_DetailView');
                     $this->table[] = ['Übersichtsseite', $this->getRecordData($listPage)];
                 }
-                $result = $this->renderTable();
             }
         }
 
-        return $header.$result;
+        $view->assign('data', $this->table);
+        return $view->render();
     }
 
     public function getFieldFromFlexform(string $key, string $sheet = 'sDEF'): ?string {
         $flexform = $this->flexformData;
-        if(isset($flexform['data'])) {
-            $flexform = $flexform['data'];
-            if(isset($flexform[$sheet]['lDEF'][$key]['vDEF'])) {
-                return $flexform[$sheet]['lDEF'][$key]['vDEF'];
+        if(isset($flexform[$sheet])) {
+            $flexform = $flexform[$sheet]['settings'];
+            if(str_contains($key, '.')) {
+                $array = GeneralUtility::trimExplode('.', $key, true);
+                return $flexform[$array[0]][$array[1]] ?? null;
+            }
+            if(isset($flexform[$key])) {
+                return $flexform[$key];
             }
         }
         return null;
     }
 
-    public function getRecordData(int $id, string $table='pages'): string {
-        $record = BackendUtility::getRecord($table, $id);
-        if(is_array($record)) {
-            $data = '<span data-toggle="tooltip" data-placement="top" data-title="id='.$record['uid'].'">'
-                . $this->iconFactory->getIconForRecord($table, $record, Icon::SIZE_SMALL)->render()
+    public function getRecordData(int $id, string $table='pages'): string
+    {
+        $record = $this->getBeRecord($table, $id);
+        if (is_array($record)) {
+            $data = '<span data-toggle="tooltip" data-placement="top" data-title="id=' . $record['uid'] . '">'
+                . $this->iconFactory->getIconForRecord($table, $record, IconSize::SMALL)->render()
                 . '</span> ';
             $content = BackendUtility::wrapClickMenuOnIcon(
                 $data,
                 $table,
                 $record['uid'],
-                true,
-                $record,
-                '+info,edit,history'
+                'tree',
+                $record
             );
             $linkTitle = htmlspecialchars(BackendUtility::getRecordTitle($table, $record));
-            if($table === 'pages') {
+            if ($table === 'pages') {
                 $id = $record['uid'];
-                $currentPageId = (int) GeneralUtility::_GET('id');
+                $currentPageId = (int) $record['pid'];
                 $link = htmlspecialchars($this->getEditLink($record, $currentPageId));
                 $switchLabel = 'zur Seite wechseln';
-                $content .= ' <a href="#" data-toggle="tooltip" data-placement="top" data-title="'.$switchLabel.'" onclick=\'top.jump("'.$link.'", "web_layout", "web", ' . $id . ');return false\'>' . $linkTitle . '</a>';
+                $content .= ' <a href="#" data-toggle="tooltip" data-placement="top" data-title="' . $switchLabel . '" onclick=\'top.jump("' . $link . '", "web_layout", "web", ' . $id . ');return false\'>' . $linkTitle . '</a>';
             } else {
                 $content .= $linkTitle;
             }
@@ -147,29 +149,10 @@ class PluginPreviewRenderer extends StandardContentPreviewRenderer
         return $content;
     }
 
-    /**
-     * @return string
-     */
-    private function renderTable() {
-        $table = "<table class='table table-condensed'>";
-        foreach ($this->table as $tableData) {
-            $table .= "<tr>";
-            $table .= "<td scope='row' style='width:150px'>".$tableData[0]."</td>";
-            $table .= "<td>".$tableData[1]."</td>";
-            $table .= "</tr>";
-        }
-        $table .= "</table>";
-        return $table;
-    }
-
-    /**
-     * @param array $row
-     * @param int $currentPageUid
-     * @return string
-     */
-    protected function getEditLink(array $row, int $currentPageUid): string {
+    protected function getEditLink(array $row, int $currentPageUid): string
+    {
         $editLink = '';
-        $localCalcPerms = $GLOBALS['BE_USER']->calcPerms(BackendUtility::getRecord('pages', $row['uid']));
+        $localCalcPerms = $GLOBALS['BE_USER']->calcPerms($this->getBeRecord('pages', $row['uid']));
         $permsEdit = $localCalcPerms & Permission::PAGE_EDIT;
         if($permsEdit) {
             $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
@@ -182,7 +165,12 @@ class PluginPreviewRenderer extends StandardContentPreviewRenderer
         return $editLink;
     }
 
-    protected function generateCallout(string $text): string {
+    protected function generateCallout(string $text): string
+    {
         return '<div class="alert alert-warning">'.htmlspecialchars($text).'</div>';
+    }
+
+    private function getBeRecord($table, $uid) {
+        return BackendUtility::getRecord($table, $uid);
     }
 }

@@ -20,349 +20,122 @@ class Vacancy extends AbstractEntity
 {
 
     /**
-     * interamtUid
-     *
-     * @var int
      * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
-    protected $interamtUid = null;
+    protected ?int $interamtUid = null;
 
     /**
-     * authority
-     *
-     * @var int
      * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
-    protected $authority = null;
+    protected ?int $authority = null;
+
+    protected ?Authority $authorityObject = null;
+
+    protected ?string $identifier = null;
 
     /**
-     * @var Authority|null
-     */
-    protected $authorityObject = null;
-
-    /**
-     * identifier
-     *
-     * @var string
-     */
-    protected $identifier = null;
-
-    /**
-     * title
-     *
-     * @var string
      * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
-    protected $title = null;
+    protected ?string $title = null;
+
+    protected ?string $locationStreet = null;
+
+    protected ?string $locationZip = null;
+
+    protected ?string $locationCity = null;
+
+    protected ?string $description = null;
+
+    protected ?string $latitude = null;
+
+    protected ?string $longitude = null;
 
     /**
-     * locationStreet
-     *
-     * @var string
-     */
-    protected $locationStreet = null;
-
-    /**
-     * locationZip
-     *
-     * @var string
-     */
-    protected $locationZip = null;
-
-    /**
-     * locationCity
-     *
-     * @var string
-     */
-    protected $locationCity = null;
-
-    /**
-     * description
-     *
-     * @var string
-     */
-    protected $description = null;
-
-    /**
-     * latitude
-     *
-     * @var string
-     */
-    protected $latitude = null;
-
-    /**
-     * longitude
-     *
-     * @var string
-     */
-    protected $longitude = null;
-
-    /**
-     * numberOfVacancies
-     *
-     * @var int
      * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
-    protected $numberOfVacancies = null;
+    protected ?int $numberOfVacancies = null;
 
     /**
-     * contracts
-     *
-     * @var string
      * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
-    protected $contracts = null;
+    protected ?string $contracts = null;
+
+    protected ?string $careers = null;
+
+    protected ?string $salaryGroupFrom = null;
+
+    protected ?string $salaryGroupTo = null;
+
+    protected ?string $tariffLevelFrom = null;
+
+    protected ?string $tariffLevelTo = null;
+
+    protected ?string $qualification = null;
+
+    protected ?string $training = null;
+
+    protected ?float $trainingDuration = null;
+
+    protected ?string $responsibilities = null;
+
+    protected ?string $subjectArea = null;
+
+    protected ?string $workTime = null;
+
+    protected ?string $weeklyWorkingTimeCivilServant = null;
+
+    protected ?string $weeklyWorkingTimeEmployee = null;
+
+    protected ?string $durationOfEmployment = null;
+
+    protected ?string $limitedTo = null;
+
+    protected ?\DateTime $applicationDeadline = null;
+
+    protected ?string $occupationTo = null;
+
+    protected ?\DateTime $lastChanges = null;
+
+    protected ?\DateTime $tenderDate = null;
 
     /**
-     * careers
-     *
-     * @var string
-     */
-    protected $careers = null;
-
-    /**
-     * salaryGroupFrom
-     *
-     * @var string
-     */
-    protected $salaryGroupFrom = null;
-
-    /**
-     * salaryGroupTo
-     *
-     * @var string
-     */
-    protected $salaryGroupTo = null;
-
-    /**
-     * tariffLevelFrom
-     *
-     * @var string
-     */
-    protected $tariffLevelFrom = null;
-
-    /**
-     * tariffLevelTo
-     *
-     * @var string
-     */
-    protected $tariffLevelTo = null;
-
-    /**
-     * qualification
-     *
-     * @var string
-     */
-    protected $qualification = null;
-
-    /**
-     * training
-     *
-     * @var string
-     */
-    protected $training = null;
-
-    /**
-     * trainingDuration
-     *
-     * @var float
-     */
-    protected $trainingDuration = null;
-
-    /**
-     * responsibilities
-     *
-     * @var string
-     */
-    protected $responsibilities = null;
-
-    /**
-     * subjectArea
-     *
-     * @var string
-     */
-    protected $subjectArea = null;
-
-    /**
-     * workTime
-     *
-     * @var string
-     */
-    protected $workTime = null;
-
-    /**
-     * weeklyWorkingTimeCivilServant
-     *
-     * @var string
-     */
-    protected $weeklyWorkingTimeCivilServant = null;
-
-    /**
-     * weeklyWorkingTimeEmployee
-     *
-     * @var string
-     */
-    protected $weeklyWorkingTimeEmployee = null;
-
-    /**
-     * durationOfEmployment
-     *
-     * @var string
-     */
-    protected $durationOfEmployment = null;
-
-    /**
-     * limitedTo
-     *
-     * @var string
-     */
-    protected $limitedTo = null;
-
-    /**
-     * applicationDeadline
-     *
-     * @var \DateTime
-     */
-    protected $applicationDeadline = null;
-
-    /**
-     * occupationTo
-     *
-     * @var string
-     */
-    protected $occupationTo = null;
-
-    /**
-     * lastChanges
-     *
-     * @var \DateTime
-     */
-    protected $lastChanges = null;
-
-    /**
-     * tenderDate
-     *
-     * @var \DateTime
-     */
-    protected $tenderDate = null;
-
-    /**
-     * applicationProcess
-     *
-     * @var string
      * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
-    protected $applicationProcess = null;
+    protected ?string $applicationProcess = null;
 
-    /**
-     * applicationUrl
-     *
-     * @var string
-     */
-    protected $applicationUrl = null;
+    protected ?string $applicationUrl = null;
 
-    /**
-     * requiredStudies
-     *
-     * @var string
-     */
-    protected $requiredStudies = null;
+    protected ?string $requiredStudies = null;
 
-    /**
-     * @var string
-     */
-    protected $attachments = null;
+    protected ?string $attachments = null;
 
-    /**
-     * contactLastname
-     *
-     * @var string
-     */
-    protected $contactLastname = null;
+    protected ?string $contactLastname = null;
 
-    /**
-     * contactFirstname
-     *
-     * @var string
-     */
-    protected $contactFirstname = null;
+    protected ?string $contactFirstname = null;
 
-    /**
-     * contactSalutaion
-     *
-     * @var string
-     */
-    protected $contactSalutaion = null;
+    protected ?string $contactSalutaion = null;
 
-    /**
-     * contactStreet
-     *
-     * @var string
-     */
-    protected $contactStreet = null;
+    protected ?string $contactStreet = null;
 
-    /**
-     * contactZip
-     *
-     * @var string
-     */
-    protected $contactZip = null;
+    protected ?string $contactZip = null;
 
-    /**
-     * contactCity
-     *
-     * @var string
-     */
-    protected $contactCity = null;
+    protected ?string $contactCity = null;
 
-    /**
-     * contactAuthority
-     *
-     * @var string
-     */
-    protected $contactAuthority = null;
+    protected ?string $contactAuthority = null;
 
-    /**
-     * contactPhone
-     *
-     * @var string
-     */
-    protected $contactPhone = null;
+    protected ?string $contactPhone = null;
 
-    /**
-     * contactMobile
-     *
-     * @var string
-     */
-    protected $contactMobile = null;
+    protected ?string $contactMobile = null;
 
-    /**
-     * contactFax
-     *
-     * @var string
-     */
-    protected $contactFax = null;
+    protected ?string $contactFax = null;
 
-    /**
-     * contactEmail
-     *
-     * @var string
-     */
-    protected $contactEmail = null;
+    protected ?string $contactEmail = null;
 
-    /**
-     * @var string
-     */
-    protected $besoldung = '';
+    protected string $besoldung = '';
 
-    /**
-     * @var string
-     */
-    protected $detailLinkParam = '';
-    /**
-     * @var string
-     */
-    protected $importHash = '';
+    protected string $detailLinkParam = '';
+
+    protected string $importHash = '';
 
     /**
      * Returns the interamtUid
@@ -377,7 +150,7 @@ class Vacancy extends AbstractEntity
     /**
      * Sets the interamtUid
      *
-     * @param string $interamtUid
+     * @param int $interamtUid
      * @return void
      */
     public function setInteramtUid(int $interamtUid)

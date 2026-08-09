@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace WSBusch\InteramtConnect\Domain\Repository;
 
-
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -24,7 +23,8 @@ class AuthorityRepository extends Repository
 {
     protected $defaultOrderings = ['sorting' => QueryInterface::ORDER_ASCENDING];
 
-    public function findAllForTask() {
+    public function findAllForTask()
+    {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         return $query->execute();

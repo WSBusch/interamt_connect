@@ -1,4 +1,5 @@
 <?php
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_authority',
@@ -21,7 +22,7 @@ return [
             'ignorePageTypeRestriction' => true,
         ],
         'searchFields' => 'title,description,website',
-        'iconfile' => 'EXT:interamt_connect/Resources/Public/Icons/tx_interamtconnect_domain_model_authority.gif'
+        'iconfile' => 'EXT:interamt_connect/Resources/Public/Icons/tx_interamtconnect_domain_model_authority.gif',
     ],
     'types' => [
         '1' => ['showitem' => 'interamt_uid, title, storage_uid, description, website, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, sys_language_uid, l10n_parent, l10n_diffsource, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, hidden, starttime, endtime'],
@@ -63,8 +64,8 @@ return [
                     [
                         0 => '',
                         1 => '',
-                        'invertStateDisplay' => true
-                    ]
+                        'invertStateDisplay' => true,
+                    ],
                 ],
             ],
         ],
@@ -77,8 +78,8 @@ return [
                 'eval' => 'datetime,int',
                 'default' => 0,
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'endtime' => [
@@ -90,11 +91,11 @@ return [
                 'eval' => 'datetime,int',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
 
@@ -105,8 +106,8 @@ return [
                 'type' => 'input',
                 'size' => 4,
                 'eval' => 'int,required',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'title' => [
             'exclude' => true,
@@ -115,7 +116,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim,required',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'storage_uid' => [
@@ -127,7 +128,7 @@ return [
                 'maxitems' => 1,
                 'minitems' => 1,
                 'size' => 1,
-            ]
+            ],
         ],
         'description' => [
             'exclude' => false,
@@ -138,8 +139,8 @@ return [
                 'rows' => 15,
                 'eval' => 'trim',
                 'default' => '',
-                'enableRichtext' => true
-            ]
+                'enableRichtext' => true,
+            ],
         ],
         'website' => [
             'exclude' => false,
@@ -149,9 +150,9 @@ return [
                 'renderType' => 'inputLink',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
-    
+
     ],
 ];

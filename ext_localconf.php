@@ -6,23 +6,23 @@ use WSBusch\InteramtConnect\Controller\ConnectorController;
 
 defined('TYPO3') || die();
 
-(static function() {
+(static function () {
     ExtensionUtility::configurePlugin(
         'InteramtConnect',
         'Connector',
         [
-            ConnectorController::class => 'list, show, search'
+            ConnectorController::class => 'list, show, search',
         ],
         // non-cacheable actions
         [
-            ConnectorController::class => 'search'
+            ConnectorController::class => 'search',
         ],
-        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+        ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT,
     );
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
         'interamt_connect',
         'setup',
-        "@import 'EXT:interamt_connect/Configuration/TypoScript/setup.typoscript'"
+        "@import 'EXT:interamt_connect/Configuration/TypoScript/setup.typoscript'",
     );
 })();

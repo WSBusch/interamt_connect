@@ -1,8 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WSBusch\InteramtConnect\Controller;
 
+use TYPO3\CMS\Frontend\Page\PageInformation;
+use TYPO3\CMS\Frontend\Typolink\LinkFactory;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use WSBusch\InteramtConnect\Services\JsonLdService;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\CacheTag;
@@ -28,7 +33,6 @@ use WSBusch\InteramtConnect\Services\ConnectorService;
  *
  * (c) 2026 Oliver Busch <oliver@busch-oliver.de>, Webservice Busch
  */
-
 class ConnectorController extends ActionController
 {
     protected array $settings = [];
@@ -41,22 +45,26 @@ class ConnectorController extends ActionController
     protected string $listCacheTag = 'tx_interamt_listview';
 
     public function __construct(
-        private readonly PageTitleProvider $titleProvider,
-        private readonly SearchesRepository $searchesRepository,
-        private readonly VacancyRepository $vacancyRepository,
-        private readonly AuthorityRepository $authorityRepository
+        private readonly PageTitleProvider     $titleProvider,
+        private readonly SearchesRepository    $searchesRepository,
+        private readonly VacancyRepository     $vacancyRepository,
+        private readonly AuthorityRepository   $authorityRepository,
+        private readonly JsonLdService         $jsonLdService,
+        private readonly LinkFactory           $linkFactory,
+        private readonly ContentObjectRenderer $contentObjectRenderer,
     ) {}
 
     public function initializeAction(): void
     {
         $this->settings = ConfigurationService::parseSettings($this->settings);
-
-        if($this->settings['filter']['enabled']) {
+        /** @var PageInformation $currentPage */
+        $currentPage = $this->request->getAttribute('frontend.page.information');
+        if ($this->settings['filter']['enabled']) {
             $filter = $this->settings['filter'];
-            if($this->request->hasArgument('sh')) {
+            if ($this->request->hasArgument('sh')) {
                 $this->searchIdentifier = (int) $this->request->getArgument('sh');
                 $this->searchHash = [];
-                if($this->searchIdentifier > 0) {
+                if ($this->searchIdentifier > 0) {
                     $currentSearch = $this->searchesRepository->findBySearchIdentifier($this->searchIdentifier);
                     if (!empty($currentSearch)) {
                         $searchObject = json_decode($currentSearch->getSearchText());
@@ -66,23 +74,29 @@ class ConnectorController extends ActionController
                     }
                 }
             }
-            if($filter['contracts']) {
+            if ($filter['contracts']) {
                 $this->searchContracts = SearchHelper::collectContracts($this->searchHash['c'] ?? 0, $this->settings);
             }
-            if($filter['employment_duration']) {
-                $this->searchDuration = SearchHelper::collectEmploymentDuration($this->searchHash['d'] ?? 0,
-                    $this->settings);
+            if ($filter['employment_duration']) {
+                $this->searchDuration = SearchHelper::collectEmploymentDuration(
+                    $this->searchHash['d'] ?? 0,
+                    $this->settings,
+                );
             }
-            if($filter['work_time']) {
+            if ($filter['work_time']) {
                 $this->searchWorkTime = SearchHelper::collectWorkTime($this->searchHash['w'] ?? 0, $this->settings);
             }
-            if($filter['area']) {
+            if ($filter['area']) {
                 $this->searchArea = SearchHelper::collectAreas($this->searchHash['a'] ?? [], $this->settings);
             }
         }
+        if ($this->settings['detailPage'] === -1) {
+            $this->settings['detailPage'] = $currentPage->getId();
+        }
     }
 
-    public function initializeListAction(): void {
+    public function initializeListAction(): void
+    {
         $cacheManager = GeneralUtility::makeInstance(CacheManager::class);
         $cacheManager->flushCachesByTag($this->listCacheTag);
     }
@@ -90,13 +104,13 @@ class ConnectorController extends ActionController
     public function listAction(): ResponseInterface
     {
         $cacheDataController = $this->request->getAttribute('frontend.cache.collector');
-        if($cacheDataController !== null) {
+        if ($cacheDataController !== null) {
             $cacheDataController->addCacheTags(
-                new CacheTag($this->listCacheTag)
+                new CacheTag($this->listCacheTag),
             );
         }
 
-        if($this->settings['mode'] === 'show') {
+        if ($this->settings['mode'] === 'show') {
             $vacancy = (int) $this->request->getArgument('vacancy');
             return (new ForwardResponse('show'))
                 ->withArguments(['vacancy' => $vacancy]);
@@ -113,20 +127,22 @@ class ConnectorController extends ActionController
         $activeFilters = $buildFilerSettings['activeFilters'];
 
         $vacancies = [];
-        if(is_countable($this->settings['authorities']) && \count($this->settings['authorities']) > 0) {
+        if (is_countable($this->settings['authorities']) && \count($this->settings['authorities']) > 0) {
             $connectorService = GeneralUtility::makeInstance(ConnectorService::class);
-            if($this->settings['behaviour'] === 'onFly' && $connectorService->serviceIsOnline($this->settings['extension'])) {
+            if ($this->settings['behaviour'] === 'onFly' && $connectorService->serviceIsOnline($this->settings['extension'])) {
                 /* get dataset live from api */
-                foreach($this->settings['authorities'] as $odAuthority) {
+                foreach ($this->settings['authorities'] as $odAuthority) {
                     /** @var Authority $odAuthority */
                     $onDemand = [];
                     $onDemand['authority'] = $odAuthority->getinteramtUid();
                     $onDemand['usePagination'] = false;
                     $onDemand['filter'] = $demand['filter'];
-                    $odVacancies = $connectorService->collectVacanciesListByDemand($this->settings['extension'],
-                        $onDemand);
-                    if($odVacancies) {
-                        foreach($odVacancies as $odVacancy) {
+                    $odVacancies = $connectorService->collectVacanciesListByDemand(
+                        $this->settings['extension'],
+                        $onDemand,
+                    );
+                    if ($odVacancies) {
+                        foreach ($odVacancies as $odVacancy) {
                             /** @var Vacancy $newVacancy */
                             $newVacancy = GeneralUtility::makeInstance(Vacancy::class);
                             $newVacancy->setInteramtUid($odVacancy['Id']);
@@ -135,20 +151,26 @@ class ConnectorController extends ActionController
                             $newVacancy->setAuthorityObject($odAuthority);
                             $newVacancy->setLocationZip($odVacancy['StellenangebotOrt'][0]['PLZ'] ?? '');
                             $newVacancy->setLocationCity($odVacancy['StellenangebotOrt'][0]['Ort'] ?? '');
-                            $newVacancy->setDetailLinkParam($odVacancy['Id'].'-'.$odAuthority->getUid());
+                            $newVacancy->setDetailLinkParam($odVacancy['Id'] . '-' . $odAuthority->getUid());
 
-                            if(($odVacancy['Daten']['Eingestellt'] ?? '') !== '') {
+                            if (($odVacancy['Daten']['Eingestellt'] ?? '') !== '') {
                                 $tenderDate = new \DateTime('now', new \DateTimeZone('Europe/Berlin'));
                                 $tenderDate->setTimestamp(strtotime($odVacancy['Daten']['Eingestellt']));
                                 $newVacancy->setTenderDate($tenderDate);
                             }
-                            if(($odVacancy['Daten']['Bewerbungsfrist'] ?? '') !== '') {
-                                if((int) $odVacancy['Daten']['Bewerbungsfrist'] >= 1) {
+                            if (($odVacancy['Daten']['Bewerbungsfrist'] ?? '') !== '') {
+                                if ((int) $odVacancy['Daten']['Bewerbungsfrist'] >= 1) {
                                     $deadline = new \DateTime('now', new \DateTimeZone('Europe/Berlin'));
                                     $deadline->setTimestamp(strtotime($odVacancy['Daten']['Bewerbungsfrist']));
                                     $newVacancy->setApplicationDeadline($deadline);
                                 }
                             }
+                            $localDetailUrl = $this->uriBuilder
+                                ->reset()
+                                ->setTargetPageUid($this->settings['detailPage'])
+                                ->setCreateAbsoluteUri(true)
+                                ->uriFor('show', ['vacancy' => $newVacancy->getDetailLinkParam()], 'Connector');
+                            $newVacancy->setLocalDetailPage($localDetailUrl);
                             $vacancies[] = $newVacancy;
                         }
                     }
@@ -156,71 +178,86 @@ class ConnectorController extends ActionController
             } else {
                 /* get dataset from fallback */
                 $vacancies = $this->vacancyRepository->findAllByDemand($demand);
-                $vacancies = $this->vacancyRepository->expandVacancies($vacancies, $this->settings['authorities']);
+                $vacancies = $this->vacancyRepository->expandVacancies($vacancies, $this->settings['authorities'], $this->settings['detailPage'], $this->uriBuilder);
             }
         }
-
+        $jsonLd = $this->jsonLdService->buildItemListForVacancies($vacancies);
         $this->view->assign('vacancies', $vacancies);
         $this->view->assign('sh', $this->searchIdentifier);
         $this->view->assign('sHash', $this->searchHash);
         $this->view->assign('activeFilters', $activeFilters);
+        $this->view->assign('jsonLd', $jsonLd);
         return $this->htmlResponse();
     }
 
-    public function showAction(): ResponseInterface {
+    public function showAction(): ResponseInterface
+    {
         $vacancyUid = $this->request->getArgument('vacancy') ?? null;
         $sh = '';
-        if($this->request->hasArgument('sh')) {
+        if ($this->request->hasArgument('sh')) {
             $sh = $this->request->getArgument('sh');
         }
-        if(!$vacancyUid) {
-            $this->view->assign('no_data', true);
-        } else {
-            $connectorService = GeneralUtility::makeInstance(ConnectorService::class);
-            if($this->settings['behaviour'] === 'onFly' && $connectorService->serviceIsOnline($this->settings['extension'])) {
-                /* get dataset live from api */
-                $detailParam = GeneralUtility::intExplode('-', $vacancyUid, true);
-                /** @var Authority $authority */
-                $authority = $this->authorityRepository->findByUid($detailParam[1]);
-                $vacancyInput = $connectorService->collectVacancyByUid($this->settings['extension'],$detailParam[0]);
-                $vacancy = $this->vacancyRepository->buildVacancyModelFromConnector($vacancyInput, $authority,
-                    $this->settings);
-                $contact = $this->vacancyRepository->buildContactPerson($vacancy);
-            } else {
-                /* get dataset from fallback */
-                /** @var Vacancy $vacancy */
-                $vacancy = $this->vacancyRepository->findByInteramtUid($vacancyUid);
-                $authority = $this->authorityRepository->findByUid($vacancy->getAuthority());
-                $contact = $this->vacancyRepository->buildContactPerson($vacancy);
-            }
 
-            if(!$vacancy) {
-                $this->view->assign('no_data', true);
-            } else {
-                $vacancy->setBesoldung();
-                $this->view->assign('vacancy', $vacancy);
-                $this->view->assign('authority', $authority);
-                $this->view->assign('contact', $contact);
-
-                $this->titleProvider->setTitle($vacancy->getTitle());
-            }
+        if (!$vacancyUid) {
+            return $this->buildNotFoundResponse();
         }
+
+        $connectorService = GeneralUtility::makeInstance(ConnectorService::class);
+        if ($this->settings['behaviour'] === 'onFly' && $connectorService->serviceIsOnline($this->settings['extension'])) {
+            /* get dataset live from api */
+            $detailParam = GeneralUtility::intExplode('-', $vacancyUid, true);
+            /** @var Authority $authority */
+            $authority = $this->authorityRepository->findByUid($detailParam[1]);
+            $vacancyInput = $connectorService->collectVacancyByUid($this->settings['extension'], $detailParam[0]);
+            if (!$vacancyInput) {
+                return $this->buildGoneResponse();
+            }
+            $vacancy = $this->vacancyRepository->buildVacancyModelFromConnector(
+                $vacancyInput,
+                $authority,
+                $this->settings,
+            );
+            $contact = $this->vacancyRepository->buildContactPerson($vacancy);
+        } else {
+            /* get dataset from fallback */
+            /** @var Vacancy $vacancy */
+            $vacancy = $this->vacancyRepository->findByInteramtUid($vacancyUid);
+            if ($vacancy === null) {
+                return $this->buildGoneResponse();
+            }
+            $authority = $this->authorityRepository->findByUid($vacancy->getAuthority());
+            $contact = $this->vacancyRepository->buildContactPerson($vacancy);
+        }
+
+        if ($this->isVacancyExpired($vacancy)) {
+            return $this->buildGoneResponse();
+        }
+
+        $vacancy->setBesoldung();
+        $jsonLd = $this->jsonLdService->buildJobPostingForVacancy($vacancy, $authority, $this->linkFactory, $this->contentObjectRenderer);
+        $this->view->assign('vacancy', $vacancy);
+        $this->view->assign('authority', $authority);
+        $this->view->assign('contact', $contact);
+        $this->view->assign('jsonLd', $jsonLd);
+        $this->titleProvider->setTitle($vacancy->getTitle());
+
         $this->view->assign('sh', $sh);
         return $this->htmlResponse();
     }
 
-    public function searchAction(): ResponseInterface {
+    public function searchAction(): ResponseInterface
+    {
         $this->titleProvider->setTitle('INTERAMT Detailsuche');
-        if($this->request->hasArgument('start')) {
+        if ($this->request->hasArgument('start')) {
             $params = $this->request->getArguments();
             $searchHash = [];
-            if(array_key_exists('free_text', $params)) {
+            if (array_key_exists('free_text', $params)) {
                 $searchHash['t'] = trim($params['free_text']);
             } else {
                 $searchHash['t'] = '';
             }
 
-            if(array_key_exists('duration', $params)) {
+            if (array_key_exists('duration', $params)) {
                 $durationUid = (int) $params['duration'];
                 $searchHash['d'] = $durationUid;
                 $this->setRadioFieldValue('duration', $durationUid);
@@ -228,7 +265,7 @@ class ConnectorController extends ActionController
                 $searchHash['d'] = 0;
             }
 
-            if(array_key_exists('workTime', $params)) {
+            if (array_key_exists('workTime', $params)) {
                 $workTimeUid = (int) $params['workTime'];
                 $searchHash['w'] = $workTimeUid;
                 $this->setRadioFieldValue('workTime', $workTimeUid);
@@ -236,14 +273,14 @@ class ConnectorController extends ActionController
                 $searchHash['w'] = 0;
             }
 
-            if(array_key_exists('areas', $params)) {
+            if (array_key_exists('areas', $params)) {
                 $searchHash['a'] = (!is_array($params['areas']) ? [] : $params['areas']);
                 $this->setCheckboxFieldValue('area', $searchHash['a']);
             } else {
                 $searchHash['a'] = [];
             }
 
-            if(array_key_exists('contracts', $params)) {
+            if (array_key_exists('contracts', $params)) {
                 $contractUid = (int) $params['contracts'];
                 $searchHash['c'] = $contractUid;
                 $this->setRadioFieldValue('contracts', $contractUid);
@@ -253,9 +290,9 @@ class ConnectorController extends ActionController
 
             // Write search to database and get identifier
             $lastEntry = $this->searchesRepository->findLastFromToday();
-            if($lastEntry) {
+            if ($lastEntry) {
                 /** @var Searches $lastEntry */
-                $searchIdentifier = $lastEntry->getSearchIdentifier()+1;
+                $searchIdentifier = $lastEntry->getSearchIdentifier() + 1;
                 $doUpdate = false;
             } else {
                 $searchIdentifier = 1;
@@ -277,19 +314,20 @@ class ConnectorController extends ActionController
         return $this->htmlResponse();
     }
 
-    private function setRadioFieldValue(string $type, int $uid) {
-        if($type === 'duration') {
-            foreach($this->searchDuration as $durationUid => $options) {
-                if($durationUid === $uid) {
+    private function setRadioFieldValue(string $type, int $uid)
+    {
+        if ($type === 'duration') {
+            foreach ($this->searchDuration as $durationUid => $options) {
+                if ($durationUid === $uid) {
                     $this->searchDuration[$durationUid]['selected'] = true;
                 } else {
                     $this->searchDuration[$durationUid]['selected'] = false;
                 }
             }
         }
-        if($type === 'workTime') {
-            foreach($this->searchWorkTime as $workTimeUid => $options) {
-                if($workTimeUid === $uid) {
+        if ($type === 'workTime') {
+            foreach ($this->searchWorkTime as $workTimeUid => $options) {
+                if ($workTimeUid === $uid) {
                     $this->searchWorkTime[$workTimeUid]['selected'] = true;
                 } else {
                     $this->searchWorkTime[$workTimeUid]['selected'] = false;
@@ -298,20 +336,21 @@ class ConnectorController extends ActionController
         }
     }
 
-    private function setCheckboxFieldValue(string $type, array $uidStringList) {
+    private function setCheckboxFieldValue(string $type, array $uidStringList)
+    {
         $uidList = GeneralUtility::intExplode(',', implode(',', $uidStringList), true);
-        if($type === 'area') {
-            foreach($this->searchArea as $areaUid => $options) {
-                if(in_array($areaUid, $uidList, true)) {
+        if ($type === 'area') {
+            foreach ($this->searchArea as $areaUid => $options) {
+                if (in_array($areaUid, $uidList, true)) {
                     $this->searchArea[$areaUid]['selected'] = true;
                 } else {
                     $this->searchArea[$areaUid]['selected'] = false;
                 }
             }
         }
-        if($type === 'contract') {
-            foreach($this->searchContracts as $contractUid => $options) {
-                if(in_array($contractUid, $uidList, true)) {
+        if ($type === 'contract') {
+            foreach ($this->searchContracts as $contractUid => $options) {
+                if (in_array($contractUid, $uidList, true)) {
                     $this->searchContracts[$contractUid]['selected'] = true;
                 } else {
                     $this->searchContracts[$contractUid]['selected'] = false;
@@ -320,13 +359,14 @@ class ConnectorController extends ActionController
         }
     }
 
-    private function collectActiveFilters(array $demand): array {
+    private function collectActiveFilters(array $demand): array
+    {
         $result = [];
         $activeFilters = [];
         $filters = [];
 
-        if(array_key_exists('t', $this->searchHash)) {
-            if(trim($this->searchHash['t']) !== '') {
+        if (array_key_exists('t', $this->searchHash)) {
+            if (trim($this->searchHash['t']) !== '') {
                 $activeFilters['free_text'] = $this->searchHash['t'];
                 $filters['free_text'] = GeneralUtility::trimExplode(' ', $this->searchHash['t']);
             } else {
@@ -335,9 +375,9 @@ class ConnectorController extends ActionController
             }
         }
 
-        if(array_key_exists('d', $this->searchHash)) {
+        if (array_key_exists('d', $this->searchHash)) {
             $durationUid = $this->searchHash['d'];
-            if($durationUid > 0) {
+            if ($durationUid > 0) {
                 $activeFilters['duration'] = $this->searchDuration[$durationUid]['title'];
                 $filters['duration'] = [$this->searchDuration[$durationUid]['title'], $durationUid];
             } else {
@@ -346,9 +386,9 @@ class ConnectorController extends ActionController
             }
         }
 
-        if(array_key_exists('w', $this->searchHash)) {
+        if (array_key_exists('w', $this->searchHash)) {
             $workTimeUid = $this->searchHash['w'];
-            if($workTimeUid > 0) {
+            if ($workTimeUid > 0) {
                 $activeFilters['workTime'] = $this->searchWorkTime[$workTimeUid]['title'];
                 $filters['workTime'] = [$this->searchWorkTime[$workTimeUid]['title'], $workTimeUid];
             } else {
@@ -357,12 +397,12 @@ class ConnectorController extends ActionController
             }
         }
 
-        if(array_key_exists('a', $this->searchHash)) {
+        if (array_key_exists('a', $this->searchHash)) {
             $areas = $this->searchHash['a'];
-            if(\count($areas) > 0) {
+            if (\count($areas) > 0) {
                 $fA = [];
                 $aA = [];
-                foreach($areas as $area) {
+                foreach ($areas as $area) {
                     $areaElement = $this->searchArea[(int) $area];
                     $fA[] = [$areaElement['title'], (int) $area];
                     $aA[] = $areaElement['title'];
@@ -376,9 +416,9 @@ class ConnectorController extends ActionController
             }
         }
 
-        if(array_key_exists('c', $this->searchHash)) {
+        if (array_key_exists('c', $this->searchHash)) {
             $contracts = $this->searchHash['c'];
-            if($contracts > 0) {
+            if ($contracts > 0) {
                 $activeFilters['contracts'] = $this->searchContracts[$contracts]['title'];
                 $filters['contracts'] = [$this->searchContracts[$contracts]['title'], $contracts];
             } else {
@@ -391,5 +431,26 @@ class ConnectorController extends ActionController
         $result['demand'] = $demand;
         $result['activeFilters'] = $activeFilters;
         return $result;
+    }
+
+    private function isVacancyExpired(Vacancy $vacancy): bool
+    {
+        $deadline = $vacancy->getApplicationDeadline();
+        if ($deadline === null) {
+            return false;
+        }
+        return $deadline < new \DateTime('now', new \DateTimeZone('Europe/Berlin'));
+    }
+
+    private function buildNotFoundResponse(): ResponseInterface
+    {
+        $this->view->assign('no_data', true);
+        return $this->htmlResponse()->withStatus(404, 'Not Found');
+    }
+
+    private function buildGoneResponse(): ResponseInterface
+    {
+        $this->view->assign('no_data', true);
+        return $this->htmlResponse()->withStatus(410, 'Gone');
     }
 }

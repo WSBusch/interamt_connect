@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace WSBusch\InteramtConnect\Domain\Model;
 
-
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -19,7 +18,6 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Searches extends AbstractEntity
 {
-
     /**
      * @var int
      */
@@ -38,7 +36,8 @@ class Searches extends AbstractEntity
     /**
      * @return int
      */
-    public function getSearchIdentifier(): int {
+    public function getSearchIdentifier(): int
+    {
         return $this->searchIdentifier;
     }
 
@@ -46,14 +45,16 @@ class Searches extends AbstractEntity
      * @param int $searchIdentifier
      * @return void
      */
-    public function setSearchIdentifier(int $searchIdentifier): void {
+    public function setSearchIdentifier(int $searchIdentifier): void
+    {
         $this->searchIdentifier = $searchIdentifier;
     }
 
     /**
      * @return string
      */
-    public function getSearchText(): string {
+    public function getSearchText(): string
+    {
         return $this->searchText;
     }
 
@@ -61,14 +62,16 @@ class Searches extends AbstractEntity
      * @param string $searchText
      * @return void
      */
-    public function setSearchText(string $searchText): void {
+    public function setSearchText(string $searchText): void
+    {
         $this->searchText = $searchText;
     }
 
     /**
      * @return string|null
      */
-    public function getSearchDate(): ?string {
+    public function getSearchDate(): ?string
+    {
         return $this->searchDate;
     }
 
@@ -76,7 +79,8 @@ class Searches extends AbstractEntity
      * @param string $searchDate
      * @return void
      */
-    public function setSearchDate(string $searchDate): void {
+    public function setSearchDate(string $searchDate): void
+    {
         $this->searchDate = $searchDate;
     }
 }

@@ -7,6 +7,12 @@
 
     <f:if condition="{vacancies}">
         <f:then>
+            <f:if condition="{jsonLd}">
+                <f:page.headerData>
+                    <script type="application/ld+json"><f:format.raw>{jsonLd}</f:format.raw></script>
+                </f:page.headerData>
+            </f:if>
+
             <f:asset.script identifier="TableSorter" src="EXT:interamt_connect/Resources/Public/JavaScript/tableSorter.js" />
             <p><strong>{vacancies -> f:count()} Angebote gefunden</strong></p>
             <table class="table table-hover table-bordered sortable">

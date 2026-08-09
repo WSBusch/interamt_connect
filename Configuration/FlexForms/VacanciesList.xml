@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <T3DataStructure>
     <meta>
         <langDisable>1</langDisable>
@@ -15,32 +16,32 @@
                             <renderType>selectSingle</renderType>
                             <items>
                                 <numIndex index="0">
-                                    <numIndex index="0">Listenansicht</numIndex>
-                                    <numIndex index="1">list</numIndex>
+                                    <label>Listenansicht</label>
+                                    <value>list</value>
                                 </numIndex>
                                 <numIndex index="1">
-                                    <numIndex index="0">Detailansicht</numIndex>
-                                    <numIndex index="1">show</numIndex>
+                                    <label>Detailansicht</label>
+                                    <value>show</value>
                                 </numIndex>
                             </items>
                         </config>
                     </settings.mode>
                     <settings.behaviour>
-                        <label>Datensätze zur Ausgabe</label>
-                        <description>Woher stammen die Stellenausschreibungen? Ist die API nicht verfügbar, wird auf den
-                            Fallback zurückgegriffen.
+                        <label>Datens&#xE4;tze zur Ausgabe</label>
+                        <description>Woher stammen die Stellenausschreibungen? Ist die API nicht verf&#xFC;gbar, wird auf den
+                            Fallback zur&#xFC;ckgegriffen.
                         </description>
                         <config>
                             <type>select</type>
                             <renderType>selectSingle</renderType>
                             <items>
                                 <numIndex index="0">
-                                    <numIndex index="0">Live-Daten (API) verwenden</numIndex>
-                                    <numIndex index="1">onFly</numIndex>
+                                    <label>Live-Daten (API) verwenden</label>
+                                    <value>onFly</value>
                                 </numIndex>
                                 <numIndex index="1">
-                                    <numIndex index="0">Aus Fallback verwenden</numIndex>
-                                    <numIndex index="1">fallback</numIndex>
+                                    <label>Aus Fallback verwenden</label>
+                                    <value>fallback</value>
                                 </numIndex>
                             </items>
                         </config>
@@ -48,14 +49,13 @@
                 </el>
             </ROOT>
         </sDEF>
-
         <s_ListView>
             <ROOT>
                 <sheetTitle>Listenansicht</sheetTitle>
                 <type>array</type>
                 <el>
                     <settings.authorities>
-                        <label>Anzuzeigende Behörden</label>
+                        <label>Anzuzeigende Beh&#xF6;rden</label>
                         <config>
                             <type>select</type>
                             <renderType>selectMultipleSideBySide</renderType>
@@ -76,12 +76,12 @@
                             <renderType>selectSingle</renderType>
                             <items>
                                 <numIndex index="0">
-                                    <numIndex index="0">Ausschreibungsdatum</numIndex>
-                                    <numIndex index="1">tender_date</numIndex>
+                                    <label>Ausschreibungsdatum</label>
+                                    <value>tender_date</value>
                                 </numIndex>
                                 <numIndex index="1">
-                                    <numIndex index="0">Stellenbezeichnung</numIndex>
-                                    <numIndex index="1">title</numIndex>
+                                    <label>Stellenbezeichnung</label>
+                                    <value>title</value>
                                 </numIndex>
                             </items>
                             <default>tender_date</default>
@@ -94,12 +94,12 @@
                             <renderType>selectSingle</renderType>
                             <items>
                                 <numIndex index="0">
-                                    <numIndex index="0">aufsteigend</numIndex>
-                                    <numIndex index="1">ASC</numIndex>
+                                    <label>aufsteigend</label>
+                                    <value>ASC</value>
                                 </numIndex>
                                 <numIndex index="1">
-                                    <numIndex index="0">absteigend</numIndex>
-                                    <numIndex index="1">DESC</numIndex>
+                                    <label>absteigend</label>
+                                    <value>DESC</value>
                                 </numIndex>
                             </items>
                             <default>DESC</default>
@@ -118,7 +118,6 @@
                         <label>Detailseite</label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                             <maxitems>1</maxitems>
@@ -134,77 +133,61 @@
                 </el>
             </ROOT>
         </s_ListView>
-
         <s_Filter>
             <ROOT>
                 <sheetTitle>Listenansicht - Filter</sheetTitle>
                 <type>array</type>
                 <el>
                     <settings.filter.enabled>
-
                         <label>Filter aktivieren</label>
                         <config>
                             <type>check</type>
                         </config>
-
                     </settings.filter.enabled>
                     <settings.filter.free_text>
-
                         <label>Freitext-Suche</label>
                         <config>
                             <type>check</type>
                         </config>
-
                     </settings.filter.free_text>
                     <settings.filter.area>
-
                         <label>Bereich-Suche</label>
-                        <description>Checkbox-Liste mit allen zur Verfügung stehenden Einsatzbereichen</description>
+                        <description>Checkbox-Liste mit allen zur Verf&#xFC;gung stehenden Einsatzbereichen</description>
                         <config>
                             <type>check</type>
                         </config>
-
                     </settings.filter.area>
                     <settings.filter.contracts>
-
-                        <label>Dienstverhältnis-Suche</label>
-                        <description>Checkbox-Liste mit allen zur Verfügung stehenden Dienstverhältnissen</description>
+                        <label>Dienstverh&#xE4;ltnis-Suche</label>
+                        <description>Checkbox-Liste mit allen zur Verf&#xFC;gung stehenden Dienstverh&#xE4;ltnissen</description>
                         <config>
                             <type>check</type>
                         </config>
-
                     </settings.filter.contracts>
                     <settings.filter.employment_duration>
-
-                        <label>Beschäftigungsdauer</label>
+                        <label>Besch&#xE4;ftigungsdauer</label>
                         <config>
                             <type>check</type>
                         </config>
-
                     </settings.filter.employment_duration>
                     <settings.filter.work_time>
-
                         <label>Arbeitszeiten</label>
                         <config>
                             <type>check</type>
                         </config>
-
                     </settings.filter.work_time>
                 </el>
             </ROOT>
         </s_Filter>
-
         <s_DetailView>
             <ROOT>
                 <sheetTitle>Detailansicht</sheetTitle>
                 <type>array</type>
                 <el>
                     <settings.listPage>
-
-                        <label>Übersichtsseite</label>
+                        <label>&#xDC;bersichtsseite</label>
                         <config>
                             <type>group</type>
-                            <internal_type>db</internal_type>
                             <allowed>pages</allowed>
                             <size>1</size>
                             <maxitems>1</maxitems>
@@ -216,7 +199,6 @@
                                 </suggest>
                             </wizards>
                         </config>
-
                     </settings.listPage>
                 </el>
             </ROOT>

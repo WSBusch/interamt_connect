@@ -19,7 +19,7 @@ class FallbackCommand extends Command
 {
     protected ConfigurationManagerInterface $configurationManager;
     protected VacancyRepository $vacancyRepository;
-    protected array $settings=[];
+    protected array $settings = [];
 
     /**
      * Configure the command by defining the name, options and arguments
@@ -34,14 +34,14 @@ class FallbackCommand extends Command
     {
         $this->loadSettings();
         $this->vacancyRepository = GeneralUtility::makeInstance(VacancyRepository::class);
-        if($this->settings['useConnectorFallback'] === 1) {
+        if ($this->settings['useConnectorFallback'] === 1) {
             $authorities = $this->loadAuthorities();
-            if(\count($authorities) > 0) {
+            if (\count($authorities) > 0) {
                 $connectorService = GeneralUtility::makeInstance(ConnectorService::class);
                 $persistenceManager = GeneralUtility::makeInstance(PersistenceManager::class);
-                if($connectorService->serviceIsOnline($this->settings)) {
+                if ($connectorService->serviceIsOnline($this->settings)) {
                     $todaysImportHash = bin2hex(random_bytes(15));
-                    foreach($authorities as $authority) {
+                    foreach ($authorities as $authority) {
                         $authorityUid = $authority['uid'];
                         $authorityInteramtUid = $authority['interamt_uid'];
                         $authorityPid = $authority['storage_pid'];
@@ -52,12 +52,12 @@ class FallbackCommand extends Command
 
                         $this->removeDeleted($authorityUid);
 
-                        if(\count($vacancies) > 0) {
-                            foreach($vacancies as $vacancyInput) {
+                        if (\count($vacancies) > 0) {
+                            foreach ($vacancies as $vacancyInput) {
                                 $existingRecord = $this->vacancyRepository->findByInteramtUid((int) $vacancyInput['Id']);
                                 $writeRecord = true;
-                                if($existingRecord) {
-                                    if($this->settings['connectorExistingRecords'] === 'ignore') {
+                                if ($existingRecord) {
+                                    if ($this->settings['connectorExistingRecords'] === 'ignore') {
                                         $writeRecord = false;
                                     } else {
                                         $this->vacancyRepository->remove($existingRecord);
@@ -65,9 +65,11 @@ class FallbackCommand extends Command
                                     }
                                 }
 
-                                if($writeRecord) {
-                                    $job = $connectorService->collectVacancyByUid($this->settings,
-                                        (int)$vacancyInput['Id']);
+                                if ($writeRecord) {
+                                    $job = $connectorService->collectVacancyByUid(
+                                        $this->settings,
+                                        (int) $vacancyInput['Id'],
+                                    );
                                     $dienstverhaeltnisse = implode(', ', ($job['Dienstverhaeltnisse'] ?? []));
 
                                     $lastChange = null;
@@ -89,7 +91,7 @@ class FallbackCommand extends Command
                                         $deadline = new \DateTime();
                                         $deadline->setTimezone(new \DateTimeZone('Europe/Berlin'));
                                         $deadlineTimestamp = (int) strtotime($job['DatumBewerbungsfrist']);
-                                        if($deadlineTimestamp > 0) {
+                                        if ($deadlineTimestamp > 0) {
                                             $deadline->setTimestamp($deadlineTimestamp);
                                         } else {
                                             $deadline = null;
@@ -97,7 +99,7 @@ class FallbackCommand extends Command
                                     }
 
                                     $studies = '';
-                                    if(array_key_exists('Studiengaenge', $job) && \count($job['Studiengaenge']) > 0) {
+                                    if (array_key_exists('Studiengaenge', $job) && \count($job['Studiengaenge']) > 0) {
                                         $studies = serialize($job['Studiengaenge']);
                                     }
 
@@ -109,7 +111,7 @@ class FallbackCommand extends Command
                                     $vacancy = new Vacancy();
                                     $vacancy->setPid($authorityPid);
                                     $vacancy->setAuthority($authorityUid);
-                                    $vacancy->setInteramtUid((int)$job['Id']);
+                                    $vacancy->setInteramtUid((int) $job['Id']);
                                     $vacancy->setIdentifier($job['Kennung']);
                                     $vacancy->setDescription($job['Beschreibung']);
                                     $vacancy->setTitle($job['Stellenbezeichnung']);
@@ -125,7 +127,7 @@ class FallbackCommand extends Command
                                     $vacancy->setLatitude($job['StellenangebotOrt'][0]['Breite'] ?? '');
                                     $vacancy->setLongitude($job['StellenangebotOrt'][0]['Laenge'] ?? '');
                                     $vacancy->setContracts($dienstverhaeltnisse);
-                                    $vacancy->setNumberOfVacancies((int)$job['AnzahlStellen']);
+                                    $vacancy->setNumberOfVacancies((int) $job['AnzahlStellen']);
                                     $vacancy->setCareers($job['LaufbahnGruppe'] ?? '');
                                     $vacancy->setSalaryGroupFrom($job['BesoldungGruppeVon'] ?? '');
                                     $vacancy->setSalaryGroupTo($job['BesoldungGruppeBis'] ?? '');
@@ -172,8 +174,8 @@ class FallbackCommand extends Command
 
                     // remove all vacancies with different import-hash
                     $vacanciesToRemove = $this->vacancyRepository->findAllWithDifferentImportHash($todaysImportHash);
-                    if($vacanciesToRemove) {
-                        foreach($vacanciesToRemove as $vacancyToRemove) {
+                    if ($vacanciesToRemove) {
+                        foreach ($vacanciesToRemove as $vacancyToRemove) {
                             $this->vacancyRepository->remove($vacancyToRemove);
                         }
                         $persistenceManager->persistAll();
@@ -184,7 +186,8 @@ class FallbackCommand extends Command
         return 0;
     }
 
-    private function loadSettings(): void {
+    private function loadSettings(): void
+    {
         $settings = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['interamt_connect'];
         $this->settings = [
             'useConnectorFallback' => (int) $settings['connectorUseFallback'],
@@ -194,41 +197,43 @@ class FallbackCommand extends Command
             'proxyEnable' => (int) $settings['proxyEnable'],
             'proxySchema' => trim($settings['proxySchema']),
             'proxyServer' => trim($settings['proxyServer']),
-            'proxyPort' => (int) $settings['proxyPort']
+            'proxyPort' => (int) $settings['proxyPort'],
         ];
     }
 
-    private function loadAuthorities(): array {
+    private function loadAuthorities(): array
+    {
         $repo = GeneralUtility::makeInstance(AuthorityRepository::class);
         $authorities = $repo->findAllForTask();
         $items = [];
-        foreach($authorities as $authority) {
+        foreach ($authorities as $authority) {
             /** @var Authority $authority */
             $items[] = [
                 'uid' => $authority->getUid(),
                 'interamt_uid' => $authority->getinteramtUid(),
-                'storage_pid' => $authority->getStorageUid()
+                'storage_pid' => $authority->getStorageUid(),
             ];
         }
         return $items;
     }
 
-    private function removeDeleted($authority=0) {
+    private function removeDeleted($authority = 0)
+    {
         $table = 'tx_interamtconnect_domain_model_vacancy';
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $queryBuilder = $connectionPool->getQueryBuilderForTable($table);
-        if($authority > 0) {
+        if ($authority > 0) {
             $queryBuilder
                 ->delete($table)
                 ->where(
-                    $queryBuilder->expr()->eq('deleted',1),
-                    $queryBuilder->expr()->eq('authority', $authority)
+                    $queryBuilder->expr()->eq('deleted', 1),
+                    $queryBuilder->expr()->eq('authority', $authority),
                 );
         } else {
             $queryBuilder
                 ->delete($table)
                 ->where(
-                    $queryBuilder->expr()->eq('deleted',1)
+                    $queryBuilder->expr()->eq('deleted', 1),
                 );
         }
         $queryBuilder->executeQuery();

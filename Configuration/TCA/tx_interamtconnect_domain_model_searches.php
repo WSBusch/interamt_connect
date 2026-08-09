@@ -1,4 +1,5 @@
 <?php
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_searches',
@@ -21,7 +22,7 @@ return [
             'ignorePageTypeRestriction' => true,
         ],
         'searchFields' => 'search_identifier,search_text',
-        'iconfile' => 'EXT:interamt_connect/Resources/Public/Icons/tx_interamtconnect_domain_model_searches.gif'
+        'iconfile' => 'EXT:interamt_connect/Resources/Public/Icons/tx_interamtconnect_domain_model_searches.gif',
     ],
     'types' => [
         '1' => ['showitem' => 'search_identifier,search_text,search_date, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, sys_language_uid, l10n_parent, l10n_diffsource, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, hidden, starttime, endtime'],
@@ -63,8 +64,8 @@ return [
                     [
                         0 => '',
                         1 => '',
-                        'invertStateDisplay' => true
-                    ]
+                        'invertStateDisplay' => true,
+                    ],
                 ],
             ],
         ],
@@ -77,8 +78,8 @@ return [
                 'eval' => 'datetime,int',
                 'default' => 0,
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'endtime' => [
@@ -90,11 +91,11 @@ return [
                 'eval' => 'datetime,int',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
 
@@ -106,8 +107,8 @@ return [
                 'size' => 30,
                 'eval' => 'trim',
                 'default' => '',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'search_text' => [
             'exclude' => false,
@@ -118,8 +119,8 @@ return [
                 'rows' => 5,
                 'eval' => 'trim',
                 'default' => '',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
         'search_date' => [
             'exclude' => false,
@@ -129,9 +130,9 @@ return [
                 'renderType' => 'inputDateTime',
                 'eval' => 'datetime',
                 'default' => null,
-                'readOnly' => true
+                'readOnly' => true,
             ],
         ],
-    
+
     ],
 ];

@@ -15,7 +15,7 @@ class BreadcrumbProvider implements DataProcessorInterface
         ContentObjectRenderer $cObj,
         array $contentObjectConfiguration,
         array $processorConfiguration,
-        array $processedData
+        array $processedData,
     ) {
         if (!$processorConfiguration['menus']) {
             return $processedData;
@@ -35,32 +35,34 @@ class BreadcrumbProvider implements DataProcessorInterface
         return $processedData;
     }
 
-    public function addRecordToMenu($record, array &$menu) {
+    public function addRecordToMenu($record, array &$menu)
+    {
 
-        $currentLastKey = \count($menu)-1;
+        $currentLastKey = \count($menu) - 1;
         $menu[$currentLastKey]['hasSubpages'] = 1;
 
         $menu[] = [
             'data' => $record,
-            'title' => (strlen($record['title']) > 60 ? substr($record['title'], 0, 60).'...' : $record['title']),
+            'title' => (strlen($record['title']) > 60 ? substr($record['title'], 0, 60) . '...' : $record['title']),
             'active' => 1,
             'current' => 1,
             'link' => GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'),
-            'isRecord' => true
+            'isRecord' => true,
         ];
     }
 
-    public function getRecord($cObj) {
+    public function getRecord($cObj)
+    {
         $request = $cObj->getRequest();
         $queryParams = $request->getQueryParams();
         $vars = $queryParams['tx_interamtconnect_connector'] ?? null;
-        if(!isset($vars['vacancy'])) {
+        if (!isset($vars['vacancy'])) {
             return null;
         }
         $record = [];
         $vacancyRepository = GeneralUtility::makeInstance(VacancyRepository::class);
         $vacancy = $vacancyRepository->findByInteramtUid($vars['vacancy']);
-        if(!$vacancy) {
+        if (!$vacancy) {
             // nicht aus Fallback
             return null;
         }

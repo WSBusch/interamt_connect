@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace WSBusch\InteramtConnect\Domain\Model;
 
-
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
@@ -18,7 +17,6 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 class Vacancy extends AbstractEntity
 {
-
     /**
      * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
@@ -136,6 +134,7 @@ class Vacancy extends AbstractEntity
     protected string $detailLinkParam = '';
 
     protected string $importHash = '';
+    protected string $localDetailPage = '';
 
     /**
      * Returns the interamtUid
@@ -1110,20 +1109,20 @@ class Vacancy extends AbstractEntity
         $levelFrom = $this->getTariffLevelFrom();
         $levelTo = $this->getTariffLevelTo();
 
-        if($groupFrom !== '') {
+        if ($groupFrom !== '') {
             $besoldung .= $groupFrom;
-            if($groupTo !== '' && $groupTo !== $groupFrom) {
-                $besoldung .= ' - '.$groupTo;
+            if ($groupTo !== '' && $groupTo !== $groupFrom) {
+                $besoldung .= ' - ' . $groupTo;
             }
         }
 
-        if($levelFrom !== '') {
-            if($besoldung !== '') {
+        if ($levelFrom !== '') {
+            if ($besoldung !== '') {
                 $besoldung .= ' / ';
             }
             $besoldung .= $levelFrom;
-            if($levelTo !== '' && $levelTo !== $levelFrom) {
-                $besoldung .= ' - '.$levelTo;
+            if ($levelTo !== '' && $levelTo !== $levelFrom) {
+                $besoldung .= ' - ' . $levelTo;
             }
         }
 
@@ -1150,14 +1149,16 @@ class Vacancy extends AbstractEntity
      * @param Authority|null $authorityObject
      * @return void
      */
-    public function setAuthorityObject(?Authority $authorityObject): void {
+    public function setAuthorityObject(?Authority $authorityObject): void
+    {
         $this->authorityObject = $authorityObject;
     }
 
     /**
      * @return string
      */
-    public function getDetailLinkParam(): string {
+    public function getDetailLinkParam(): string
+    {
         return $this->detailLinkParam;
     }
 
@@ -1165,14 +1166,16 @@ class Vacancy extends AbstractEntity
      * @param string $detailLinkParam
      * @return void
      */
-    public function setDetailLinkParam(string $detailLinkParam): void {
+    public function setDetailLinkParam(string $detailLinkParam): void
+    {
         $this->detailLinkParam = $detailLinkParam;
     }
 
     /**
      * @return string
      */
-    public function getImportHash(): string {
+    public function getImportHash(): string
+    {
         return $this->importHash;
     }
 
@@ -1180,7 +1183,19 @@ class Vacancy extends AbstractEntity
      * @param string $importHash
      * @return void
      */
-    public function setImportHash(string $importHash): void {
+    public function setImportHash(string $importHash): void
+    {
         $this->importHash = $importHash;
     }
+
+    public function getLocalDetailPage(): string
+    {
+        return $this->localDetailPage;
+    }
+
+    public function setLocalDetailPage(string $localDetailPage): void
+    {
+        $this->localDetailPage = $localDetailPage;
+    }
+
 }

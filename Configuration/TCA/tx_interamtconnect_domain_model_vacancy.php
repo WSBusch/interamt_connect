@@ -1,4 +1,5 @@
 <?php
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:interamt_connect/Resources/Private/Language/locallang_db.xlf:tx_interamtconnect_domain_model_vacancy',
@@ -20,7 +21,7 @@ return [
             'ignorePageTypeRestriction' => true,
         ],
         'searchFields' => 'identifier,title,location_street,location_zip,location_city,description,latitude,longitude,contracts,careers,salary_group_from,salary_group_to,tariff_level_from,tariff_level_to,qualification,training,responsibilities,subject_area,work_time,weekly_working_time_civil_servant,weekly_working_time_employee,duration_of_employment,limited_to,occupation_to,application_process,application_url,required_studies,attachments,contact_lastname,contact_firstname,contact_salutaion,contact_street,contact_zip,contact_city,contact_authority,contact_phone,contact_mobile,contact_fax,contact_email,import_hash',
-        'iconfile' => 'EXT:interamt_connect/Resources/Public/Icons/tx_interamtconnect_domain_model_vacancy.gif'
+        'iconfile' => 'EXT:interamt_connect/Resources/Public/Icons/tx_interamtconnect_domain_model_vacancy.gif',
     ],
     'types' => [
         '1' => ['showitem' => 'interamt_uid, authority, identifier, title, description, number_of_vacancies, contracts, careers, salary_group_from, salary_group_to, tariff_level_from, tariff_level_to, qualification, training, training_duration, responsibilities, subject_area, work_time, weekly_working_time_civil_servant, weekly_working_time_employee, duration_of_employment, limited_to, application_deadline, occupation_to, last_changes, tender_date, application_process, application_url, required_studies, attachments, --div--;Einsatzort,location_street, location_zip, location_city,latitude, longitude,--div--;Ansprechpartner, contact_lastname, contact_firstname, contact_salutaion, contact_street, contact_zip, contact_city, contact_authority, contact_phone, contact_mobile, contact_fax, contact_email, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language, sys_language_uid, l10n_parent, l10n_diffsource, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, hidden, starttime, endtime'],
@@ -62,8 +63,8 @@ return [
                     [
                         0 => '',
                         1 => '',
-                        'invertStateDisplay' => true
-                    ]
+                        'invertStateDisplay' => true,
+                    ],
                 ],
             ],
         ],
@@ -76,8 +77,8 @@ return [
                 'eval' => 'datetime,int',
                 'default' => 0,
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'endtime' => [
@@ -89,11 +90,11 @@ return [
                 'eval' => 'datetime,int',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
 
@@ -104,8 +105,8 @@ return [
                 'type' => 'input',
                 'size' => 4,
                 'eval' => 'int,required',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'authority' => [
             'exclude' => true,
@@ -116,7 +117,7 @@ return [
                 'maxitems' => 1,
                 'minitems' => 1,
                 'size' => 1,
-            ]
+            ],
         ],
         'identifier' => [
             'exclude' => true,
@@ -125,7 +126,7 @@ return [
                 'type' => 'input',
                 'size' => 15,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'title' => [
@@ -135,7 +136,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim,required',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'location_street' => [
@@ -145,7 +146,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'location_zip' => [
@@ -155,7 +156,7 @@ return [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'location_city' => [
@@ -165,7 +166,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'description' => [
@@ -177,7 +178,7 @@ return [
                 'rows' => 15,
                 'eval' => 'trim',
                 'default' => '',
-                'enableRichtext' => true
+                'enableRichtext' => true,
             ],
         ],
         'latitude' => [
@@ -187,7 +188,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'longitude' => [
@@ -197,7 +198,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'number_of_vacancies' => [
@@ -207,8 +208,8 @@ return [
                 'type' => 'input',
                 'size' => 3,
                 'eval' => 'int,required',
-                'default' => 1
-            ]
+                'default' => 1,
+            ],
         ],
         'contracts' => [
             'exclude' => true,
@@ -217,7 +218,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim,required',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'careers' => [
@@ -227,7 +228,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'salary_group_from' => [
@@ -237,7 +238,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'salary_group_to' => [
@@ -247,7 +248,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'tariff_level_from' => [
@@ -257,7 +258,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'tariff_level_to' => [
@@ -267,7 +268,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'qualification' => [
@@ -277,7 +278,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'training' => [
@@ -287,7 +288,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'training_duration' => [
@@ -297,8 +298,8 @@ return [
                 'type' => 'input',
                 'size' => 3,
                 'eval' => 'int',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'responsibilities' => [
             'exclude' => false,
@@ -307,7 +308,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'subject_area' => [
@@ -317,7 +318,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'work_time' => [
@@ -327,7 +328,7 @@ return [
                 'type' => 'input',
                 'size' => 15,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'weekly_working_time_civil_servant' => [
@@ -337,7 +338,7 @@ return [
                 'type' => 'input',
                 'size' => 15,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'weekly_working_time_employee' => [
@@ -347,7 +348,7 @@ return [
                 'type' => 'input',
                 'size' => 15,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'duration_of_employment' => [
@@ -357,7 +358,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'limited_to' => [
@@ -367,7 +368,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'application_deadline' => [
@@ -389,7 +390,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'last_changes' => [
@@ -423,7 +424,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim,required',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'application_url' => [
@@ -433,7 +434,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'required_studies' => [
@@ -444,8 +445,8 @@ return [
                 'cols' => 40,
                 'rows' => 10,
                 'eval' => 'trim',
-                'default' => ''
-            ]
+                'default' => '',
+            ],
         ],
         'attachments' => [
             'exclude' => false,
@@ -455,8 +456,8 @@ return [
                 'cols' => 40,
                 'rows' => 10,
                 'eval' => 'trim',
-                'default' => ''
-            ]
+                'default' => '',
+            ],
         ],
         'contact_lastname' => [
             'exclude' => false,
@@ -465,7 +466,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'contact_firstname' => [
@@ -475,7 +476,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'contact_salutaion' => [
@@ -485,7 +486,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'contact_street' => [
@@ -495,7 +496,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'contact_zip' => [
@@ -505,7 +506,7 @@ return [
                 'type' => 'input',
                 'size' => 8,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'contact_city' => [
@@ -515,7 +516,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'contact_authority' => [
@@ -525,7 +526,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'contact_phone' => [
@@ -535,7 +536,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'contact_mobile' => [
@@ -545,7 +546,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'contact_fax' => [
@@ -555,7 +556,7 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim',
-                'default' => ''
+                'default' => '',
             ],
         ],
         'contact_email' => [
@@ -565,8 +566,8 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'nospace,email',
-                'default' => ''
-            ]
+                'default' => '',
+            ],
         ],
         'import_hash' => [
             'exclude' => true,
@@ -575,8 +576,8 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'default' => '',
-                'readOnly' => true
-            ]
+                'readOnly' => true,
+            ],
         ],
     ],
 ];

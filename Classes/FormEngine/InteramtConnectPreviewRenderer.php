@@ -1,4 +1,5 @@
 <?php
+
 namespace WSBusch\InteramtConnect\FormEngine;
 
 use TYPO3\CMS\Backend\Preview\StandardContentPreviewRenderer;
@@ -23,49 +24,49 @@ class InteramtConnectPreviewRenderer extends StandardContentPreviewRenderer
     public function renderPageModulePreviewContent(GridColumnItem $item): string
     {
         $viewFactoryData = new ViewFactoryData(
-            templatePathAndFilename: 'EXT:interamt_connect/Resources/Private/Templates/Preview/Backend.html'
+            templatePathAndFilename: 'EXT:interamt_connect/Resources/Private/Templates/Preview/Backend.html',
         );
         $view = GeneralUtility::makeInstance(ViewFactoryInterface::class)->create($viewFactoryData);
 
         $this->iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $rowObject = $item->getRecord()->getRawRecord();
         $row = [];
-        if($rowObject) {
-            $row = $rowObject->getRawRecord();
+        if ($rowObject) {
+            $row = $rowObject->getRawRecord()->toArray();
         }
         $this->table = [];
         $flexforms = GeneralUtility::makeInstance(FlexFormService::class)->convertFlexFormContentToSheetsArray($row['pi_flexform']);
-        $this->flexformData = (array)$flexforms;
+        $this->flexformData = (array) $flexforms;
         if (!empty($this->flexformData)) {
-            if($row['CType'] === 'interamtconnect_connector') {
+            if ($row['CType'] === 'interamtconnect_connector') {
                 $viewMode = $this->getFieldFromFlexform('mode');
                 $viewBehaviour = $this->getFieldFromFlexform('behaviour');
 
                 $this->table[] = ['Anzeige-Modus', ($viewMode === 'list' ? 'Listenansicht' : 'Detailansicht')];
                 $this->table[] = ['Datensätze', ($viewBehaviour === 'fallback' ? 'aus Fallback' : 'Live-Daten')];
 
-                if($viewMode === 'list') {
-                    $authorities = GeneralUtility::intExplode(',',$this->getFieldFromFlexform('authorities', 's_ListView'), true);
-                    if(\count($authorities) > 0) {
+                if ($viewMode === 'list') {
+                    $authorities = GeneralUtility::intExplode(',', $this->getFieldFromFlexform('authorities', 's_ListView'), true);
+                    if (\count($authorities) > 0) {
                         $authoritiesOut = [];
-                        foreach($authorities as $authority) {
+                        foreach ($authorities as $authority) {
                             $authoritiesOut[] = $this->getRecordData($authority, 'tx_interamtconnect_domain_model_authority');
                         }
                         $this->table[] = [
-                            'Behörden', implode(', ', $authoritiesOut)
+                            'Behörden', implode(', ', $authoritiesOut),
                         ];
                     }
                     $sortField = (string) $this->getFieldFromFlexform('sortField', 's_ListView');
                     $sortDir = (string) $this->getFieldFromFlexform('sortDirection', 's_ListView');
 
-                    $this->table[] = ['sortieren nach', $this->getLanguageService()->sL(self::LLPATH.'tx_interamtconnect_domain_model_vacancy.'.$sortField)];
+                    $this->table[] = ['sortieren nach', $this->getLanguageService()->sL(self::LLPATH . 'tx_interamtconnect_domain_model_vacancy.' . $sortField)];
                     $this->table[] = ['Sortierreihenfolge', ($sortDir === 'DESC' ? 'absteigend' : 'aufsteigend')];
 
                     $detailLink = (int) $this->getFieldFromFlexform('detailPageLink', 's_ListView');
-                    if($detailLink === 1) {
+                    if ($detailLink === 1) {
                         $this->table[] = ['Link zur Detailseite', 'Ja'];
                         $detailPage = (int) $this->getFieldFromFlexform('detailPage', 's_ListView');
-                        if($detailPage > 0) {
+                        if ($detailPage > 0) {
                             $this->table[] = ['Detailseite', $this->getRecordData($detailPage)];
                         } else {
                             $this->table[] = ['Detailseite', 'Gleiche Seite wie die Übersicht'];
@@ -75,19 +76,29 @@ class InteramtConnectPreviewRenderer extends StandardContentPreviewRenderer
                     }
 
                     $filterEnabled = (bool) (int) $this->getFieldFromFlexform('filter.enabled', 's_Filter');
-                    if($filterEnabled) {
+                    if ($filterEnabled) {
                         $filterFreeText = (bool) (int) $this->getFieldFromFlexform('filter.free_text', 's_Filter');
                         $filterArea = (bool) (int) $this->getFieldFromFlexform('filter.area', 's_Filter');
                         $filterContracts = (bool) (int) $this->getFieldFromFlexform('filter.contracts', 's_Filter');
                         $filterEmploymentDuration = (bool) (int) $this->getFieldFromFlexform('filter.employment_duration', 's_Filter');
                         $filterWorkTime = (bool) (int) $this->getFieldFromFlexform('filter.work_time', 's_Filter');
                         $filterOut = [];
-                        if($filterFreeText) { $filterOut[] = 'Freitext-Suche'; }
-                        if($filterArea) { $filterOut[] = 'Bereich-Suche'; }
-                        if($filterContracts) { $filterOut[] = 'Dienstverhältnis-Suche'; }
-                        if($filterEmploymentDuration) { $filterOut[] = 'Beschäftigungsdauer'; }
-                        if($filterWorkTime) { $filterOut[] = 'Arbeitszeiten'; }
-                        if(\count($filterOut) > 0) {
+                        if ($filterFreeText) {
+                            $filterOut[] = 'Freitext-Suche';
+                        }
+                        if ($filterArea) {
+                            $filterOut[] = 'Bereich-Suche';
+                        }
+                        if ($filterContracts) {
+                            $filterOut[] = 'Dienstverhältnis-Suche';
+                        }
+                        if ($filterEmploymentDuration) {
+                            $filterOut[] = 'Beschäftigungsdauer';
+                        }
+                        if ($filterWorkTime) {
+                            $filterOut[] = 'Arbeitszeiten';
+                        }
+                        if (\count($filterOut) > 0) {
                             $this->table[] = ['Filter', implode(', ', $filterOut)];
                         }
                     }
@@ -103,22 +114,23 @@ class InteramtConnectPreviewRenderer extends StandardContentPreviewRenderer
         return $view->render();
     }
 
-    public function getFieldFromFlexform(string $key, string $sheet = 'sDEF'): ?string {
+    public function getFieldFromFlexform(string $key, string $sheet = 'sDEF'): ?string
+    {
         $flexform = $this->flexformData;
-        if(isset($flexform[$sheet])) {
+        if (isset($flexform[$sheet])) {
             $flexform = $flexform[$sheet]['settings'];
-            if(str_contains($key, '.')) {
+            if (str_contains($key, '.')) {
                 $array = GeneralUtility::trimExplode('.', $key, true);
                 return $flexform[$array[0]][$array[1]] ?? null;
             }
-            if(isset($flexform[$key])) {
+            if (isset($flexform[$key])) {
                 return $flexform[$key];
             }
         }
         return null;
     }
 
-    public function getRecordData(int $id, string $table='pages'): string
+    public function getRecordData(int $id, string $table = 'pages'): string
     {
         $record = $this->getBeRecord($table, $id);
         if (is_array($record)) {
@@ -130,7 +142,7 @@ class InteramtConnectPreviewRenderer extends StandardContentPreviewRenderer
                 $table,
                 $record['uid'],
                 'tree',
-                $record
+                $record,
             );
             $linkTitle = htmlspecialchars(BackendUtility::getRecordTitle($table, $record));
             if ($table === 'pages') {
@@ -154,12 +166,12 @@ class InteramtConnectPreviewRenderer extends StandardContentPreviewRenderer
         $editLink = '';
         $localCalcPerms = $GLOBALS['BE_USER']->calcPerms($this->getBeRecord('pages', $row['uid']));
         $permsEdit = $localCalcPerms & Permission::PAGE_EDIT;
-        if($permsEdit) {
+        if ($permsEdit) {
             $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
             $returnUrl = $uriBuilder->buildUriFromRoute('web_layout', ['id' => $currentPageUid]);
             $editLink = $uriBuilder->buildUriFromRoute('web_layout', [
                 'id' => $row['uid'],
-                'returnUrl' => $returnUrl
+                'returnUrl' => $returnUrl,
             ]);
         }
         return $editLink;
@@ -167,10 +179,11 @@ class InteramtConnectPreviewRenderer extends StandardContentPreviewRenderer
 
     protected function generateCallout(string $text): string
     {
-        return '<div class="alert alert-warning">'.htmlspecialchars($text).'</div>';
+        return '<div class="alert alert-warning">' . htmlspecialchars($text) . '</div>';
     }
 
-    private function getBeRecord($table, $uid) {
+    private function getBeRecord($table, $uid)
+    {
         return BackendUtility::getRecord($table, $uid);
     }
 }

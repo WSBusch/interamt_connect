@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WSBusch\InteramtConnect\Domain\Repository;
 
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 use WSBusch\InteramtConnect\Domain\Model\Authority;
@@ -23,29 +24,32 @@ use WSBusch\InteramtConnect\Domain\Model\Vacancy;
  */
 class VacancyRepository extends Repository
 {
-    public function findByInteramtUid($interamtUid) {
+    public function findByInteramtUid($interamtUid)
+    {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->matching($query->equals('interamt_uid', $interamtUid));
         return $query->execute()->getFirst();
     }
 
-    public function findAllWithDifferentImportHash($importHash) {
+    public function findAllWithDifferentImportHash($importHash)
+    {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->matching($query->logicalNot($query->equals('import_hash', $importHash)));
         return $query->execute();
     }
 
-    public function findAllByDemand(array $demand=[]) {
+    public function findAllByDemand(array $demand = [])
+    {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
 
         $query->setOrderings(
             [
-                $demand['sort']['field'] => (strtoupper($demand['sort']['dir']) === 'ASC' ?
-                    QueryInterface::ORDER_ASCENDING : QueryInterface::ORDER_DESCENDING)
-            ]
+                $demand['sort']['field'] => (strtoupper($demand['sort']['dir']) === 'ASC'
+                    ? QueryInterface::ORDER_ASCENDING : QueryInterface::ORDER_DESCENDING),
+            ],
         );
 
         $constraints = [];
@@ -53,7 +57,7 @@ class VacancyRepository extends Repository
         $constraints[] = $query->greaterThanOrEqual('pid', 0);
 
         $authorityConstraints = [];
-        foreach($demand['authorities'] as $authority) {
+        foreach ($demand['authorities'] as $authority) {
             /**
              * @var Authority $authority
              */
@@ -63,24 +67,24 @@ class VacancyRepository extends Repository
             $authorityConstraints[] = $query->logicalAnd(...$authoritySubConstraint);
         }
 
-        if(\count($authorityConstraints) > 0) {
-            if(\count($authorityConstraints) === 1) {
+        if (\count($authorityConstraints) > 0) {
+            if (\count($authorityConstraints) === 1) {
                 $constraints[] = reset($authorityConstraints);
             } else {
                 $constraints[] = $query->logicalOr(...$authorityConstraints);
             }
         }
 
-        if($demand['filter']) {
+        if ($demand['filter']) {
             $filter = $demand['filter'];
-            if($filter['free_text']) {
-                if(is_array($filter['free_text'])) {
+            if ($filter['free_text']) {
+                if (is_array($filter['free_text'])) {
                     $searchConstraints = [];
                     $searchFields = ['title','location_street','description','tariff_level_from','tariff_level_to'];
-                    foreach($filter['free_text'] as $searchString) {
+                    foreach ($filter['free_text'] as $searchString) {
                         $stringConstraints = [];
-                        foreach($searchFields as $searchField) {
-                            $stringConstraints[] = $query->like($searchField, '%'.$searchString.'%');
+                        foreach ($searchFields as $searchField) {
+                            $stringConstraints[] = $query->like($searchField, '%' . $searchString . '%');
                         }
                         $searchConstraints[] = $query->logicalOr(...$stringConstraints);
                     }
@@ -88,21 +92,21 @@ class VacancyRepository extends Repository
                 }
             }
 
-            if($filter['contracts']) {
+            if ($filter['contracts']) {
                 $contractValue = $filter['contracts'][0];
-                if($contractValue !== '') {
-                    $constraints[] = $query->like('contracts', '%'.$contractValue.'%');
+                if ($contractValue !== '') {
+                    $constraints[] = $query->like('contracts', '%' . $contractValue . '%');
                 }
             }
 
-            if($filter['areas']) {
-                if(is_array($filter['areas'])) {
+            if ($filter['areas']) {
+                if (is_array($filter['areas'])) {
                     $areaConstraints = [];
-                    foreach($filter['areas'] as $area) {
+                    foreach ($filter['areas'] as $area) {
                         $areaValue = $area[0];
-                        $areaConstraints[] = $query->like('responsibilities', '%'.$areaValue.'%');
+                        $areaConstraints[] = $query->like('responsibilities', '%' . $areaValue . '%');
                     }
-                    if(\count($areaConstraints) === 1) {
+                    if (\count($areaConstraints) === 1) {
                         $constraints[] = reset($areaConstraints);
                     } else {
                         $constraints[] = $query->logicalOr(...$areaConstraints);
@@ -110,17 +114,17 @@ class VacancyRepository extends Repository
                 }
             }
 
-            if($filter['duration']) {
+            if ($filter['duration']) {
                 $durationValue = $filter['duration'][0];
-                if($durationValue !== '') {
+                if ($durationValue !== '') {
                     $constraints[] = $query->equals('duration_of_employment', $durationValue);
                 }
             }
 
-            if($filter['workTime']) {
+            if ($filter['workTime']) {
                 $workTimeValue = $filter['workTime'][0];
-                if($workTimeValue !== '') {
-                    if($filter['workTime'][1] !== 3) {
+                if ($workTimeValue !== '') {
+                    if ($filter['workTime'][1] !== 3) {
                         $wtConstraints = [];
                         $wtConstraints[] = $query->equals('work_time', $workTimeValue);
                         $wtConstraints[] = $query->equals('work_time', 'beides möglich');
@@ -134,28 +138,48 @@ class VacancyRepository extends Repository
         return $query->execute();
     }
 
-    public function expandVacancies($vacancies, array $authorities) {
+    public function expandVacancies($vacancies, array $authorities, int $detailPage = 0, $uriBuilder = null)
+    {
         $authList = $this->authoritiesToKeyArray($authorities);
-        foreach($vacancies as $vacancy) {
+        foreach ($vacancies as $vacancy) {
             /** @var Vacancy $vacancy */
             $authorityObject = $authList[$vacancy->getAuthority()];
             $vacancy->setAuthorityObject($authorityObject);
             $detailLinkParam = $vacancy->getInteramtUid();
-            $vacancy->setDetailLinkParam((string)$detailLinkParam);
+            $vacancy->setDetailLinkParam((string) $detailLinkParam);
+
+            if ($uriBuilder) {
+                /** @var UriBuilder $uriBuilder */
+                $localDetailUrl = $uriBuilder
+                    ->reset()
+                    ->setTargetPageUid($detailPage)
+                    ->setCreateAbsoluteUri(true)
+                    ->setArguments(
+                        [
+                            'tx_interamtconnect_connector' => [
+                                'vacancy' => $vacancy->getDetailLinkParam(),
+                            ],
+                        ],
+                    )
+                    ->uriFor('show', null, 'Connector');
+                $vacancy->setLocalDetailPage($localDetailUrl);
+            }
+
         }
         return $vacancies;
     }
 
-    public function buildContactPerson(Vacancy $vacancy): array {
+    public function buildContactPerson(Vacancy $vacancy): array
+    {
         $contact = [];
         $name = '';
-        if($vacancy->getContactSalutaion() !== '') {
-            $name .= $vacancy->getContactSalutaion().' ';
+        if ($vacancy->getContactSalutaion() !== '') {
+            $name .= $vacancy->getContactSalutaion() . ' ';
         }
-        if($vacancy->getContactFirstname() !== '') {
-            $name .= $vacancy->getContactFirstname().' ';
+        if ($vacancy->getContactFirstname() !== '') {
+            $name .= $vacancy->getContactFirstname() . ' ';
         }
-        if($vacancy->getContactLastname() !== '') {
+        if ($vacancy->getContactLastname() !== '') {
             $name .= $vacancy->getContactLastname();
         }
         $contact['name'] = $name;
@@ -170,7 +194,8 @@ class VacancyRepository extends Repository
         return $contact;
     }
 
-    public function buildVacancyModelFromConnector(array $job, Authority $authority, array $settings) {
+    public function buildVacancyModelFromConnector(array $job, Authority $authority, array $settings)
+    {
         $dienstverhaeltnisse = implode(', ', ($job['Dienstverhaeltnisse'] ?? []));
 
         $lastChange = null;
@@ -192,7 +217,7 @@ class VacancyRepository extends Repository
             $deadline = new \DateTime();
             $deadline->setTimezone(new \DateTimeZone('Europe/Berlin'));
             $deadlineTimestamp = (int) strtotime($job['DatumBewerbungsfrist']);
-            if($deadlineTimestamp > 0) {
+            if ($deadlineTimestamp > 0) {
                 $deadline->setTimestamp($deadlineTimestamp);
             } else {
                 $deadline = null;
@@ -200,7 +225,7 @@ class VacancyRepository extends Repository
         }
 
         $studies = '';
-        if(array_key_exists('Studiengaenge', $job) && \count($job['Studiengaenge']) > 0) {
+        if (array_key_exists('Studiengaenge', $job) && \count($job['Studiengaenge']) > 0) {
             $studies = serialize($job['Studiengaenge']);
         }
 
@@ -212,7 +237,7 @@ class VacancyRepository extends Repository
         $vacancy = new Vacancy();
         $vacancy->setAuthority($authority->getUid());
         $vacancy->setAuthorityObject($authority);
-        $vacancy->setInteramtUid((int)$job['Id']);
+        $vacancy->setInteramtUid((int) $job['Id']);
         $vacancy->setIdentifier($job['Kennung']);
         $vacancy->setDescription($job['Beschreibung']);
         $vacancy->setTitle($job['Stellenbezeichnung']);
@@ -228,7 +253,7 @@ class VacancyRepository extends Repository
         $vacancy->setLatitude((string) ($job['StellenangebotOrt'][0]['Breite'] ?? ''));
         $vacancy->setLongitude((string) ($job['StellenangebotOrt'][0]['Laenge'] ?? ''));
         $vacancy->setContracts($dienstverhaeltnisse);
-        $vacancy->setNumberOfVacancies((int)$job['AnzahlStellen']);
+        $vacancy->setNumberOfVacancies((int) $job['AnzahlStellen']);
         $vacancy->setCareers($job['LaufbahnGruppe'] ?? '');
         $vacancy->setSalaryGroupFrom($job['BesoldungGruppeVon'] ?? '');
         $vacancy->setSalaryGroupTo($job['BesoldungGruppeBis'] ?? '');
@@ -272,9 +297,10 @@ class VacancyRepository extends Repository
      * @param array $authorities
      * @return array
      */
-    private function authoritiesToKeyArray(array $authorities): array {
+    private function authoritiesToKeyArray(array $authorities): array
+    {
         $list = [];
-        foreach($authorities as $authority) {
+        foreach ($authorities as $authority) {
             $uid = $authority->getUid();
             $list[$uid] = $authority;
         }

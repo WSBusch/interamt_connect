@@ -6,6 +6,13 @@
     <f:if condition="{no_data}">
         <f:then><div class="alert alert-danger">Unter der angegebenen Kennnummer wurde keine Stellenausschreibung gefunden.</div> </f:then>
         <f:else>
+
+            <f:if condition="{jsonLd}">
+                <f:page.headerData>
+                    <script type="application/ld+json"><f:format.raw>{jsonLd}</f:format.raw></script>
+                </f:page.headerData>
+            </f:if>
+
             <div class="row">
                 <div class="col-md-8 pe-5">
                     <p><strong>Stellenbeschreibung</strong></p>

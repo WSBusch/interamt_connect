@@ -13,7 +13,7 @@ $pluginSignature = ExtensionUtility::registerPlugin(
     'interamt_connect-plugin-connector',
     'plugins',
     'LLL:EXT:interamt_connect/Resources/Private/Language/locallang.xlf:interamt_plugin.description',
-    'FILE:EXT:interamt_connect/Configuration/FlexForms/VacanciesList.xml'
+    'FILE:EXT:interamt_connect/Configuration/FlexForms/VacanciesList.xml',
 );
 
 ExtensionManagementUtility::addToAllTCAtypes(

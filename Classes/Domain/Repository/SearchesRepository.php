@@ -22,32 +22,35 @@ use WSBusch\InteramtConnect\Domain\Model\Searches;
  */
 class SearchesRepository extends Repository
 {
-    public function findLastFromToday() {
+    public function findLastFromToday()
+    {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         $today = new \DateTime('now', new \DateTimeZone('Europe/Berlin'));
-        $today->setTime(0,0);
+        $today->setTime(0, 0);
         $query->setOrderings(['uid' => QueryInterface::ORDER_DESCENDING]);
         $query->matching($query->equals('search_date', $today->format('Y-m-d H:i:s')));
         return $query->execute()->getFirst();
     }
 
-    public function findBySearchIdentifier(int $searchIdentifier) {
+    public function findBySearchIdentifier(int $searchIdentifier)
+    {
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
         $query->matching($query->equals('search_identifier', (string) $searchIdentifier));
         return $query->execute()->getFirst();
     }
 
-    public function writeNewSearch($sh, $identifier, $update=false) {
-        if($update) {
+    public function writeNewSearch($sh, $identifier, $update = false)
+    {
+        if ($update) {
             /** @var Searches $search */
             $search = $this->findByUid($identifier);
             $search->setSearchText($sh);
             $this->update($search);
         } else {
             $today = new \DateTime('now', new \DateTimeZone('Europe/Berlin'));
-            $today->setTime(0,0);
+            $today->setTime(0, 0);
             $search = new Searches();
             $search->setSearchIdentifier($identifier);
             $search->setSearchText($sh);

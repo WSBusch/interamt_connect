@@ -5,6 +5,6 @@ use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
 return [
     'interamt_connect-plugin-connector' => [
         'provider' => SvgIconProvider::class,
-        'source' => 'EXT:interamt_connect/Resources/Public/Icons/user_plugin_connector.svg'
+        'source' => 'EXT:interamt_connect/Resources/Public/Icons/user_plugin_connector.svg',
     ],
 ];
